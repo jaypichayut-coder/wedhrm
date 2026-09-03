@@ -952,9 +952,9 @@
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
     // =========================================================================
-    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
+    const DEFAULT_WORKER_URL = ""; 
 
     // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
     const GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
@@ -1127,6 +1127,11 @@
     let chartInstances = {};
     let workerApiUrl = DEFAULT_WORKER_URL;
 
+    // Tracking for Multi-Select, Pre-Import Preview, and Latest Import Undo
+    let selectedCandidateIds = new Set();
+    let pendingImportCandidates = [];
+    let lastImportedBatchIds = [];
+
     // --- 2. INITIALIZATION ON WINDOW LOAD ---
     window.addEventListener('DOMContentLoaded', async () => {
       // 2.1 Load Theme
@@ -1281,10 +1286,13 @@
       document.getElementById('totalFilterCount').textContent = candidates.length;
       document.getElementById('badgeTotalCandidates').textContent = candidates.length;
 
+      // Update bulk selection state
+      updateBulkActionBar();
+
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" class="px-4 py-10 text-center text-slate-400 text-xs">
+            <td colspan="10" class="px-4 py-10 text-center text-slate-400 text-xs">
               <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-rose-300 dark:text-slate-600"></i>
               ไม่พบข้อมูลผู้สมัครที่ตรงกับเงื่อนไขการค้นหา
             </td>
@@ -1296,7 +1304,8 @@
 
       list.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60";
+        const isChecked = selectedCandidateIds.has(c.id);
+        tr.className = `hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60 ${isChecked ? 'bg-rose-50/60 dark:bg-rose-950/20' : ''}`;
 
         // Status Badge Styling based on Column X
         let statusBadgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
@@ -1325,6 +1334,9 @@
           : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">พาร์ทไทม์</span>`;
 
         tr.innerHTML = `
+          <td class="px-3 py-3 text-center">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectCandidate('${c.id}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
+          </td>
           <td class="px-4 py-3">
             <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
             <div class="text-xs text-brand-pink font-semibold">
@@ -1948,7 +1960,309 @@
     }
 
     function openCsvModal() {
+      resetImportStep();
       document.getElementById('csvModal').classList.remove('hidden');
+    }
+
+    function closeCsvModal() {
+      document.getElementById('csvModal').classList.add('hidden');
+      resetImportStep();
+    }
+
+    function resetImportStep() {
+      pendingImportCandidates = [];
+      document.getElementById('csvUploadStep').classList.remove('hidden');
+      document.getElementById('csvPreviewStep').classList.add('hidden');
+      document.getElementById('previewSecondaryActions').classList.add('hidden');
+      document.getElementById('btnConfirmImport').classList.add('hidden');
+      document.getElementById('csvModalTitle').textContent = "นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV";
+      document.getElementById('csvFileInput').value = "";
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+          if (rawRows.length < 2) {
+            showToast("ไฟล์ไม่มีแถวข้อมูลที่เพียงพอ", "error");
+            return;
+          }
+
+          const headers = rawRows[0];
+          let statusColIndex = 23; // Column X index
+
+          headers.forEach((h, idx) => {
+            if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || h.toLowerCase().includes('status'))) {
+              statusColIndex = idx;
+            }
+          });
+
+          pendingImportCandidates = [];
+
+          for (let i = 1; i < rawRows.length; i++) {
+            const row = rawRows[i];
+            if (!row || row.length === 0) continue;
+
+            const name = row[1] || row[2] || `ผู้สมัคร #${i}`;
+            if (!name || String(name).trim() === '') continue;
+
+            const phone = row[3] || row[4] || "";
+            const subject = detectSubject(row.join(' '));
+            const branch = detectBranch(row.join(' '));
+            const statusRaw = row[statusColIndex] || row[23] || "";
+            
+            let status = "รอสัมภาษณ์";
+            if (statusRaw) {
+              const sStr = String(statusRaw).trim();
+              if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
+              else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
+              else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
+              else if (sStr.includes('แจ้งเข้า')) status = "แจ้งเข้างานแล้ว";
+            }
+
+            pendingImportCandidates.push({
+              tempId: 'temp-' + i,
+              selected: true,
+              id: 'imp-' + Date.now() + '-' + i,
+              name: String(name).trim(),
+              nickname: row[2] ? String(row[2]).trim() : "",
+              phone: String(phone).trim(),
+              contact: row[5] ? String(row[5]).trim() : "",
+              subject: subject,
+              type: row.join(' ').includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
+              branch: branch,
+              status: status,
+              callStatus: "ยังไม่ได้โทร",
+              lastCallDate: "",
+              interviewDate: "",
+              announceDate: "",
+              onboardDate: "",
+              notes: "นำเข้าจากไฟล์: " + file.name
+            });
+          }
+
+          if (pendingImportCandidates.length === 0) {
+            showToast("ไม่พบรายชื่อผู้สมัครที่ถูกต้องในไฟล์นี้", "error");
+            return;
+          }
+
+          renderPreviewTable();
+
+        } catch (err) {
+          console.error("CSV Import Error:", err);
+          showToast("ไม่สามารถประมวลผลไฟล์ได้ กรุณาตรวจสอบฟอร์แมต", "error");
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function renderPreviewTable() {
+      const tbody = document.getElementById('csvPreviewTableBody');
+      tbody.innerHTML = '';
+
+      const total = pendingImportCandidates.length;
+      const selectedCount = pendingImportCandidates.filter(c => c.selected).length;
+
+      document.getElementById('previewTotalCount').textContent = total;
+      document.getElementById('previewSelectedCount').textContent = selectedCount;
+      document.getElementById('confirmImportBtnLabel').textContent = `ยืนยันนำเข้า ${selectedCount} คน`;
+
+      // Switch view to preview step
+      document.getElementById('csvUploadStep').classList.add('hidden');
+      document.getElementById('csvPreviewStep').classList.remove('hidden');
+      document.getElementById('previewSecondaryActions').classList.remove('hidden');
+      document.getElementById('btnConfirmImport').classList.remove('hidden');
+      document.getElementById('csvModalTitle').textContent = `ตรวจสอบรายชื่อ (${total} รายการ)`;
+
+      pendingImportCandidates.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-50 dark:hover:bg-slate-800/60 ${c.selected ? '' : 'opacity-40 line-through bg-slate-100/50 dark:bg-slate-850/40'}`;
+
+        tr.innerHTML = `
+          <td class="p-2.5 text-center">
+            <input type="checkbox" ${c.selected ? 'checked' : ''} onchange="togglePreviewRowSelection('${c.tempId}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
+          </td>
+          <td class="p-2.5 font-bold text-slate-800 dark:text-slate-100">
+            ${c.name} ${c.nickname ? `<span class="text-xs text-brand-pink">(${c.nickname})</span>` : ''}
+            <div class="text-[11px] text-slate-400 font-normal">${c.phone || '-'}</div>
+          </td>
+          <td class="p-2.5 text-slate-700 dark:text-slate-300 font-medium">${c.subject}</td>
+          <td class="p-2.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${c.type === 'ครูประจำ' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300' : 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'}">
+              ${c.type}
+            </span>
+          </td>
+          <td class="p-2.5 text-slate-600 dark:text-slate-400 max-w-[150px] truncate">${c.branch}</td>
+          <td class="p-2.5 text-center">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.status === 'ผ่าน' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300'}">
+              ${c.status}
+            </span>
+          </td>
+          <td class="p-2.5 text-center">
+            <button onclick="removePreviewRow('${c.tempId}')" title="ลบแถวนี้ออกจากรายการนำเข้า" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function togglePreviewRowSelection(tempId, isChecked) {
+      const item = pendingImportCandidates.find(c => c.tempId === tempId);
+      if (item) {
+        item.selected = isChecked;
+        const selectedCount = pendingImportCandidates.filter(c => c.selected).length;
+        document.getElementById('previewSelectedCount').textContent = selectedCount;
+        document.getElementById('confirmImportBtnLabel').textContent = `ยืนยันนำเข้า ${selectedCount} คน`;
+        renderPreviewTable();
+      }
+    }
+
+    function toggleSelectAllPreview(isChecked) {
+      pendingImportCandidates.forEach(c => c.selected = isChecked);
+      renderPreviewTable();
+    }
+
+    function removePreviewRow(tempId) {
+      pendingImportCandidates = pendingImportCandidates.filter(c => c.tempId !== tempId);
+      if (pendingImportCandidates.length === 0) {
+        resetImportStep();
+        showToast("นำรายการออกทั้งหมดแล้ว", "info");
+      } else {
+        renderPreviewTable();
+      }
+    }
+
+    function confirmImportSelected() {
+      const selectedItems = pendingImportCandidates.filter(c => c.selected);
+      if (selectedItems.length === 0) {
+        showToast("กรุณาเลือกอย่างน้อย 1 รายการเพื่อนำเข้า", "error");
+        return;
+      }
+
+      // Record batch IDs for the Undo feature
+      lastImportedBatchIds = selectedItems.map(c => c.id);
+
+      // Add selected candidates to main candidate store
+      selectedItems.forEach(item => {
+        const { tempId, selected, ...cleanItem } = item;
+        candidates.unshift(cleanItem);
+      });
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderParttimePool();
+      renderScheduleBoard();
+      updateKPICounters();
+      closeCsvModal();
+
+      // Show Undo button
+      const undoBtn = document.getElementById('btnUndoImport');
+      const undoText = document.getElementById('undoImportText');
+      if (undoBtn) {
+        undoBtn.classList.remove('hidden');
+        undoText.textContent = `ยกเลิกนำเข้าล่าสุด (${selectedItems.length} คน)`;
+      }
+
+      showToast(`นำเข้าสำเร็จ ${selectedItems.length} คน (สามารถกดยกเลิกนำเข้าได้)`, "success");
+      syncToCloudflareWorker();
+    }
+
+    function undoLatestImport() {
+      if (!lastImportedBatchIds || lastImportedBatchIds.length === 0) return;
+
+      const count = lastImportedBatchIds.length;
+      candidates = candidates.filter(c => !lastImportedBatchIds.includes(c.id));
+      lastImportedBatchIds = [];
+
+      // Hide undo button
+      document.getElementById('btnUndoImport').classList.add('hidden');
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderParttimePool();
+      renderScheduleBoard();
+      updateKPICounters();
+
+      showToast(`ยกเลิกและลบข้อมูลที่นำเข้า ${count} รายการออกแล้ว`, "info");
+      syncToCloudflareWorker();
+    }
+
+    // --- Bulk Selection in Main Table ---
+    function toggleSelectCandidate(id, isChecked) {
+      if (isChecked) {
+        selectedCandidateIds.add(id);
+      } else {
+        selectedCandidateIds.delete(id);
+      }
+      updateBulkActionBar();
+    }
+
+    function toggleSelectAllInTable(isChecked) {
+      const visibleList = getFilteredCandidates();
+      if (isChecked) {
+        visibleList.forEach(c => selectedCandidateIds.add(c.id));
+      } else {
+        visibleList.forEach(c => selectedCandidateIds.delete(c.id));
+      }
+      renderCandidatesTable();
+    }
+
+    function clearSelectedInTable() {
+      selectedCandidateIds.clear();
+      const checkAll = document.getElementById('selectAllTableCheckbox');
+      if (checkAll) checkAll.checked = false;
+      renderCandidatesTable();
+    }
+
+    function updateBulkActionBar() {
+      const bar = document.getElementById('bulkActionBar');
+      const countBadge = document.getElementById('selectedCountBadge');
+      if (!bar || !countBadge) return;
+
+      const count = selectedCandidateIds.size;
+      countBadge.textContent = count;
+
+      if (count > 0) {
+        bar.classList.remove('hidden');
+      } else {
+        bar.classList.add('hidden');
+      }
+    }
+
+    function deleteSelectedCandidates() {
+      const count = selectedCandidateIds.size;
+      if (count === 0) return;
+
+      candidates = candidates.filter(c => !selectedCandidateIds.has(c.id));
+      selectedCandidateIds.clear();
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderParttimePool();
+      renderScheduleBoard();
+      updateKPICounters();
+
+      showToast(`ลบรายการที่เลือกทั้งหมด ${count} คน เรียบร้อยแล้ว`, "success");
+      syncToCloudflareWorker();
     }
 
     function closeCsvModal() {
