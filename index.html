@@ -120,6 +120,11 @@
             <span class="hidden sm:inline">ซิงก์ Google Sheets</span>
           </button>
 
+          <!-- Google Sheets Settings Button -->
+          <button onclick="openSheetConfigModal()" title="ตั้งค่าลิงก์ Google Sheets / เปลี่ยน ID" class="p-2 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-medium bg-emerald-50/60 dark:bg-slate-800 hover:bg-emerald-100 dark:hover:bg-slate-750 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-slate-700 transition shadow-sm">
+            <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+          </button>
+
           <!-- Cloudflare Worker status indicator -->
           <button onclick="openWorkerModal()" title="ตั้งค่าเชื่อมต่อ Cloudflare Worker API" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition shadow-sm">
             <span id="workerStatusDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
@@ -335,6 +340,7 @@
 
             <!-- Select Date Type to match -->
             <select id="dateFilterType" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 font-medium">
+              <option value="appliedDate" selected>📅 วันที่สมัคร (คอลัมน์ A / Timestamp)</option>
               <option value="interviewDate">วันที่นัดสัมภาษณ์</option>
               <option value="lastCallDate">วันที่โทรติดต่อ</option>
               <option value="announceDate">วันที่ประกาศผล</option>
@@ -1013,39 +1019,56 @@
         <button onclick="closeClearDataModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <p class="text-xs text-slate-600 dark:text-slate-300">
-        โปรดเลือกรูปแบบการลบข้อมูลที่คุณต้องการจัดการ:
-      </p>
-
-      <div class="space-y-2.5">
-        <!-- ตัวเลือก 1: ลบเฉพาะที่นำเข้าจาก CSV / Google Sheet -->
-        <button onclick="executeClearImportedOnly()" class="w-full text-left p-3.5 rounded-2xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-100/60 dark:hover:bg-amber-950/40 transition group">
-          <div class="font-bold text-xs text-amber-800 dark:text-amber-300 flex items-center justify-between">
-            <span>1. ลบเฉพาะรายการที่นำเข้า (CSV & Sheets)</span>
-            <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+  <!-- Google Sheet Configuration Modal -->
+  <div id="sheetConfigModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600">
+            <i data-lucide="sheet" class="w-5 h-5"></i>
           </div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">ลบเฉพาะแถวที่ดึงมาจากไฟล์หรือ Google Sheets ออกทั้งหมด โดยไม่กระทบคนที่พิมพ์เพิ่มเอง</p>
-        </button>
-
-        <!-- ตัวเลือก 2: ล้างข้อมูลทั้งหมดในตารางให้เป็น 0 -->
-        <button onclick="executeClearAll()" class="w-full text-left p-3.5 rounded-2xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/50 dark:bg-rose-950/20 hover:bg-rose-100/60 dark:hover:bg-rose-950/40 transition group">
-          <div class="font-bold text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between">
-            <span>2. ล้างข้อมูลทั้งหมดในระบบ (0 รายการ)</span>
-            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500 group-hover:scale-110 transition"></i>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">ตั้งค่าการเชื่อมต่อ Google Sheets</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">ดึงข้อมูลวันที่สมัครจากคอลัมน์ A และสถานะจากช่อง X</p>
           </div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">ล้างข้อมูลรายชื่อครูทั้งหมดในระบบให้เป็นหน้าว่างเพื่อเริ่มต้นใหม่ทั้งหมด</p>
-        </button>
-
-        <!-- ตัวเลือก 3: คืนค่าเป็นข้อมูลเริ่มต้น -->
-        <button onclick="executeResetDefaults()" class="w-full text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <div class="font-bold text-xs text-slate-700 dark:text-slate-300">
-            3. คืนค่าข้อมูลตัวอย่างเริ่มต้นของระบบ
-          </div>
-        </button>
+        </div>
+        <button onclick="closeSheetConfigModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
-        <button onclick="closeClearDataModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-medium">ปิด</button>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">
+            Google Sheet URL หรือ Sheet ID <span class="text-rose-500">*</span>
+          </label>
+          <input type="text" id="sheetUrlOrIdInput" placeholder="วางลิงก์ชีต เช่น https://docs.google.com/spreadsheets/d/1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ/..." class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:border-brand-pink">
+          <p class="text-[11px] text-slate-400 mt-1">วางได้ทั้งลิงก์เต็มของ Google Sheet หรือเฉพาะตัวรหัส ID ระบบจะสกัดรหัสให้อัตโนมัติ</p>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อแท็บชีต (Sheet Tab Name) - ไม่บังคับ</label>
+          <input type="text" id="sheetTabNameInput" placeholder="เช่น การตอบแบบฟอร์ม 1 หรือ Form Responses 1" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:border-brand-pink">
+          <p class="text-[11px] text-slate-400 mt-1">ปล่อยว่างไว้เพื่อดึงข้อมูลจากแท็บแรกของไฟล์ชีต</p>
+        </div>
+
+        <!-- Connection Test Diagnostic Box -->
+        <div id="sheetStatusBox" class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600 dark:text-slate-300 font-medium">สถานะการเชื่อมต่อ:</span>
+            <span id="sheetConnectionBadge" class="px-2 py-0.5 rounded text-[11px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">ยังไม่ได้ทดสอบ</span>
+          </div>
+          <p id="sheetDiagnosticDetail" class="text-[10px] text-slate-400">💡 กดปุ่ม "ทดสอบและดึงข้อมูลสด" เพื่อตรวจสอบคอลัมน์ A (วันที่) และช่อง X (สถานะ)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="resetDefaultSheetId()" class="text-xs text-slate-500 hover:text-rose-600 transition">คืนค่าเริ่มต้น</button>
+        <div class="flex space-x-2">
+          <button onclick="testAndSaveSheetConnection()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center space-x-1">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>ทดสอบและดึงข้อมูลสด</span>
+          </button>
+          <button onclick="closeSheetConfigModal()" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-medium">ปิด</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1055,14 +1078,22 @@
   <script>
     // =========================================================================
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
-    // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
-    // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
     // =========================================================================
     const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
 
     // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
-    const GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
+    // อัปเดตเป็น ID ล่าสุดตามที่คุณระบุ: 1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ
+    let GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
+    let GOOGLE_SHEET_TAB = "Sheet1";
+
+    // Helper: สกัดเอาเฉพาะ Sheet ID แม้ผู้ใช้จะวางลิงก์เต็ม
+    function extractCleanSheetId(input) {
+      if (!input) return "";
+      const trimmed = input.trim();
+      const match = trimmed.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (match && match[1]) return match[1];
+      return trimmed;
+    }
 
     // --- 1. CORE DATA STORE & INITIALIZATION ---
     const SIX_BRANCHES = [
@@ -1092,7 +1123,7 @@
     // Branch Quotas for Full-time staff
     let branchQuotas = {
       "สาขาข้างเซ็นทรัล พระราม 2": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ฟิสิกส์": 1, "เคมี": 1, "ชีววิทยา": 1, "Coding/หุ่นยนต์": 1 },
-      "สาขาเดอะไบร์ท พระราม 2": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ภาษาไทย": 1, "สังคมศึกษา": 1 },
+      "สาขาเดอะไบร์ท พระราม 2": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ภาษาไทย": 1, "ชีววิทยา": 1 },
       "สาขาแลนด์มาร์ค มหาชัย": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ศิลปะ": 1 },
       "สาขาเดอะวอล์ค ราชพฤกษ์": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 3, "ฟิสิกส์": 1, "ชีววิทยา": 1 },
       "สาขา Meta Mall เชียงใหม่": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "Coding/หุ่นยนต์": 1 },
@@ -1194,6 +1225,12 @@
         } else if (DEFAULT_WORKER_URL) {
           workerApiUrl = DEFAULT_WORKER_URL;
         }
+
+        // โหลดค่า Sheet ID ที่บันทึกไว้ในเบราว์เซอร์ (ถ้ามี)
+        const savedSheetId = localStorage.getItem('lnc_google_sheet_id');
+        if (savedSheetId) GOOGLE_SHEET_ID = savedSheetId;
+        const savedSheetTab = localStorage.getItem('lnc_google_sheet_tab');
+        if (savedSheetTab) GOOGLE_SHEET_TAB = savedSheetTab;
 
         if (workerApiUrl) {
           updateWorkerStatusUI(true, "Worker Connected");
@@ -1790,23 +1827,75 @@
       return isoDateStr;
     }
 
+    // ฟังก์ชันแปลงวันที่คอลัมน์ A (Timestamp) จาก Google Sheets ให้เป็นมาตรฐาน ISO YYYY-MM-DD
     function parseDateToIso(rawDate) {
-      if (!rawDate) return "";
+      if (!rawDate && rawDate !== 0) return "";
       try {
-        const str = String(rawDate).trim();
-        // Check if YYYY-MM-DD
-        if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
-          return str.split('T')[0].split(' ')[0];
+        // กรณีเป็นตัวเลข Excel serial number (เช่น 45420 หรือ 45420.5)
+        if (typeof rawDate === 'number' || (!isNaN(rawDate) && !String(rawDate).includes('/') && !String(rawDate).includes('-'))) {
+          const num = parseFloat(rawDate);
+          if (num > 20000 && num < 60000) {
+            const jsDate = new Date(Math.round((num - 25569) * 86400 * 1000));
+            const y = jsDate.getUTCFullYear();
+            const m = String(jsDate.getUTCMonth() + 1).padStart(2, '0');
+            const d = String(jsDate.getUTCDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+          }
         }
-        // Check if DD/MM/YYYY or MM/DD/YYYY
+
+        const str = String(rawDate).trim();
+        if (!str) return "";
+
+        // รูปแบบ ISO เช่น 2026-08-20 หรือ 2026-08-20 14:30:00
+        if (/^\d{4}-\d{1,2}-\d{1,2}/.test(str)) {
+          const datePart = str.split('T')[0].split(' ')[0];
+          const [y, m, d] = datePart.split('-');
+          return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        }
+
+        // รูปแบบมีเครื่องหมายทับ เช่น 20/08/2026, 20/8/2569, หรือ 8/20/2026
         if (str.includes('/')) {
-          const parts = str.split(' ')[0].split('/');
+          const dateOnly = str.split(' ')[0];
+          const parts = dateOnly.split('/');
           if (parts.length === 3) {
-            let day = parseInt(parts[0], 10);
-            let month = parseInt(parts[1], 10);
+            let p0 = parseInt(parts[0], 10);
+            let p1 = parseInt(parts[1], 10);
             let year = parseInt(parts[2], 10);
-            if (year > 2500) year -= 543; // Convert Buddhist Era to CE
+
+            // แปลง พ.ศ. เป็น ค.ศ.
+            if (year > 2400) year -= 543;
+
+            let day = p0;
+            let month = p1;
+
+            // ตรวจจับกรณีเดือนมาก่อนวัน (เช่น 8/25/2024 -> month 8, day 25)
+            if (p0 <= 12 && p1 > 12) {
+              month = p0;
+              day = p1;
+            }
+
             return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          }
+        }
+
+        // ตรวจจับชื่อเดือนภาษาไทย เช่น 20 ส.ค. 2567 หรือ 20 สิงหาคม 2567
+        const thaiMonths = {
+          "ม.ค.": "01", "มกราคม": "01", "ก.พ.": "02", "กุมภาพันธ์": "02",
+          "มี.ค.": "03", "มีนาคม": "03", "เม.ย.": "04", "เมษายน": "04",
+          "พ.ค.": "05", "พฤษภาคม": "05", "มิ.ย.": "06", "มิถุนายน": "06",
+          "ก.ค.": "07", "กรกฎาคม": "07", "ส.ค.": "08", "สิงหาคม": "08",
+          "ก.ย.": "09", "กันยายน": "09", "ต.ค.": "10", "ตุลาคม": "10",
+          "พ.ย.": "11", "พฤศจิกายน": "11", "ธ.ค.": "12", "ธันวาคม": "12"
+        };
+        for (const [mName, mNum] of Object.entries(thaiMonths)) {
+          if (str.includes(mName)) {
+            const numMatches = str.match(/\d+/g);
+            if (numMatches && numMatches.length >= 2) {
+              const day = parseInt(numMatches[0], 10);
+              let year = parseInt(numMatches[numMatches.length - 1], 10);
+              if (year > 2400) year -= 543;
+              return `${year}-${mNum}-${String(day).padStart(2, '0')}`;
+            }
           }
         }
       } catch (e) {}
@@ -2533,13 +2622,16 @@
       if (icon) icon.classList.add('animate-spin');
       if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดจาก Google Sheet...", "info");
 
+      const activeSheetId = extractCleanSheetId(GOOGLE_SHEET_ID);
+
       try {
         let fetchedSuccess = false;
 
         // 1. ลองดึงผ่าน Cloudflare Worker ก่อน (ถ้ามีตั้งค่าไว้ เพื่อเลี่ยง CORS)
         if (workerApiUrl) {
           try {
-            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${GOOGLE_SHEET_ID}`);
+            const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
+            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${activeSheetId}${sheetTabParam}`);
             if (res.ok) {
               const resData = await res.json();
               if (resData.success && Array.isArray(resData.data) && resData.data.length > 0) {
@@ -2552,12 +2644,23 @@
           }
         }
 
-        // 2. หากไม่มี Worker หรือ Worker พักอยู่ ให้ดึงตรงผ่าน Google Visualization API (GViz)
+        // 2. หากไม่มี Worker ให้ดึงตรงผ่าน Google Visualization API (GViz) พร้อม Fallback export?format=csv
         if (!fetchedSuccess) {
-          const directUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
-          const response = await fetch(directUrl);
-          if (!response.ok) {
-            throw new Error(`Google Sheet ตอบกลับรหัส ${response.status} (กรุณาตั้งค่าสิทธิ์แชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู")`);
+          const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
+          const primaryUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/gviz/tq?tqx=out:csv${sheetTabParam}`;
+          const fallbackUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/export?format=csv`;
+
+          let response;
+          try {
+            response = await fetch(primaryUrl);
+            if (!response.ok) throw new Error(`Primary response status: ${response.status}`);
+          } catch (fetchErr) {
+            console.warn("Primary gviz failed, trying fallback export url:", fetchErr);
+            response = await fetch(fallbackUrl);
+          }
+
+          if (!response || !response.ok) {
+            throw new Error(`Google Sheet ตอบกลับรหัส ${response?.status || 'Network Error'} (กรุณาตรวจสอบว่าตั้งค่าแชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" แล้วหรือยัง)`);
           }
 
           const csvText = await response.text();
@@ -2566,21 +2669,35 @@
           const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
 
           if (rawRows.length < 2) {
-            throw new Error("ไม่พบแถวข้อมูลในชีต");
+            throw new Error("ไม่พบแถวข้อมูลในชีต หรือตารางในแท็บแรกว่างเปล่า");
           }
 
           const headers = rawRows[0];
           let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น (Index 23 = คอลัมน์ที่ 24)
-          let timestampColIndex = 0; // คอลัมน์ประทับเวลา
+          let timestampColIndex = 0; // คอลัมน์ A (Index 0 = ประทับเวลา/วันที่ส่งใบสมัคร)
+          let nameColIndex = 1;
+          let nicknameColIndex = 2;
+          let phoneColIndex = 3;
+          let contactColIndex = 4;
 
           headers.forEach((h, idx) => {
             if (h && typeof h === 'string') {
-              const hLow = h.toLowerCase();
-              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status')) {
+              const hLow = h.toLowerCase().trim();
+              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status') || hLow.includes('ช่อง x')) {
                 statusColIndex = idx;
               }
-              if (h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp')) {
+              // ตรวจจับคอลัมน์วันที่สมัครจากคอลัมน์ A หรือชื่อหัวตาราง
+              if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
                 timestampColIndex = idx;
+              }
+              if (h.includes('ชื่อ-สกุล') || h.includes('ชื่อ - นามสกุล') || (h.includes('ชื่อ') && !h.includes('เล่น'))) {
+                nameColIndex = idx;
+              }
+              if (h.includes('ชื่อเล่น')) {
+                nicknameColIndex = idx;
+              }
+              if (h.includes('เบอร์') || h.includes('โทร') || hLow.includes('phone')) {
+                phoneColIndex = idx;
               }
             }
           });
@@ -2590,16 +2707,20 @@
             const row = rawRows[i];
             if (!row || row.length === 0) continue;
 
-            const name = row[1] || row[2] || `ผู้สมัคร #${i}`;
+            const name = row[nameColIndex] || row[1] || row[2] || `ผู้สมัคร #${i}`;
             if (!name || String(name).trim() === '') continue;
 
-            const phone = row[3] || row[4] || "";
+            const phone = row[phoneColIndex] || row[3] || row[4] || "";
             const rowText = row.join(' ');
             const subject = detectSubject(rowText);
             const branch = detectBranch(rowText);
+            
+            // ดึงข้อมูลสถานะจากช่อง X
             const statusRaw = row[statusColIndex] || row[23] || "";
-            const rawTimestamp = row[timestampColIndex] || row[0] || "";
-            const parsedAppliedDate = parseDateToIso(rawTimestamp) || getTodayString();
+            
+            // ดึงข้อมูลวันที่สมัครจากคอลัมน์ A (Timestamp)
+            const rawTimestamp = row[timestampColIndex] !== undefined ? row[timestampColIndex] : (row[0] || "");
+            const parsedAppliedDate = parseDateToIso(rawTimestamp) || "";
 
             let status = "รอสัมภาษณ์";
             if (statusRaw) {
@@ -2607,27 +2728,29 @@
               if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
               else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
               else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
-              else if (sStr.includes('แจ้งเข้า')) status = "แจ้งเข้างานแล้ว";
+              else if (sStr.includes('แจ้งเข้า') || sStr.includes('เริ่มงาน')) status = "แจ้งเข้างานแล้ว";
             }
 
             parsedList.push({
               id: 'gs-' + i,
               rowNumber: i + 1,
-              appliedDate: parsedAppliedDate,
+              appliedDate: parsedAppliedDate, // วันที่สมัครสกัดจากคอลัมน์ A
+              appliedDateRaw: String(rawTimestamp).trim(), // เก็บข้อความดิบจากคอลัมน์ A ไว้เผื่ออ้างอิง
               name: String(name).trim(),
-              nickname: row[2] ? String(row[2]).trim() : "",
+              nickname: row[nicknameColIndex] ? String(row[nicknameColIndex]).trim() : (row[2] ? String(row[2]).trim() : ""),
               phone: String(phone).trim(),
-              contact: row[5] ? String(row[5]).trim() : "",
+              contact: row[contactColIndex] ? String(row[contactColIndex]).trim() : (row[5] ? String(row[5]).trim() : ""),
               subject: subject,
               type: rowText.includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
               branch: branch,
               status: status, // อิงข้อมูลช่อง X
+              rawStatusX: String(statusRaw).trim(),
               callStatus: status === "ผ่าน" ? "โทรแล้ว - นัดวันแล้ว" : "ยังไม่ได้โทร",
               lastCallDate: "",
               interviewDate: "",
               announceDate: "",
               onboardDate: "",
-              notes: `ดึงจาก Google Sheets อัตโนมัติ (แถว ${i + 1})`
+              notes: `ดึงจาก Google Sheet แถวที่ ${i + 1} (วันที่คอลัมน์ A: ${rawTimestamp || '-'})`
             });
           }
 
@@ -2645,15 +2768,70 @@
           renderParttimePool();
           renderScheduleBoard();
           updateKPICounters();
-          showToast(`ซิงก์ข้อมูลสดจาก Google Sheet สำเร็จ (${candidates.length} คน)`, "success");
+          if (!silent) showToast(`ซิงก์ข้อมูลสดสำเร็จ (${candidates.length} คน) พร้อมวันที่คอลัมน์ A`, "success");
+          return { success: true, count: candidates.length };
+        } else {
+          throw new Error("ไม่พบรายการผู้สมัครในชีตที่ระบุ");
         }
       } catch (err) {
         console.error("Google Sheet Sync Error:", err);
         if (!silent) {
-          showToast(`ไม่สามารถดึงข้อมูลจากชีตได้: กรุณาตรวจสอบว่าตั้งค่าแชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" หรือยัง`, "error");
+          showToast(`ไม่สามารถดึงข้อมูลได้: ${err.message}`, "error");
         }
+        return { success: false, error: err.message };
       } finally {
         if (icon) icon.classList.remove('animate-spin');
+      }
+    }
+
+    // --- Modal Configuration for Google Sheets ---
+    function openSheetConfigModal() {
+      document.getElementById('sheetUrlOrIdInput').value = GOOGLE_SHEET_ID;
+      document.getElementById('sheetTabNameInput').value = GOOGLE_SHEET_TAB || "";
+      document.getElementById('sheetConfigModal').classList.remove('hidden');
+    }
+
+    function closeSheetConfigModal() {
+      document.getElementById('sheetConfigModal').classList.add('hidden');
+    }
+
+    function resetDefaultSheetId() {
+      document.getElementById('sheetUrlOrIdInput').value = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
+      document.getElementById('sheetTabNameInput').value = "";
+    }
+
+    async function testAndSaveSheetConnection() {
+      const inputVal = document.getElementById('sheetUrlOrIdInput').value.trim();
+      const tabVal = document.getElementById('sheetTabNameInput').value.trim();
+      const badge = document.getElementById('sheetConnectionBadge');
+      const detail = document.getElementById('sheetDiagnosticDetail');
+
+      if (!inputVal) {
+        showToast("กรุณากรอก Google Sheet URL หรือ Sheet ID", "error");
+        return;
+      }
+
+      const cleanId = extractCleanSheetId(inputVal);
+      badge.textContent = "กำลังทดสอบเชื่อมต่อ...";
+      badge.className = "px-2 py-0.5 rounded text-[11px] bg-amber-100 text-amber-800 font-bold";
+      detail.textContent = `กำลังเชื่อมต่อ Sheet ID: ${cleanId}...`;
+
+      GOOGLE_SHEET_ID = cleanId;
+      GOOGLE_SHEET_TAB = tabVal;
+      localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
+      localStorage.setItem('lnc_google_sheet_tab', GOOGLE_SHEET_TAB);
+
+      const result = await syncFromGoogleSheets(true);
+
+      if (result && result.success) {
+        badge.textContent = `เชื่อมต่อสำเร็จ (${result.count} แถว)`;
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-emerald-100 text-emerald-800 font-bold";
+        detail.textContent = `✅ ดึงข้อมูลสำเร็จ! อ่านวันที่จากคอลัมน์ A และสถานะช่อง X เรียบร้อยแล้ว`;
+        showToast(`บันทึกและซิงก์สำเร็จ ${result.count} รายการ`, "success");
+      } else {
+        badge.textContent = "เชื่อมต่อไม่ได้";
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-rose-100 text-rose-800 font-bold";
+        detail.textContent = `❌ ${result?.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล'}\n(คำแนะนำ: โปรดตรวจดูว่าชีตตั้งสิทธิ์แชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" แล้วหรือไม่)`;
       }
     }
 
