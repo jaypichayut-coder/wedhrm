@@ -143,6 +143,12 @@
             <i data-lucide="download" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
             <span class="hidden lg:inline ml-1">ส่งออก</span>
           </button>
+
+          <!-- ปุ่มล้างข้อมูล / ยกเลิกข้อมูลทั้งหมด -->
+          <button onclick="openClearDataModal()" title="ล้างข้อมูลหรือยกเลิกข้อมูลที่นำเข้าทั้งหมด" class="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-xl text-xs font-semibold bg-rose-100 dark:bg-rose-950/70 hover:bg-rose-200 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-200 border border-rose-300 dark:border-rose-800 transition shadow-sm">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400"></i>
+            <span>ล้าง/ยกเลิกข้อมูล</span>
+          </button>
         </div>
 
       </div>
@@ -367,6 +373,52 @@
           </div>
         </div>
 
+        <!-- แถบเครื่องมือจัดการข้อมูลแบบกลุ่ม (Batch Action & Select All Bar) -->
+        <div class="pt-3 border-t border-rose-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2.5 bg-rose-50/30 dark:bg-slate-900/40 p-2.5 rounded-xl text-xs">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="check-square" class="w-4 h-4 text-brand-pink"></i>
+              <span>จัดการข้อมูล:</span>
+            </span>
+            <!-- ปุ่มเลือกทั้งหมด -->
+            <button onclick="selectAllCandidates()" class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-bold hover:bg-rose-200 dark:hover:bg-rose-900 transition flex items-center space-x-1 border border-rose-300 dark:border-rose-800">
+              <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+              <span>เลือกทั้งหมด (<span id="totalVisibleCandidatesBadge">0</span>)</span>
+            </button>
+            <!-- ปุ่มยกเลิกการเลือก -->
+            <button onclick="clearSelectedInTable()" class="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">
+              ยกเลิกการเลือก
+            </button>
+
+            <!-- ปุ่มย้อนคืนการนำเข้าล่าสุด (Undo) -->
+            <button id="btnUndoImport" onclick="undoLatestImport()" class="hidden px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-semibold hover:bg-amber-200 transition border border-amber-300 dark:border-amber-700 flex items-center space-x-1">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span id="undoImportText">ยกเลิกนำเข้าล่าสุด</span>
+            </button>
+          </div>
+
+          <!-- แถบจัดการเมื่อมีการติ๊กเลือกหลายรายการ -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-slate-500 dark:text-slate-400">เลือกแล้ว: <strong id="selectedCountBadge" class="text-brand-pink font-bold font-mono">0</strong> คน</span>
+            
+            <!-- เปลี่ยนสถานะช่อง X พร้อมกัน -->
+            <select onchange="bulkUpdateStatus(this.value); this.value='';" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs rounded-lg px-2 py-1 font-medium focus:outline-none focus:border-brand-pink">
+              <option value="">⚙️ เปลี่ยนสถานะช่อง X ที่เลือก...</option>
+              <option value="ผ่าน">✅ เปลี่ยนเป็น "ผ่าน"</option>
+              <option value="รอสัมภาษณ์">⏳ เปลี่ยนเป็น "รอสัมภาษณ์"</option>
+              <option value="นัดสัมภาษณ์แล้ว">📅 เปลี่ยนเป็น "นัดสัมภาษณ์แล้ว"</option>
+              <option value="แจ้งเข้างานแล้ว">🎉 เปลี่ยนเป็น "แจ้งเข้างานแล้ว"</option>
+              <option value="ไม่ผ่าน">❌ เปลี่ยนเป็น "ไม่ผ่าน"</option>
+            </select>
+
+            <!-- ลบที่เลือกทั้งหมด -->
+            <button onclick="deleteSelectedCandidates()" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold transition flex items-center space-x-1 shadow-sm">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>ลบที่เลือก</span>
+            </button>
+          </div>
+        </div>
+
       </div>
 
       <div class="bg-white/85 dark:bg-slate-850 rounded-2xl border border-rose-100 dark:border-slate-800 overflow-hidden shadow-sm transition">
@@ -374,6 +426,9 @@
           <table class="w-full text-left text-xs sm:text-sm text-slate-700 dark:text-slate-200">
             <thead class="bg-rose-50/70 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 uppercase text-[11px] tracking-wider border-b border-rose-100 dark:border-slate-800">
               <tr>
+                <th scope="col" class="px-3 py-3.5 text-center w-10">
+                  <input type="checkbox" id="selectAllTableCheckbox" onchange="toggleSelectAllInTable(this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer" title="เลือกทั้งหมด">
+                </th>
                 <th scope="col" class="px-4 py-3.5 font-bold">ชื่อ-นามสกุล / ชื่อเล่น</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">ตำแหน่ง & วิชา</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">สาขาที่สมัคร</th>
@@ -945,6 +1000,56 @@
     </div>
   </div>
 
+  <!-- Clear Data & Reset Confirmation Modal -->
+  <div id="clearDataModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between border-b border-rose-100 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">ยกเลิก / ล้างข้อมูลในระบบ</h3>
+        </div>
+        <button onclick="closeClearDataModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-600 dark:text-slate-300">
+        โปรดเลือกรูปแบบการลบข้อมูลที่คุณต้องการจัดการ:
+      </p>
+
+      <div class="space-y-2.5">
+        <!-- ตัวเลือก 1: ลบเฉพาะที่นำเข้าจาก CSV / Google Sheet -->
+        <button onclick="executeClearImportedOnly()" class="w-full text-left p-3.5 rounded-2xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-100/60 dark:hover:bg-amber-950/40 transition group">
+          <div class="font-bold text-xs text-amber-800 dark:text-amber-300 flex items-center justify-between">
+            <span>1. ลบเฉพาะรายการที่นำเข้า (CSV & Sheets)</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">ลบเฉพาะแถวที่ดึงมาจากไฟล์หรือ Google Sheets ออกทั้งหมด โดยไม่กระทบคนที่พิมพ์เพิ่มเอง</p>
+        </button>
+
+        <!-- ตัวเลือก 2: ล้างข้อมูลทั้งหมดในตารางให้เป็น 0 -->
+        <button onclick="executeClearAll()" class="w-full text-left p-3.5 rounded-2xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/50 dark:bg-rose-950/20 hover:bg-rose-100/60 dark:hover:bg-rose-950/40 transition group">
+          <div class="font-bold text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between">
+            <span>2. ล้างข้อมูลทั้งหมดในระบบ (0 รายการ)</span>
+            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500 group-hover:scale-110 transition"></i>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">ล้างข้อมูลรายชื่อครูทั้งหมดในระบบให้เป็นหน้าว่างเพื่อเริ่มต้นใหม่ทั้งหมด</p>
+        </button>
+
+        <!-- ตัวเลือก 3: คืนค่าเป็นข้อมูลเริ่มต้น -->
+        <button onclick="executeResetDefaults()" class="w-full text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <div class="font-bold text-xs text-slate-700 dark:text-slate-300">
+            3. คืนค่าข้อมูลตัวอย่างเริ่มต้นของระบบ
+          </div>
+        </button>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeClearDataModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-medium">ปิด</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
   <script>
@@ -952,12 +1057,12 @@
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
     // =========================================================================
-    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
+    const DEFAULT_WORKER_URL = ""; 
 
     // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
-    const GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
+    const GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
 
     // --- 1. CORE DATA STORE & INITIALIZATION ---
     const SIX_BRANCHES = [
@@ -1285,6 +1390,9 @@
       document.getElementById('showingCount').textContent = list.length;
       document.getElementById('totalFilterCount').textContent = candidates.length;
       document.getElementById('badgeTotalCandidates').textContent = candidates.length;
+      
+      const visibleBadge = document.getElementById('totalVisibleCandidatesBadge');
+      if (visibleBadge) visibleBadge.textContent = list.length;
 
       // Update bulk selection state
       updateBulkActionBar();
@@ -1300,6 +1408,12 @@
         `;
         if (window.lucide) lucide.createIcons();
         return;
+      }
+
+      // Check if all visible items are selected
+      const selectAllCheck = document.getElementById('selectAllTableCheckbox');
+      if (selectAllCheck) {
+        selectAllCheck.checked = list.length > 0 && list.every(c => selectedCandidateIds.has(c.id));
       }
 
       list.forEach(c => {
@@ -2214,6 +2328,18 @@
       updateBulkActionBar();
     }
 
+    // ฟังก์ชันเลือกทั้งหมดในตาราง (Select All Visible)
+    function selectAllCandidates() {
+      const visibleList = getFilteredCandidates();
+      if (visibleList.length === 0) {
+        showToast("ไม่มีข้อมูลในตารางให้เลือก", "info");
+        return;
+      }
+      visibleList.forEach(c => selectedCandidateIds.add(c.id));
+      renderCandidatesTable();
+      showToast(`เลือกข้อมูลผู้สมัครทั้งหมด ${visibleList.length} คน แล้ว`, "info");
+    }
+
     function toggleSelectAllInTable(isChecked) {
       const visibleList = getFilteredCandidates();
       if (isChecked) {
@@ -2229,6 +2355,31 @@
       const checkAll = document.getElementById('selectAllTableCheckbox');
       if (checkAll) checkAll.checked = false;
       renderCandidatesTable();
+      showToast("ยกเลิกการเลือกทั้งหมดแล้ว", "info");
+    }
+
+    // ฟังก์ชันเปลี่ยนสถานะช่อง X แบบกลุ่มพร้อมกัน
+    function bulkUpdateStatus(newStatus) {
+      if (!newStatus) return;
+      const count = selectedCandidateIds.size;
+      if (count === 0) {
+        showToast("กรุณาเลือกรายชื่อผู้สมัครก่อนเปลี่ยนสถานะ", "error");
+        return;
+      }
+
+      candidates.forEach(c => {
+        if (selectedCandidateIds.has(c.id)) {
+          c.status = newStatus;
+        }
+      });
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderBranchCards();
+      renderScheduleBoard();
+      updateKPICounters();
+      showToast(`อัปเดตสถานะช่อง X ของผู้สมัคร ${count} คน เป็น "${newStatus}" เรียบร้อยแล้ว`, "success");
+      syncToCloudflareWorker();
     }
 
     // --- ฟังก์ชันจัดการล้างข้อมูล & นำข้อมูล CSV ออก ---
@@ -2286,23 +2437,18 @@
     }
 
     function updateBulkActionBar() {
-      const bar = document.getElementById('bulkActionBar');
       const countBadge = document.getElementById('selectedCountBadge');
-      if (!bar || !countBadge) return;
-
-      const count = selectedCandidateIds.size;
-      countBadge.textContent = count;
-
-      if (count > 0) {
-        bar.classList.remove('hidden');
-      } else {
-        bar.classList.add('hidden');
+      if (countBadge) {
+        countBadge.textContent = selectedCandidateIds.size;
       }
     }
 
     function deleteSelectedCandidates() {
       const count = selectedCandidateIds.size;
-      if (count === 0) return;
+      if (count === 0) {
+        showToast("กรุณาเลือกผู้สมัครที่ต้องการลบก่อน", "error");
+        return;
+      }
 
       candidates = candidates.filter(c => !selectedCandidateIds.has(c.id));
       selectedCandidateIds.clear();
