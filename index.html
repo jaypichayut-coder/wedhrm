@@ -44,7 +44,6 @@
   </script>
 
   <style>
-    /* Custom sleek scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -65,7 +64,6 @@
     .badge-glow {
       box-shadow: 0 0 14px rgba(225, 29, 72, 0.3);
     }
-    /* Soft aesthetic gradient background inspired by LNC Tutor */
     .lnc-bg-light {
       background: radial-gradient(circle at 10% 20%, rgba(255, 228, 230, 0.6) 0%, rgba(255, 255, 255, 0.8) 40%, rgba(245, 243, 255, 0.6) 85%);
       background-attachment: fixed;
@@ -82,10 +80,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20">
         
-        <!-- Logo & Title matching user screenshot -->
+        <!-- Logo & Title matching LNC Tutor -->
         <div class="flex items-center space-x-3 sm:space-x-4">
           <div class="flex items-center bg-white p-2 rounded-2xl shadow-sm border border-rose-100 dark:border-slate-700">
-            <!-- Custom SVG matching LNC+ Brand Logo -->
             <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20 20 V85 H50 V73 H32 V20 H20 Z" fill="#0f172a"/>
               <path d="M50 85 V45 H60 V85 H50 Z" fill="#0f172a"/>
@@ -115,7 +112,7 @@
           </button>
 
           <!-- Google Sheets Direct Live Sync Button -->
-          <button onclick="syncFromGoogleSheets()" id="btnSyncSheet" title="ดึงข้อมูลสดจาก Google Sheet ลิงก์ที่เชื่อมต่อไว้" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/70 hover:bg-emerald-100 dark:hover:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/80 transition shadow-sm">
+          <button onclick="syncFromGoogleSheets()" id="btnSyncSheet" title="ดึงข้อมูลสดจาก Google Sheet ID 18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/70 hover:bg-emerald-100 dark:hover:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/80 transition shadow-sm">
             <i data-lucide="refresh-cw" id="syncSheetIcon" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
             <span class="hidden sm:inline">ซิงก์ Google Sheets</span>
           </button>
@@ -127,8 +124,8 @@
 
           <!-- Cloudflare Worker status indicator -->
           <button onclick="openWorkerModal()" title="ตั้งค่าเชื่อมต่อ Cloudflare Worker API" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition shadow-sm">
-            <span id="workerStatusDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span id="workerStatusText" class="hidden sm:inline">Worker Local</span>
+            <span id="workerStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <span id="workerStatusText" class="hidden sm:inline">Worker wedhrm</span>
             <i data-lucide="cloud" class="w-3.5 h-3.5 text-slate-400"></i>
           </button>
 
@@ -152,7 +149,7 @@
           <!-- ปุ่มล้างข้อมูล / ยกเลิกข้อมูลทั้งหมด -->
           <button onclick="openClearDataModal()" title="ล้างข้อมูลหรือยกเลิกข้อมูลที่นำเข้าทั้งหมด" class="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-xl text-xs font-semibold bg-rose-100 dark:bg-rose-950/70 hover:bg-rose-200 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-200 border border-rose-300 dark:border-rose-800 transition shadow-sm">
             <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400"></i>
-            <span>ล้าง/ยกเลิกข้อมูล</span>
+            <span>ล้างข้อมูล</span>
           </button>
         </div>
 
@@ -166,14 +163,15 @@
           <span>ทะเบียนผู้สมัคร (สถานะช่อง X)</span>
           <span id="badgeTotalCandidates" class="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-rose-500 text-white font-bold">0</span>
         </button>
+        <button onclick="switchTab('branches')" id="tabBtn-branches" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="git-branch" class="w-4 h-4 text-emerald-500"></i>
+          <span class="font-bold">อัตรากำลังผลแต่ละสาขา (6 สาขา & พาร์ทไทม์)</span>
+          <span id="badgeBranchPassed" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-semibold">0</span>
+        </button>
         <button onclick="switchTab('callcenter')" id="tabBtn-callcenter" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
           <i data-lucide="phone-call" class="w-4 h-4 text-amber-500"></i>
           <span>ติดตามการโทร & รอนัดสัมภาษณ์</span>
           <span id="badgePendingCall" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-300 font-semibold">0</span>
-        </button>
-        <button onclick="switchTab('branches')" id="tabBtn-branches" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
-          <i data-lucide="git-branch" class="w-4 h-4 text-emerald-500"></i>
-          <span>แผนอัตรากำลัง 6 สาขา & พาร์ทไทม์</span>
         </button>
         <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
           <i data-lucide="calendar" class="w-4 h-4 text-blue-500"></i>
@@ -185,7 +183,7 @@
         </button>
         <button onclick="switchTab('worker')" id="tabBtn-worker" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
           <i data-lucide="cloud-cog" class="w-4 h-4 text-slate-500"></i>
-          <span>Cloudflare Worker & GitHub</span>
+          <span>Cloudflare & Sheet</span>
         </button>
       </div>
     </div>
@@ -193,6 +191,7 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
+    <!-- Hero Title matching User Screenshot -->
     <div class="text-center py-4 sm:py-6 space-y-2">
       <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-semibold shadow-md shadow-rose-500/20">
         <i data-lucide="check-circle-2" class="w-4 h-4"></i>
@@ -202,11 +201,12 @@
         <span>เช็กผลการสมัครเป็นติวเตอร์ LNC</span>
         <span class="text-2xl">✏️</span>
       </h1>
-      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
-        ค้นหารายชื่อ จัดการสถานะผลการคัดเลือก <strong class="text-brand-pink font-semibold">คอลัมน์ช่อง X</strong> ตรวจสอบประวัติการโทร และวางแผนอัตรากำลัง 6 สาขา
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+        ตรวจสอบผลการคัดเลือก <strong class="text-brand-pink font-semibold">คอลัมน์ช่อง X</strong>, อัตรากำลัง 6 สาขา, วันที่สมัครจากคอลัมน์ A และบันทึกผลการโทรแบบเรียลไทม์
       </p>
     </div>
 
+    <!-- Quick Top KPI Summary Cards -->
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
       <!-- Total Candidates -->
       <div class="bg-white/80 dark:bg-slate-850 backdrop-blur border border-rose-100 dark:border-slate-800 p-4 rounded-2xl shadow-sm hover:shadow-md transition">
@@ -220,7 +220,7 @@
         </div>
       </div>
 
-      <!-- Passed (ผ่าน) -->
+      <!-- Passed (ผ่านสัมภาษณ์) -->
       <div class="bg-white/80 dark:bg-slate-850 backdrop-blur border border-emerald-200 dark:border-emerald-900/60 p-4 rounded-2xl shadow-sm hover:shadow-md transition relative overflow-hidden">
         <div class="flex items-center justify-between">
           <span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">ผ่านสัมภาษณ์ (ช่อง X)</span>
@@ -269,20 +269,20 @@
       </div>
     </div>
 
+    <!-- VIEW 1: CANDIDATES REGISTRY (ตารางผู้สมัคร) -->
     <section id="view-candidates" class="space-y-4">
       
       <!-- Multi-Filter & Search Bar -->
       <div class="bg-white/80 dark:bg-slate-850 p-4 sm:p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm space-y-4">
         
-        <!-- Search row (matching screenshot aesthetic) -->
+        <!-- Search row -->
         <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-          <!-- Text Search input -->
           <div class="relative flex-1">
             <i data-lucide="search" class="w-4 h-4 text-rose-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
-            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="ค้นหาชื่อ-นามสกุล, ชื่อเล่น, เบอร์โทร, หรือวิชาที่สอน..." class="w-full pl-11 pr-4 py-2.5 bg-rose-50/50 dark:bg-slate-900 border border-rose-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-pink focus:ring-2 focus:ring-rose-400/20 transition">
+            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="ค้นหาชื่อ-นามสกุล, ชื่อเล่น, เบอร์โทร, วิชา หรือโน้ต..." class="w-full pl-11 pr-4 py-2.5 bg-rose-50/50 dark:bg-slate-900 border border-rose-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-pink focus:ring-2 focus:ring-rose-400/20 transition">
           </div>
 
-          <!-- Filter Dropdowns -->
+          <!-- Dropdowns -->
           <div class="flex flex-wrap items-center gap-2">
             <!-- Filter Status (ช่อง X) -->
             <select id="filterStatus" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-pink">
@@ -330,84 +330,66 @@
           </div>
         </div>
 
-        <!-- Date Selection Filter Section (เพิ่มวันที่ในการเลือกดูข้อมูลทั้งหมด) -->
+        <!-- Date & Row Filter Row -->
         <div class="pt-3 border-t border-rose-100 dark:border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1">
               <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-brand-pink"></i>
-              <span>กรองตามวันที่:</span>
+              <span>กรองวันที่:</span>
             </span>
 
-            <!-- Select Date Type to match -->
             <select id="dateFilterType" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 font-medium">
-              <option value="appliedDate" selected>📅 วันที่สมัคร (คอลัมน์ A / Timestamp)</option>
+              <option value="appliedDate" selected>📅 วันที่สมัคร (คอลัมน์ A)</option>
               <option value="interviewDate">วันที่นัดสัมภาษณ์</option>
               <option value="lastCallDate">วันที่โทรติดต่อ</option>
               <option value="announceDate">วันที่ประกาศผล</option>
               <option value="onboardDate">วันที่แจ้งเข้างาน</option>
             </select>
 
-            <!-- Date Range Inputs -->
             <div class="flex items-center space-x-1.5">
               <input type="date" id="dateFilterStart" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-200">
               <span class="text-slate-400">ถึง</span>
               <input type="date" id="dateFilterEnd" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-200">
             </div>
 
-            <!-- Date Quick Presets -->
             <button onclick="setDateFilterPreset('today')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">วันนี้</button>
             <button onclick="setDateFilterPreset('week')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">7 วันนี้</button>
             <button onclick="setDateFilterPreset('month')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">เดือนนี้</button>
-            <button onclick="setDateFilterPreset('clear')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-white transition">ล้างวันที่</button>
+            <button onclick="setDateFilterPreset('clear')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-white transition">ล้าง</button>
           </div>
 
-          <!-- Quick Pipeline Tabs -->
-          <div class="flex flex-wrap items-center gap-1.5">
-            <button onclick="quickFilter('CALLED_WAITING_TODAY')" class="px-3 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-semibold border border-amber-300 dark:border-amber-800 hover:bg-amber-200 transition flex items-center space-x-1">
-              <i data-lucide="phone" class="w-3 h-3"></i>
-              <span>โทรแล้วรอนัดสัม</span>
-            </button>
-            <button onclick="quickFilter('AWAITING_CALL')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
-              ยังไม่ได้โทร
-            </button>
-            <button onclick="quickFilter('INTERVIEW_UPCOMING')" class="px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:bg-blue-100 transition">
-              📅 สัมภาษณ์เร็วๆ นี้
-            </button>
-            <button onclick="quickFilter('READY_ONBOARD')" class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 transition">
-              🎉 แจ้งเข้างาน
-            </button>
+          <!-- Row Filter input -->
+          <div class="flex items-center space-x-1.5">
+            <span class="text-slate-500 dark:text-slate-400 font-semibold">ดูเฉพาะแถว:</span>
+            <input type="number" id="rowFilterStart" oninput="applyFilters()" placeholder="แถวที่" min="2" class="w-16 px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 text-center font-mono">
+            <span class="text-slate-400">-</span>
+            <input type="number" id="rowFilterEnd" oninput="applyFilters()" placeholder="ถึง" min="2" class="w-16 px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 text-center font-mono">
           </div>
         </div>
 
-        <!-- แถบเครื่องมือจัดการข้อมูลแบบกลุ่ม (Batch Action & Select All Bar) -->
+        <!-- Batch Action Bar -->
         <div class="pt-3 border-t border-rose-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2.5 bg-rose-50/30 dark:bg-slate-900/40 p-2.5 rounded-xl text-xs">
           <div class="flex flex-wrap items-center gap-2">
             <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <i data-lucide="check-square" class="w-4 h-4 text-brand-pink"></i>
               <span>จัดการข้อมูล:</span>
             </span>
-            <!-- ปุ่มเลือกทั้งหมด -->
             <button onclick="selectAllCandidates()" class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-bold hover:bg-rose-200 dark:hover:bg-rose-900 transition flex items-center space-x-1 border border-rose-300 dark:border-rose-800">
               <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
               <span>เลือกทั้งหมด (<span id="totalVisibleCandidatesBadge">0</span>)</span>
             </button>
-            <!-- ปุ่มยกเลิกการเลือก -->
             <button onclick="clearSelectedInTable()" class="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 transition">
               ยกเลิกการเลือก
             </button>
-
-            <!-- ปุ่มย้อนคืนการนำเข้าล่าสุด (Undo) -->
             <button id="btnUndoImport" onclick="undoLatestImport()" class="hidden px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-semibold hover:bg-amber-200 transition border border-amber-300 dark:border-amber-700 flex items-center space-x-1">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-600"></i>
               <span id="undoImportText">ยกเลิกนำเข้าล่าสุด</span>
             </button>
           </div>
 
-          <!-- แถบจัดการเมื่อมีการติ๊กเลือกหลายรายการ -->
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-slate-500 dark:text-slate-400">เลือกแล้ว: <strong id="selectedCountBadge" class="text-brand-pink font-bold font-mono">0</strong> คน</span>
             
-            <!-- เปลี่ยนสถานะช่อง X พร้อมกัน -->
             <select onchange="bulkUpdateStatus(this.value); this.value='';" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs rounded-lg px-2 py-1 font-medium focus:outline-none focus:border-brand-pink">
               <option value="">⚙️ เปลี่ยนสถานะช่อง X ที่เลือก...</option>
               <option value="ผ่าน">✅ เปลี่ยนเป็น "ผ่าน"</option>
@@ -417,7 +399,6 @@
               <option value="ไม่ผ่าน">❌ เปลี่ยนเป็น "ไม่ผ่าน"</option>
             </select>
 
-            <!-- ลบที่เลือกทั้งหมด -->
             <button onclick="deleteSelectedCandidates()" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold transition flex items-center space-x-1 shadow-sm">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               <span>ลบที่เลือก</span>
@@ -427,6 +408,7 @@
 
       </div>
 
+      <!-- Candidate Data Table -->
       <div class="bg-white/85 dark:bg-slate-850 rounded-2xl border border-rose-100 dark:border-slate-800 overflow-hidden shadow-sm transition">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs sm:text-sm text-slate-700 dark:text-slate-200">
@@ -435,59 +417,106 @@
                 <th scope="col" class="px-3 py-3.5 text-center w-10">
                   <input type="checkbox" id="selectAllTableCheckbox" onchange="toggleSelectAllInTable(this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer" title="เลือกทั้งหมด">
                 </th>
-                <th scope="col" class="px-4 py-3.5 font-bold">ชื่อ-นามสกุล / ชื่อเล่น</th>
+                <th scope="col" class="px-2 py-3.5 text-center w-12 font-bold">แถว</th>
+                <th scope="col" class="px-4 py-3.5 font-bold">ชื่อ-นามสกุล / วันที่สมัคร (คอลัมน์ A)</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">ตำแหน่ง & วิชา</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">สาขาที่สมัคร</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">ประเภทงาน</th>
                 <th scope="col" class="px-3 py-3.5 font-bold text-center">สถานะ (ช่อง X)</th>
-                <th scope="col" class="px-3 py-3.5 font-bold text-center">โทรติดตาม & ผลการโทร</th>
+                <th scope="col" class="px-3 py-3.5 font-bold text-center">ผลการโทร & วันที่โทร</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">วันสัมภาษณ์</th>
                 <th scope="col" class="px-3 py-3.5 font-bold">ประกาศผล / เข้างาน</th>
-                <th scope="col" class="px-4 py-3.5 font-bold text-right">การจัดการ</th>
+                <th scope="col" class="px-4 py-3.5 font-bold text-right">จัดการ</th>
               </tr>
             </thead>
             <tbody id="candidateTableBody" class="divide-y divide-rose-100 dark:divide-slate-800/80">
-              <!-- Dynamically Populated Rows -->
+              <!-- Populated dynamically -->
             </tbody>
           </table>
         </div>
 
-        <!-- Table Footer / Count summary -->
         <div class="px-4 py-3 bg-rose-50/40 dark:bg-slate-900/60 border-t border-rose-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-2">
           <div>
             แสดงผล <span id="showingCount" class="font-bold text-slate-900 dark:text-white">0</span> จากทั้งหมด <span id="totalFilterCount" class="font-bold text-slate-900 dark:text-white">0</span> รายการ
           </div>
           <div class="flex items-center space-x-2 text-[11px]">
-            <span class="text-rose-500 dark:text-rose-400 font-medium">💡 คลิกที่สถานะช่อง X หรือคลิกปุ่มโทรเพื่ออัปเดตผลการโทรวันนี้ได้ทันที</span>
+            <span class="text-rose-500 dark:text-rose-400 font-medium">💡 คลิกที่สถานะช่อง X เพื่อปรับสถานะ หรือคลิกปุ่มโทรเพื่ออัปเดตสถานะการโทรวันนี้ได้ทันที</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="view-callcenter" class="hidden space-y-5">
-      <div class="bg-white/80 dark:bg-slate-850 p-5 rounded-2xl border border-amber-200 dark:border-amber-900/40 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <!-- VIEW 2: อัตรากำลังผลแต่ละสาขา (BRANCH HEADCOUNT & QUOTA DASHBOARD) -->
+    <section id="view-branches" class="hidden space-y-6">
+      
+      <!-- Top Overview Banner -->
+      <div class="bg-gradient-to-r from-rose-50 via-white to-pink-50 dark:from-slate-850 dark:via-slate-850 dark:to-slate-800 border border-rose-200 dark:border-slate-700 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
         <div>
           <div class="flex items-center space-x-2">
-            <span class="p-2 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-xl"><i data-lucide="phone-call" class="w-5 h-5"></i></span>
-            <div>
-              <h2 class="text-lg font-bold text-slate-900 dark:text-white">ระบบบันทึกการโทร & รอนัดสัมภาษณ์ (Daily Call & Follow-up Tracker)</h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">บันทึกว่าวันนี้ครูคนไหนโทรติดต่อแล้ว และใครกำลังรอคอนเฟิร์มวันเวลานัดสัมภาษณ์</p>
-            </div>
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">ศูนย์ตรวจเช็กอัตรากำลังผลการสรรหา 6 สาขา & ครูพาร์ทไทม์</h2>
           </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            เช็กจำนวนครูที่ผ่านการคัดเลือก (อิงช่อง X) เปรียบเทียบกับอัตรากำลังโควตาที่ต้องการในแต่ละสาขาและแต่ละรายวิชา
+          </p>
         </div>
-
-        <div class="flex items-center gap-2">
-          <button onclick="openQuickCallModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
-            <i data-lucide="phone-outgoing" class="w-4 h-4"></i>
-            <span>บันทึกการโทรใหม่วันนี้</span>
+        <div class="flex items-center gap-3">
+          <div class="bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-700 px-3.5 py-2 rounded-xl text-xs text-emerald-800 dark:text-emerald-300 font-medium">
+            ผ่านสัมภาษณ์รวมทุกสาขา: <span id="overviewPassedTotal" class="font-bold font-mono text-emerald-600 dark:text-emerald-400">0</span> คน
+          </div>
+          <button onclick="openQuotaConfigModal()" class="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-sm">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-brand-pink"></i>
+            <span>ปรับโควตาสาขา</span>
           </button>
         </div>
       </div>
 
-      <!-- Quick Call Log Cards Grid -->
+      <!-- 6 Branch Headcount Cards Grid -->
+      <div id="branchCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Dynamically rendered per branch with headcount progress -->
+      </div>
+
+      <!-- Part-time Continuous Pool Section -->
+      <div class="bg-white/90 dark:bg-slate-850 border border-rose-200 dark:border-rose-900/40 rounded-2xl p-5 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center space-x-2.5">
+            <span class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-brand-pink border border-rose-200 dark:border-rose-800"><i data-lucide="infinity" class="w-5 h-5"></i></span>
+            <div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-base">อัตรากำลังครูพาร์ทไทม์ (Part-time Continuous Pool - รับเรื่อยๆ)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">ไม่มีจำกัดเพดานโควตา สามารถเปิดรับและสัมภาษณ์เติมครูสำรองได้ต่อเนื่องทุกสาขา</p>
+            </div>
+          </div>
+          <div class="text-xs bg-rose-50 dark:bg-slate-900 px-3.5 py-1.5 rounded-xl border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium">
+            ผู้สมัครพาร์ทไทม์ในระบบ: <span id="parttimeTotalBadge" class="font-bold text-brand-pink">0</span> คน | ผ่านสัมภาษณ์แล้ว: <span id="parttimePassedBadge" class="font-bold text-emerald-600">0</span> คน
+          </div>
+        </div>
+
+        <div id="parttimeBreakdownContainer" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: CALL CENTER & INTERVIEW CONFIRMATION -->
+    <section id="view-callcenter" class="hidden space-y-5">
+      <div class="bg-white/80 dark:bg-slate-850 p-5 rounded-2xl border border-amber-200 dark:border-amber-900/40 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-2">
+          <span class="p-2 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-xl"><i data-lucide="phone-call" class="w-5 h-5"></i></span>
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">ระบบบันทึกการโทร & รอนัดสัมภาษณ์ (Daily Call & Follow-up Tracker)</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">บันทึกว่าวันนี้ครูคนไหนโทรติดต่อแล้ว และใครกำลังรอคอนเฟิร์มวันเวลานัดสัมภาษณ์</p>
+          </div>
+        </div>
+
+        <button onclick="openQuickCallModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
+          <i data-lucide="phone-outgoing" class="w-4 h-4"></i>
+          <span>บันทึกการโทรใหม่วันนี้</span>
+        </button>
+      </div>
+
+      <!-- Quick Call Log 3 Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
-        <!-- Box 1: โทรแล้ว รอนัดสัมภาษณ์ (Waiting for Interview confirmation) -->
+        <!-- Box 1: โทรแล้ว รอนัดสัมภาษณ์ -->
         <div class="bg-white/90 dark:bg-slate-850 p-4 rounded-2xl border border-amber-200 dark:border-amber-900/60 shadow-sm space-y-3">
           <div class="flex items-center justify-between pb-2 border-b border-amber-100 dark:border-slate-800">
             <span class="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
@@ -501,7 +530,7 @@
           </div>
         </div>
 
-        <!-- Box 2: โทรแล้ว นัดวันเรียบร้อย (Interview Confirmed) -->
+        <!-- Box 2: โทรแล้ว นัดวันเรียบร้อย -->
         <div class="bg-white/90 dark:bg-slate-850 p-4 rounded-2xl border border-blue-200 dark:border-blue-900/60 shadow-sm space-y-3">
           <div class="flex items-center justify-between pb-2 border-b border-blue-100 dark:border-slate-800">
             <span class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
@@ -528,58 +557,10 @@
             <!-- Populated by JS -->
           </div>
         </div>
-
       </div>
     </section>
 
-    <section id="view-branches" class="hidden space-y-6">
-      
-      <!-- Top Overview Banner: Fixed 6 Branches vs Part-time continuous recruitment -->
-      <div class="bg-gradient-to-r from-rose-50 via-white to-pink-50 dark:from-slate-850 dark:via-slate-850 dark:to-slate-800 border border-rose-200 dark:border-slate-700 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="w-3 h-3 rounded-full bg-brand-pink"></span>
-            <h2 class="text-lg font-bold text-slate-900 dark:text-white">โครงสร้างอัตรากำลังครูประจำ 6 สาขา & ครูพาร์ทไทม์</h2>
-          </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">กำหนดโควตาที่ต้องการรับครูแต่ละวิชา เปรียบเทียบกับจำนวนที่ผ่านการสัมภาษณ์และเริ่มงานจริง</p>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="bg-rose-100 dark:bg-rose-950/80 border border-brand-pink/40 px-3.5 py-2 rounded-xl text-xs text-rose-700 dark:text-rose-200">
-            <span class="font-bold text-brand-pink">ครูพาร์ทไทม์:</span> เปิดรับเรื่อยๆ ทุกวิชา (Ongoing Openings)
-          </div>
-          <button onclick="openQuotaConfigModal()" class="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-sm">
-            <i data-lucide="sliders" class="w-3.5 h-3.5 text-brand-pink"></i>
-            <span>ปรับโควตาสาขา</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 6 Branch Cards Grid -->
-      <div id="branchCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Dynamically rendered for the 6 branches -->
-      </div>
-
-      <!-- Part-time Continuous Pool Section -->
-      <div class="bg-white/90 dark:bg-slate-850 border border-rose-200 dark:border-rose-900/40 rounded-2xl p-5 space-y-4 shadow-sm">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div class="flex items-center space-x-2.5">
-            <span class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-brand-pink border border-rose-200 dark:border-rose-800"><i data-lucide="infinity" class="w-5 h-5"></i></span>
-            <div>
-              <h3 class="font-bold text-slate-900 dark:text-white text-base">ระบบรับสมัครครูพาร์ทไทม์ (Part-time Continuous Pool)</h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400">กลุ่มนี้ไม่มีเพดานโควตาจำกัด สามารถรับสัมภาษณ์และเติมบุคลากรสำรองได้ต่อเนื่องทุกสาขา</p>
-            </div>
-          </div>
-          <div class="text-xs bg-rose-50 dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium">
-            ผู้สมัครพาร์ทไทม์ในระบบ: <span id="parttimeTotalBadge" class="font-bold text-brand-pink">0</span> คน
-          </div>
-        </div>
-
-        <div id="parttimeBreakdownContainer" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </section>
-
+    <!-- VIEW 4: SCHEDULE & TIMELINE -->
     <section id="view-schedule" class="hidden space-y-6">
       <div class="bg-white/80 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div>
@@ -591,10 +572,8 @@
         </div>
       </div>
 
-      <!-- Schedule 3 Columns Board -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Column 1: นัดสัมภาษณ์ -->
+        <!-- Col 1: Interview Scheduled -->
         <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-blue-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
@@ -603,12 +582,10 @@
             </div>
             <span id="colCountInterview" class="text-xs bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
-          <div id="colInterviewCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
-            <!-- Cards populated by JS -->
-          </div>
+          <div id="colInterviewCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1"></div>
         </div>
 
-        <!-- Column 2: รอประกาศผล -->
+        <!-- Col 2: Announce result -->
         <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-amber-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
@@ -617,12 +594,10 @@
             </div>
             <span id="colCountAnnounce" class="text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
-          <div id="colAnnounceCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
-            <!-- Cards populated by JS -->
-          </div>
+          <div id="colAnnounceCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1"></div>
         </div>
 
-        <!-- Column 3: วันแจ้งเข้างาน / เริ่มงาน -->
+        <!-- Col 3: Onboard / Start -->
         <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
@@ -631,17 +606,14 @@
             </div>
             <span id="colCountOnboard" class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
-          <div id="colOnboardCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
-            <!-- Cards populated by JS -->
-          </div>
+          <div id="colOnboardCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1"></div>
         </div>
-
       </div>
     </section>
 
+    <!-- VIEW 5: ANALYTICS -->
     <section id="view-analytics" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Chart 1: Status Distribution (ช่อง X) -->
         <div class="bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
           <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
             <i data-lucide="pie-chart" class="w-4 h-4 text-brand-pink"></i>
@@ -652,7 +624,6 @@
           </div>
         </div>
 
-        <!-- Chart 2: Branch Distribution -->
         <div class="bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
           <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
             <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i>
@@ -663,7 +634,6 @@
           </div>
         </div>
 
-        <!-- Chart 3: Subject Demand vs Passed -->
         <div class="col-span-1 lg:col-span-2 bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
           <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
             <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
@@ -676,33 +646,34 @@
       </div>
     </section>
 
+    <!-- VIEW 6: WORKER & GITHUB GUIDE -->
     <section id="view-worker" class="hidden space-y-6">
       <div class="bg-white/90 dark:bg-slate-850 p-6 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm space-y-6">
         <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
           <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
             <i data-lucide="cloud-cog" class="w-6 h-6 text-brand-pink"></i>
-            <span>สถาปัตยกรรมการเชื่อมต่อ GitHub Pages + Cloudflare Workers</span>
+            <span>สถานะระบบ Cloudflare Worker & การเชื่อมต่อ Google Sheets</span>
           </h2>
           <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            นำไฟล์ <code class="text-brand-pink font-mono">index.html</code> นี้ไปรันผ่าน GitHub Pages และเชื่อมต่อกับ Cloudflare Workers ที่มีฟังก์ชันสไตล์ Apps Script
+            Worker ปัจจุบัน: <code class="text-brand-pink font-mono">https://wedhrm.jayppuza12.workers.dev</code> | Sheet ID: <code class="text-emerald-600 font-mono">18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs</code>
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
           <div class="p-4 bg-rose-50/50 dark:bg-slate-900 rounded-2xl border border-rose-100 dark:border-slate-800">
             <span class="inline-block p-3 rounded-full bg-rose-100 dark:bg-slate-800 text-brand-pink mb-2 font-bold">1</span>
-            <h4 class="font-bold text-sm text-slate-900 dark:text-white">GitHub Repository / Pages</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">อัปโหลดไฟล์ HTML ไปไว้ที่ Repo แล้วเปิด GitHub Pages เข้าใช้งานได้ทันที</p>
-          </div>
-          <div class="p-4 bg-amber-50/50 dark:bg-slate-900 rounded-2xl border border-amber-100 dark:border-slate-800">
-            <span class="inline-block p-3 rounded-full bg-amber-100 dark:bg-slate-800 text-amber-600 mb-2 font-bold">2</span>
-            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Cloudflare Worker (API)</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">รับ-ส่งข้อมูลสถานะช่อง X ผ่าน API แบบ doGet/doPost พร้อมเก็บข้อมูลใน KV Store</p>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Cloudflare Worker (wedhrm)</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ทำหน้าที่เป็น CORS Proxy & API กลางเชื่อมต่อ Google Sheet กับ GitHub Pages</p>
           </div>
           <div class="p-4 bg-emerald-50/50 dark:bg-slate-900 rounded-2xl border border-emerald-100 dark:border-slate-800">
-            <span class="inline-block p-3 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 mb-2 font-bold">3</span>
-            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Live Data Sync</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ข้อมูลการโทรและสถานะสัมภาษณ์จะถูกซิงก์อัปเดตแบบเรียลไทม์</p>
+            <span class="inline-block p-3 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 mb-2 font-bold">2</span>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Google Sheet Live Sync</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ดึงวันที่สมัครจากคอลัมน์ A และสถานะผลสัมภาษณ์จากช่อง X</p>
+          </div>
+          <div class="p-4 bg-amber-50/50 dark:bg-slate-900 rounded-2xl border border-amber-100 dark:border-slate-800">
+            <span class="inline-block p-3 rounded-full bg-amber-100 dark:bg-slate-800 text-amber-600 mb-2 font-bold">3</span>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Branch Headcount Plan</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">คำนวณอัตรากำลังอัตโนมัติแยกตาม 6 สาขา และกลุ่มพาร์ทไทม์รับเรื่อยๆ</p>
           </div>
         </div>
       </div>
@@ -710,10 +681,10 @@
 
   </main>
 
+  <!-- MODAL: ADD / EDIT CANDIDATE -->
   <div id="candidateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150">
       
-      <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-rose-100 dark:border-slate-800 flex items-center justify-between bg-rose-50/50 dark:bg-slate-850">
         <div class="flex items-center space-x-2">
           <span class="w-3 h-3 rounded-full bg-brand-pink"></span>
@@ -724,17 +695,14 @@
         </button>
       </div>
 
-      <!-- Modal Body Form -->
       <form id="candidateForm" onsubmit="saveCandidate(event)" class="p-6 space-y-4 overflow-y-auto flex-1 text-xs sm:text-sm">
         <input type="hidden" id="cId">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Full Name -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อ - นามสกุล <span class="text-rose-500">*</span></label>
             <input type="text" id="cName" required placeholder="เช่น นายสมคิด เรียนดี" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
-          <!-- Nickname -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อเล่น</label>
             <input type="text" id="cNickname" placeholder="เช่น ครูคิด" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
@@ -742,12 +710,10 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Phone -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">เบอร์โทรศัพท์ <span class="text-rose-500">*</span></label>
             <input type="tel" id="cPhone" required placeholder="08x-xxx-xxxx" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
-          <!-- Contact / Line ID -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">LINE ID หรือ อีเมล</label>
             <input type="text" id="cContact" placeholder="Line ID หรือ อีเมล" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
@@ -755,7 +721,6 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Position / Subject -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">วิชาที่ต้องการสอน <span class="text-rose-500">*</span></label>
             <select id="cSubject" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
@@ -774,7 +739,6 @@
             </select>
           </div>
 
-          <!-- Employment Type -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ประเภทการจ้าง <span class="text-rose-500">*</span></label>
             <select id="cType" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
@@ -785,7 +749,6 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Branch -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">สาขาที่สมัคร / ปฏิบัติงาน <span class="text-rose-500">*</span></label>
             <select id="cBranch" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
@@ -799,7 +762,6 @@
             </select>
           </div>
 
-          <!-- Status ช่อง X -->
           <div>
             <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">สถานะผลการคัดเลือก (อิงช่อง X) <span class="text-rose-500">*</span></label>
             <select id="cStatus" required class="w-full px-3.5 py-2 bg-rose-50 dark:bg-slate-800 border border-rose-300 dark:border-rose-500/50 rounded-xl text-rose-600 dark:text-rose-300 font-semibold focus:outline-none focus:border-brand-pink">
@@ -813,37 +775,15 @@
           </div>
         </div>
 
-        <!-- Daily Call Status & Follow-up Section -->
-        <div class="bg-amber-50/70 dark:bg-amber-950/30 p-4 rounded-2xl border border-amber-200 dark:border-amber-800/60 space-y-3">
-          <div class="flex items-center space-x-2 text-xs font-bold text-amber-700 dark:text-amber-400">
-            <i data-lucide="phone-call" class="w-4 h-4"></i>
-            <span>ระบบติดตามการโทร & วันนัดสัมภาษณ์</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">สถานะการโทรล่าสุด</label>
-              <select id="cCallStatus" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs font-medium focus:outline-none">
-                <option value="ยังไม่ได้โทร">⚪ ยังไม่ได้โทร</option>
-                <option value="โทรแล้ว - รอนัดสัมภาษณ์">📞 โทรแล้ว - รอนัดสัมภาษณ์</option>
-                <option value="โทรแล้ว - นัดวันแล้ว">✅ โทรแล้ว - นัดวันแล้ว</option>
-                <option value="ติดต่อไม่ได้ - รอโทรซ้ำ">⏳ ติดต่อไม่ได้ - รอโทรซ้ำ</option>
-                <option value="ไม่สะดวก/สละสิทธิ์">❌ ไม่สะดวก / สละสิทธิ์</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่โทรติดต่อล่าสุด</label>
-              <input type="date" id="cLastCallDate" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none">
-            </div>
-          </div>
-        </div>
-
-        <!-- Timeline Dates Section -->
+        <!-- Dates -->
         <div class="bg-slate-50 dark:bg-slate-950/70 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-          <span class="text-xs font-bold text-brand-pink uppercase tracking-wider block">ไทม์ไลน์การคัดเลือก & แจ้งเริ่มงาน</span>
+          <span class="text-xs font-bold text-brand-pink uppercase tracking-wider block">วันที่สมัคร & ไทม์ไลน์การคัดเลือก</span>
           
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่สมัคร (คอลัมน์ A)</label>
+              <input type="date" id="cAppliedDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
+            </div>
             <div>
               <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่นัดสัมภาษณ์</label>
               <input type="date" id="cInterviewDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
@@ -853,19 +793,17 @@
               <input type="date" id="cAnnounceDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
             </div>
             <div>
-              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่แจ้งเข้างาน / เริ่มงาน</label>
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่แจ้งเข้างาน</label>
               <input type="date" id="cOnboardDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
             </div>
           </div>
         </div>
 
-        <!-- Notes -->
         <div>
-          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">บันทึกเพิ่มเติมจากฝ่ายบุคคล (HR Notes / บันทึกการโทร)</label>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">บันทึกเพิ่มเติมจากฝ่ายบุคคล (HR Notes)</label>
           <textarea id="cNotes" rows="2" placeholder="เช่น สะดวกเริ่มสอนเสาร์-อาทิตย์, โทรคุยแล้วจะแจ้งวันสัมภาษณ์พรุ่งนี้..." class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:border-brand-pink"></textarea>
         </div>
 
-        <!-- Modal Footer -->
         <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-3">
           <button type="button" onclick="closeCandidateModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-medium transition">
             ยกเลิก
@@ -876,10 +814,10 @@
           </button>
         </div>
       </form>
-
     </div>
   </div>
 
+  <!-- MODAL: QUICK CALL LOG -->
   <div id="quickCallModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
@@ -893,9 +831,7 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">เลือกผู้สมัครที่โทรติดต่อ</label>
-          <select id="quickCallCandidateSelect" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-medium">
-            <!-- Populated dynamically -->
-          </select>
+          <select id="quickCallCandidateSelect" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-medium"></select>
         </div>
 
         <div>
@@ -921,35 +857,65 @@
     </div>
   </div>
 
-  <!-- CSV Modal -->
+  <!-- MODAL: CSV IMPORT / EXCEL -->
   <div id="csvModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2">
           <i data-lucide="file-spreadsheet" class="w-5 h-5 text-brand-pink"></i>
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV</h3>
+          <h3 id="csvModalTitle" class="text-base font-bold text-slate-900 dark:text-white">นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV</h3>
         </div>
         <button onclick="closeCsvModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <p class="text-xs text-slate-600 dark:text-slate-300">
-        ระบบจะอ่านข้อมูลไฟล์สมัครงานของ LNC Plus โดยอัตโนมัติ และจะทำการตรวจจับข้อมูลใน <strong>ช่อง X (สถานะ ผ่าน / รอสัมภาษณ์)</strong> เพื่ออัปเดตลงในระบบ
-      </p>
+      <!-- Upload Zone -->
+      <div id="csvUploadStep" class="space-y-4">
+        <p class="text-xs text-slate-600 dark:text-slate-300">
+          ระบบจะอ่านข้อมูลไฟล์สมัครงานของ LNC Plus ตรวจจับวันที่จาก<strong>คอลัมน์ A (Timestamp)</strong> และสถานะจาก <strong>ช่อง X (สถานะ ผ่าน / รอสัมภาษณ์)</strong> อัตโนมัติ
+        </p>
 
-      <div id="dropZone" onclick="document.getElementById('csvFileInput').click()" class="border-2 border-dashed border-rose-200 dark:border-slate-700 hover:border-brand-pink rounded-2xl p-8 text-center cursor-pointer bg-rose-50/40 dark:bg-slate-950/50 hover:bg-rose-50 transition">
-        <input type="file" id="csvFileInput" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(event)" class="hidden">
-        <i data-lucide="upload-cloud" class="w-10 h-10 text-rose-400 mx-auto mb-2"></i>
-        <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์ CSV / Excel มาวางที่นี่</p>
-        <p class="text-xs text-slate-400 mt-1">รองรับไฟล์สมัครงาน LNC Plus ทุกช่วงเดือน (April, Mar, Form Responses)</p>
+        <div id="dropZone" onclick="document.getElementById('csvFileInput').click()" class="border-2 border-dashed border-rose-200 dark:border-slate-700 hover:border-brand-pink rounded-2xl p-8 text-center cursor-pointer bg-rose-50/40 dark:bg-slate-950/50 hover:bg-rose-50 transition">
+          <input type="file" id="csvFileInput" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(event)" class="hidden">
+          <i data-lucide="upload-cloud" class="w-10 h-10 text-rose-400 mx-auto mb-2"></i>
+          <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์ CSV / Excel มาวางที่นี่</p>
+          <p class="text-xs text-slate-400 mt-1">รองรับไฟล์สมัครงาน LNC Plus (April, Mar, Form Responses)</p>
+        </div>
+      </div>
+
+      <!-- Preview Table Step -->
+      <div id="csvPreviewStep" class="hidden space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-600 dark:text-slate-300">พบข้อมูล <strong id="previewTotalCount" class="text-slate-900 dark:text-white">0</strong> คน | เลือกแล้ว <strong id="previewSelectedCount" class="text-brand-pink">0</strong> คน</span>
+          <button onclick="toggleSelectAllPreview(true)" class="text-brand-pink font-semibold hover:underline">เลือกทั้งหมด</button>
+        </div>
+
+        <div class="max-h-60 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+          <table class="w-full text-left text-xs text-slate-700 dark:text-slate-200">
+            <thead class="bg-slate-100 dark:bg-slate-800 text-[11px] sticky top-0">
+              <tr>
+                <th class="p-2 text-center w-8"></th>
+                <th class="p-2">ชื่อผู้สมัคร</th>
+                <th class="p-2">วิชา</th>
+                <th class="p-2">สาขา</th>
+                <th class="p-2">ช่อง X</th>
+                <th class="p-2 text-center">ลบ</th>
+              </tr>
+            </thead>
+            <tbody id="csvPreviewTableBody" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+          </table>
+        </div>
       </div>
 
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-200 dark:border-slate-800">
         <button onclick="closeCsvModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs">ปิด</button>
+        <button id="btnConfirmImport" onclick="confirmImportSelected()" class="hidden px-5 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-xl text-xs font-semibold shadow-md">
+          <span id="confirmImportBtnLabel">ยืนยันนำเข้า</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Branch Quota Modal -->
+  <!-- MODAL: BRANCH QUOTA CONFIG -->
   <div id="quotaModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
@@ -964,9 +930,7 @@
         กำหนดจำนวนอัตราที่ต้องการรับครูประจำแต่ละสาขา (เฉพาะครูประจำ เนื่องจากพาร์ทไทม์จะรับเรื่อยๆ ไม่จำกัด)
       </p>
 
-      <div id="quotaSettingsList" class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs">
-        <!-- Dynamically rendered per branch -->
-      </div>
+      <div id="quotaSettingsList" class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs"></div>
 
       <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
         <button onclick="closeQuotaModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs">ยกเลิก</button>
@@ -975,51 +939,7 @@
     </div>
   </div>
 
-  <!-- Cloudflare Worker Modal -->
-  <div id="workerModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-        <div class="flex items-center space-x-2">
-          <i data-lucide="cloud-lightning" class="w-5 h-5 text-brand-pink"></i>
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">ตั้งค่า Cloudflare Worker API</h3>
-        </div>
-        <button onclick="closeWorkerModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">Cloudflare Worker URL</label>
-          <input type="url" id="workerApiUrlInput" placeholder="https://lnc-recruit-api.yourname.workers.dev" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
-          <p class="text-[11px] text-slate-400 mt-1">ปล่อยว่างเพื่อใช้งานโหมด Local Standalone ได้ทันที</p>
-        </div>
-
-        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
-          <span class="text-slate-600 dark:text-slate-300">สถานะการเชื่อมต่อ:</span>
-          <span id="workerConnectionBadge" class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">ยังไม่ได้เชื่อมต่อ</span>
-        </div>
-      </div>
-
-      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-        <button onclick="testWorkerConnection()" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold">ทดสอบ Ping API</button>
-        <button onclick="saveWorkerConfig()" class="px-4 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-xl text-xs font-semibold">บันทึกค่า</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Clear Data & Reset Confirmation Modal -->
-  <div id="clearDataModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
-      <div class="flex items-center justify-between border-b border-rose-100 dark:border-slate-800 pb-3">
-        <div class="flex items-center space-x-2">
-          <div class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600">
-            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-          </div>
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">ยกเลิก / ล้างข้อมูลในระบบ</h3>
-        </div>
-        <button onclick="closeClearDataModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-
-  <!-- Google Sheet Configuration Modal -->
+  <!-- MODAL: GOOGLE SHEET CONFIG -->
   <div id="sheetConfigModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
@@ -1040,23 +960,21 @@
           <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">
             Google Sheet URL หรือ Sheet ID <span class="text-rose-500">*</span>
           </label>
-          <input type="text" id="sheetUrlOrIdInput" placeholder="วางลิงก์ชีต เช่น https://docs.google.com/spreadsheets/d/1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ/..." class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:border-brand-pink">
-          <p class="text-[11px] text-slate-400 mt-1">วางได้ทั้งลิงก์เต็มของ Google Sheet หรือเฉพาะตัวรหัส ID ระบบจะสกัดรหัสให้อัตโนมัติ</p>
+          <input type="text" id="sheetUrlOrIdInput" placeholder="18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:border-brand-pink">
+          <p class="text-[11px] text-slate-400 mt-1">ตั้งค่า Sheet ID ปัจจุบันเรียบร้อยแล้ว: 18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs</p>
         </div>
 
         <div>
-          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อแท็บชีต (Sheet Tab Name) - ไม่บังคับ</label>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อแท็บชีต (Sheet Tab Name) - ปล่อยว่างถ้าเป็นแท็บแรก</label>
           <input type="text" id="sheetTabNameInput" placeholder="เช่น การตอบแบบฟอร์ม 1 หรือ Form Responses 1" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:border-brand-pink">
-          <p class="text-[11px] text-slate-400 mt-1">ปล่อยว่างไว้เพื่อดึงข้อมูลจากแท็บแรกของไฟล์ชีต</p>
         </div>
 
-        <!-- Connection Test Diagnostic Box -->
         <div id="sheetStatusBox" class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
           <div class="flex items-center justify-between">
             <span class="text-slate-600 dark:text-slate-300 font-medium">สถานะการเชื่อมต่อ:</span>
-            <span id="sheetConnectionBadge" class="px-2 py-0.5 rounded text-[11px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">ยังไม่ได้ทดสอบ</span>
+            <span id="sheetConnectionBadge" class="px-2 py-0.5 rounded text-[11px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">พร้อมซิงก์</span>
           </div>
-          <p id="sheetDiagnosticDetail" class="text-[10px] text-slate-400">💡 กดปุ่ม "ทดสอบและดึงข้อมูลสด" เพื่อตรวจสอบคอลัมน์ A (วันที่) และช่อง X (สถานะ)</p>
+          <p id="sheetDiagnosticDetail" class="text-[10px] text-slate-400">💡 ดึงข้อมูลผ่าน Cloudflare Worker (wedhrm) เพื่อป้องกันปัญหา CORS บน GitHub Pages</p>
         </div>
       </div>
 
@@ -1073,21 +991,94 @@
     </div>
   </div>
 
+  <!-- MODAL: CLOUDFLARE WORKER CONFIG -->
+  <div id="workerModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="cloud-lightning" class="w-5 h-5 text-brand-pink"></i>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">ตั้งค่า Cloudflare Worker API</h3>
+        </div>
+        <button onclick="closeWorkerModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">Cloudflare Worker URL</label>
+          <input type="url" id="workerApiUrlInput" placeholder="https://wedhrm.jayppuza12.workers.dev" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:border-brand-pink">
+          <p class="text-[11px] text-slate-400 mt-1">Worker ปัจจุบันเชื่อมต่อ: https://wedhrm.jayppuza12.workers.dev</p>
+        </div>
+
+        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <span class="text-slate-600 dark:text-slate-300">สถานะการเชื่อมต่อ:</span>
+          <span id="workerConnectionBadge" class="px-2 py-0.5 rounded text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-medium">เชื่อมต่อกับ wedhrm</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="testWorkerConnection()" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold">ทดสอบ Ping API</button>
+        <button onclick="saveWorkerConfig()" class="px-4 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-xl text-xs font-semibold">บันทึกค่า</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CLEAR DATA CONFIRMATION -->
+  <div id="clearDataModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between border-b border-rose-100 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-600">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">ยกเลิก / ล้างข้อมูลในระบบ</h3>
+        </div>
+        <button onclick="closeClearDataModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-600 dark:text-slate-300">
+        กรุณาเลือกรูปแบบที่ต้องการจัดการข้อมูล:
+      </p>
+
+      <div class="space-y-2 text-xs">
+        <button onclick="executeClearImportedOnly()" class="w-full p-3 rounded-xl bg-rose-50 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-750 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-slate-700 text-left transition flex items-center justify-between">
+          <div>
+            <div class="font-bold">1. ลบเฉพาะรายการที่นำเข้า (CSV & Sheets)</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">ลบเฉพาะแถวที่โหลดมาจากไฟล์ภายนอก</div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-rose-400"></i>
+        </button>
+
+        <button onclick="executeClearAll()" class="w-full p-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-left transition flex items-center justify-between shadow-sm">
+          <div>
+            <div class="font-bold">2. ล้างข้อมูลทั้งหมดในระบบให้เป็น 0 คน</div>
+            <div class="text-[11px] text-rose-200">ลบข้อมูลทั้งหมดเพื่อเริ่มกรอกหรือซิงก์ใหม่</div>
+          </div>
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+
+        <button onclick="executeResetDefaults()" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-400 text-left transition text-xs">
+          3. คืนค่าเป็นข้อมูลตัวอย่างเริ่มต้น
+        </button>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeClearDataModal()" class="px-4 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-medium">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
   <script>
     // =========================================================================
-    // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
+    // ⚙️ GLOBAL CONFIGURATION & API URLS
     // =========================================================================
-    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev"; 
-
-    // 📊 [ลิงก์ Google Sheets ID & Apps Script Web App URL]
-    let GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
+    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev";
+    let GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs"; // User specified sheet ID
     let GOOGLE_SHEET_TAB = "";
     let APPS_SCRIPT_URL = "";
     const DEFAULT_API_TOKEN = "LNC_RECRUIT_SECURE_2026";
 
-    // Helper: สกัดเอาเฉพาะ Sheet ID แม้ผู้ใช้จะวางลิงก์เต็ม
     function extractCleanSheetId(input) {
       if (!input) return "";
       const trimmed = input.trim();
@@ -1096,7 +1087,7 @@
       return trimmed;
     }
 
-    // --- 1. CORE DATA STORE & INITIALIZATION ---
+    // 6 Branches required by user
     const SIX_BRANCHES = [
       "สาขาข้างเซ็นทรัล พระราม 2",
       "สาขาเดอะไบร์ท พระราม 2",
@@ -1131,13 +1122,57 @@
       "สาขา Happitat บางนา": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ปฐมวัย/เตรียมประถม": 2 }
     };
 
-    // Helper: get today in YYYY-MM-DD
     function getTodayString() {
       const d = new Date();
       return d.toISOString().split('T')[0];
     }
 
-    // Preloaded Candidate Sample Data (includes call status and dates)
+    function parseDateToIso(rawDate) {
+      if (!rawDate) return "";
+      const str = String(rawDate).trim();
+      if (!str) return "";
+
+      // Format: YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
+        return str.substring(0, 10);
+      }
+
+      // Format: DD/MM/YYYY or MM/DD/YYYY with optional time
+      if (str.includes('/')) {
+        const datePart = str.split(' ')[0];
+        const parts = datePart.split('/');
+        if (parts.length === 3) {
+          let day = parseInt(parts[0], 10);
+          let month = parseInt(parts[1], 10);
+          let year = parseInt(parts[2], 10);
+
+          // Handle Buddhist Era (B.E. 2567 -> 2024)
+          if (year > 2400) year -= 543;
+          if (day <= 12 && month > 12) {
+            const temp = day; day = month; month = temp;
+          }
+          if (year > 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          }
+        }
+      }
+
+      // Format: DD-MM-YYYY
+      if (str.includes('-')) {
+        const parts = str.split(' ')[0].split('-');
+        if (parts.length === 3 && parts[0].length <= 2) {
+          let day = parseInt(parts[0], 10);
+          let month = parseInt(parts[1], 10);
+          let year = parseInt(parts[2], 10);
+          if (year > 2400) year -= 543;
+          return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+      }
+
+      return "";
+    }
+
+    // Default Preloaded Candidates matching LNC Branches
     let candidates = [
       {
         id: "c-101",
@@ -1195,6 +1230,63 @@
         announceDate: "2026-08-22",
         onboardDate: "2026-09-05",
         notes: "สอนพาร์ทไทม์ช่วงวันเสาร์-อาทิตย์"
+      },
+      {
+        id: "c-104",
+        rowNumber: 5,
+        appliedDate: "2026-08-23",
+        name: "ชาญวิทย์ อภิบาล",
+        nickname: "ครูบอส",
+        phone: "086-334-1122",
+        contact: "boss.lnc@gmail.com",
+        subject: "วิทยาศาสตร์",
+        type: "ครูประจำ",
+        branch: "สาขาแลนด์มาร์ค มหาชัย",
+        status: "ผ่าน",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: "2026-08-24",
+        interviewDate: "2026-08-26",
+        announceDate: "2026-08-28",
+        onboardDate: "2026-09-01",
+        notes: "พร้อมเริ่มสอนทันที มีเอกสารครบ"
+      },
+      {
+        id: "c-105",
+        rowNumber: 6,
+        appliedDate: "2026-08-24",
+        name: "ศุภชัย ก้องสมบูรณ์",
+        nickname: "ครูโต้ง",
+        phone: "091-889-4455",
+        contact: "tong.lnc@gmail.com",
+        subject: "Coding/หุ่นยนต์",
+        type: "ครูประจำ",
+        branch: "สาขา Meta Mall เชียงใหม่",
+        status: "ผ่าน",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: "2026-08-25",
+        interviewDate: "2026-08-27",
+        announceDate: "2026-08-30",
+        onboardDate: "2026-09-08",
+        notes: "ดูแลแล็บ Coding ประจำสาขาเชียงใหม่"
+      },
+      {
+        id: "c-106",
+        rowNumber: 7,
+        appliedDate: "2026-08-25",
+        name: "ณิชารีย์ สว่างวงศ์",
+        nickname: "ครูปาย",
+        phone: "084-556-7788",
+        contact: "pai.lnc@gmail.com",
+        subject: "ปฐมวัย/เตรียมประถม",
+        type: "ครูประจำ",
+        branch: "สาขา Happitat บางนา",
+        status: "ผ่าน",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: "2026-08-26",
+        interviewDate: "2026-08-29",
+        announceDate: "2026-09-01",
+        onboardDate: "2026-09-10",
+        notes: "สอนหลักสูตรเตรียมสาธิตและประถมต้น"
       }
     ];
 
@@ -1202,17 +1294,16 @@
     let chartInstances = {};
     let workerApiUrl = DEFAULT_WORKER_URL;
 
-    // Tracking for Multi-Select, Pre-Import Preview, and Latest Import Undo
     let selectedCandidateIds = new Set();
     let pendingImportCandidates = [];
     let lastImportedBatchIds = [];
 
-    // --- 2. INITIALIZATION ON WINDOW LOAD ---
+    // =========================================================================
+    // 🚀 INITIALIZATION ON LOAD
+    // =========================================================================
     window.addEventListener('DOMContentLoaded', async () => {
-      // 2.1 Load Theme
       initTheme();
 
-      // 2.2 Load persisted candidates & quotas
       try {
         const savedData = localStorage.getItem('lnc_recruitment_candidates');
         if (savedData) candidates = JSON.parse(savedData);
@@ -1220,46 +1311,41 @@
         const savedQuotas = localStorage.getItem('lnc_branch_quotas');
         if (savedQuotas) branchQuotas = JSON.parse(savedQuotas);
 
-        // กำหนด Cloudflare Worker URL เริ่มต้น
-        const savedWorker = localStorage.getItem('lnc_worker_url');
-        if (savedWorker && savedWorker.trim() !== '') {
-          workerApiUrl = savedWorker.trim();
+        // Set worker URL
+        workerApiUrl = DEFAULT_WORKER_URL;
+        localStorage.setItem('lnc_worker_url', DEFAULT_WORKER_URL);
+
+        // Set Sheet ID
+        const savedSheetId = localStorage.getItem('lnc_google_sheet_id');
+        if (savedSheetId) {
+          GOOGLE_SHEET_ID = savedSheetId;
         } else {
-          workerApiUrl = DEFAULT_WORKER_URL;
-          localStorage.setItem('lnc_worker_url', DEFAULT_WORKER_URL);
+          GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
+          localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
         }
 
-        // โหลดค่า Sheet ID และ Apps Script URL ที่บันทึกไว้ในเบราว์เซอร์
-        const savedSheetId = localStorage.getItem('lnc_google_sheet_id');
-        if (savedSheetId) GOOGLE_SHEET_ID = savedSheetId;
         const savedSheetTab = localStorage.getItem('lnc_google_sheet_tab');
         if (savedSheetTab) GOOGLE_SHEET_TAB = savedSheetTab;
-        const savedAppsScript = localStorage.getItem('lnc_apps_script_url');
-        if (savedAppsScript) APPS_SCRIPT_URL = savedAppsScript;
 
+        // Auto sync if available
         if (workerApiUrl) {
-          updateWorkerStatusUI(true, "Worker Live (wedhrm)");
-          await fetchCandidatesFromWorker();
-        } else if (APPS_SCRIPT_URL || GOOGLE_SHEET_ID) {
-          // ดึงข้อมูลสดอัตโนมัติทันทีที่เปิดหน้าเว็บ
-          syncFromGoogleSheets(true);
+          updateWorkerStatusUI(true, "Worker wedhrm");
+          await syncFromGoogleSheets(true);
         }
       } catch (e) {
         console.warn("Storage sync notice:", e);
       }
 
-      // 2.3 Render All Views
       renderCandidatesTable();
+      renderBranchHeadcountBoard();
       renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
       renderScheduleBoard();
       updateKPICounters();
 
       if (window.lucide) lucide.createIcons();
     });
 
-    // Theme Switcher Logic (Light <-> Dark)
+    // Theme Switcher
     function initTheme() {
       const savedTheme = localStorage.getItem('lnc_theme') || 'light';
       applyTheme(savedTheme);
@@ -1338,11 +1424,13 @@
     }
 
     function switchTab(tabKey) {
-      const tabs = ['candidates', 'callcenter', 'branches', 'schedule', 'analytics', 'worker'];
+      const tabs = ['candidates', 'branches', 'callcenter', 'schedule', 'analytics', 'worker'];
       
       tabs.forEach(t => {
         const viewEl = document.getElementById(`view-${t}`);
         const btnEl = document.getElementById(`tabBtn-${t}`);
+        if (!viewEl || !btnEl) return;
+
         if (t === tabKey) {
           viewEl.classList.remove('hidden');
           btnEl.classList.add('text-rose-700', 'dark:text-white', 'bg-rose-100/70', 'dark:bg-slate-800', 'border-b-2', 'border-brand-pink');
@@ -1354,14 +1442,18 @@
         }
       });
 
-      if (tabKey === 'analytics') renderAnalyticsCharts();
+      if (tabKey === 'candidates') renderCandidatesTable();
+      else if (tabKey === 'branches') renderBranchHeadcountBoard();
       else if (tabKey === 'callcenter') renderCallCenterBoard();
-      else if (tabKey === 'branches') { renderBranchCards(); renderParttimePool(); }
       else if (tabKey === 'schedule') renderScheduleBoard();
+      else if (tabKey === 'analytics') renderAnalyticsCharts();
 
       if (window.lucide) lucide.createIcons();
     }
 
+    // =========================================================================
+    // 📋 CANDIDATES TABLE & FILTERS
+    // =========================================================================
     function renderCandidatesTable(filteredList = null) {
       const list = filteredList || getFilteredCandidates();
       const tbody = document.getElementById('candidateTableBody');
@@ -1374,13 +1466,12 @@
       const visibleBadge = document.getElementById('totalVisibleCandidatesBadge');
       if (visibleBadge) visibleBadge.textContent = list.length;
 
-      // Update bulk selection state
       updateBulkActionBar();
 
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" class="px-4 py-10 text-center text-slate-400 text-xs">
+            <td colspan="11" class="px-4 py-12 text-center text-slate-400 text-xs">
               <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-rose-300 dark:text-slate-600"></i>
               ไม่พบข้อมูลผู้สมัครที่ตรงกับเงื่อนไขการค้นหา
             </td>
@@ -1390,15 +1481,15 @@
         return;
       }
 
-      // Check if all visible items are selected
       const selectAllCheck = document.getElementById('selectAllTableCheckbox');
       if (selectAllCheck) {
         selectAllCheck.checked = list.length > 0 && list.every(c => selectedCandidateIds.has(c.id));
       }
 
-      list.forEach(c => {
+      list.forEach((c, index) => {
         const tr = document.createElement('tr');
         const isChecked = selectedCandidateIds.has(c.id);
+        const rowNum = c.rowNumber || (index + 2);
         tr.className = `hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60 ${isChecked ? 'bg-rose-50/60 dark:bg-rose-950/20' : ''}`;
 
         // Status Badge Styling based on Column X
@@ -1409,7 +1500,7 @@
         else if (c.status === "แจ้งเข้างานแล้ว") statusBadgeClass = "bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700/80 font-bold";
         else if (c.status === "ไม่ผ่าน") statusBadgeClass = "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800";
 
-        // Call Status Pill Styling
+        // Call status badge
         let callPillClass = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
         let callIcon = "phone";
         if (c.callStatus === "โทรแล้ว - รอนัดสัมภาษณ์") {
@@ -1431,11 +1522,15 @@
           <td class="px-3 py-3 text-center">
             <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectCandidate('${c.id}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
           </td>
+          <td class="px-2 py-3 text-center font-mono font-bold text-slate-400 dark:text-slate-500 text-xs">
+            #${rowNum}
+          </td>
           <td class="px-4 py-3">
             <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
-            <div class="text-xs text-brand-pink font-semibold">
-              ${c.nickname ? `(${c.nickname})` : ''} 
-              <span class="text-slate-500 dark:text-slate-400 font-normal ml-1">${c.phone || '-'}</span>
+            <div class="text-xs text-brand-pink font-semibold flex items-center space-x-1.5 mt-0.5">
+              ${c.nickname ? `<span>(${c.nickname})</span>` : ''} 
+              <span class="text-slate-500 dark:text-slate-400 font-normal">${c.phone || '-'}</span>
+              ${c.appliedDate ? `<span class="bg-rose-50 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[10px] text-slate-500 dark:text-slate-400 ml-1">สมัคร: ${formatThaiDate(c.appliedDate)}</span>` : ''}
             </div>
           </td>
           <td class="px-3 py-3">
@@ -1450,7 +1545,7 @@
             ${typeBadge}
           </td>
           <td class="px-3 py-3 text-center">
-            <!-- Fast inline status dropdown (ช่อง X) -->
+            <!-- Inline Status (ช่อง X) -->
             <select onchange="updateCandidateStatusInline('${c.id}', this.value)" class="text-xs rounded-xl px-2.5 py-1 border cursor-pointer ${statusBadgeClass} focus:outline-none">
               <option value="รอสัมภาษณ์" ${c.status === 'รอสัมภาษณ์' ? 'selected' : ''}>รอสัมภาษณ์</option>
               <option value="นัดสัมภาษณ์แล้ว" ${c.status === 'นัดสัมภาษณ์แล้ว' ? 'selected' : ''}>นัดสัมภาษณ์แล้ว</option>
@@ -1461,7 +1556,6 @@
             </select>
           </td>
           <td class="px-3 py-3 text-center">
-            <!-- Quick Call Status Toggle Button -->
             <div class="inline-flex flex-col items-center">
               <button onclick="quickMarkCalled('${c.id}')" title="คลิกเพื่ออัปเดตผลการโทรวันนี้" class="px-2.5 py-1 rounded-xl text-[11px] flex items-center space-x-1 ${callPillClass} hover:opacity-90 transition">
                 <i data-lucide="${callIcon}" class="w-3 h-3"></i>
@@ -1511,13 +1605,14 @@
       const tp = document.getElementById('filterType').value;
       const callSt = document.getElementById('filterCallStatus').value;
 
-      // Date range filtering
       const dateType = document.getElementById('dateFilterType').value;
       const startDate = document.getElementById('dateFilterStart').value;
       const endDate = document.getElementById('dateFilterEnd').value;
 
-      return candidates.filter(c => {
-        // Text query
+      const rowStartVal = parseInt(document.getElementById('rowFilterStart').value, 10);
+      const rowEndVal = parseInt(document.getElementById('rowFilterEnd').value, 10);
+
+      return candidates.filter((c, idx) => {
         const matchQ = !q || 
           (c.name && c.name.toLowerCase().includes(q)) ||
           (c.nickname && c.nickname.toLowerCase().includes(q)) ||
@@ -1525,31 +1620,33 @@
           (c.subject && c.subject.toLowerCase().includes(q)) ||
           (c.notes && c.notes.toLowerCase().includes(q));
 
-        // Status match (ช่อง X)
         const matchSt = (st === 'ALL') || (c.status === st);
-
-        // Branch match
         const matchBr = (br === 'ALL') || (c.branch === br);
-
-        // Job type match
         const matchTp = (tp === 'ALL') || (c.type === tp);
-
-        // Call status match
         const matchCall = (callSt === 'ALL') || (c.callStatus === callSt);
 
-        // Date Range logic
+        const candidateRowNum = c.rowNumber || (idx + 2);
+        let matchRow = true;
+        if (!isNaN(rowStartVal) && candidateRowNum < rowStartVal) matchRow = false;
+        if (!isNaN(rowEndVal) && candidateRowNum > rowEndVal) matchRow = false;
+
         let matchDate = true;
         if (startDate || endDate) {
-          const targetDateVal = c[dateType];
+          const rawDateVal = c[dateType];
+          const targetDateVal = parseDateToIso(rawDateVal) || rawDateVal;
           if (!targetDateVal) {
             matchDate = false;
           } else {
-            if (startDate && targetDateVal < startDate) matchDate = false;
-            if (endDate && targetDateVal > endDate) matchDate = false;
+            if (startDate && !endDate) {
+              if (targetDateVal !== startDate) matchDate = false;
+            } else {
+              if (startDate && targetDateVal < startDate) matchDate = false;
+              if (endDate && targetDateVal > endDate) matchDate = false;
+            }
           }
         }
 
-        return matchQ && matchSt && matchBr && matchTp && matchCall && matchDate;
+        return matchQ && matchSt && matchBr && matchTp && matchCall && matchRow && matchDate;
       });
     }
 
@@ -1565,6 +1662,8 @@
       document.getElementById('filterCallStatus').value = 'ALL';
       document.getElementById('dateFilterStart').value = '';
       document.getElementById('dateFilterEnd').value = '';
+      document.getElementById('rowFilterStart').value = '';
+      document.getElementById('rowFilterEnd').value = '';
       renderCandidatesTable();
       showToast("ล้างตัวกรองทั้งหมดแล้ว", "info");
     }
@@ -1597,32 +1696,241 @@
       applyFilters();
     }
 
-    function quickFilter(type) {
-      const today = getTodayString();
-      let results = [];
+    // =========================================================================
+    // 🏢 อัตรากำลังผลแต่ละสาขา (BRANCH HEADCOUNT DASHBOARD)
+    // =========================================================================
+    function renderBranchHeadcountBoard() {
+      const container = document.getElementById('branchCardsContainer');
+      container.innerHTML = '';
 
-      if (type === 'CALLED_WAITING_TODAY') {
-        results = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์');
-        showToast("แสดงรายชื่อครูที่โทรแล้วและรอนัดสัมภาษณ์", "info");
-      } else if (type === 'AWAITING_CALL') {
-        results = candidates.filter(c => !c.callStatus || c.callStatus === 'ยังไม่ได้โทร' || c.callStatus === 'ติดต่อไม่ได้ - รอโทรซ้ำ');
-        showToast("แสดงรายชื่อที่ยังไม่ได้โทรติดต่อ", "info");
-      } else if (type === 'INTERVIEW_UPCOMING') {
-        results = candidates.filter(c => c.interviewDate && c.interviewDate !== '');
-        showToast("แสดงคิวนัดสัมภาษณ์", "info");
-      } else if (type === 'READY_ONBOARD') {
-        results = candidates.filter(c => (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว') && c.onboardDate);
-        showToast("แสดงผู้สมัครที่พร้อมเริ่มงาน", "info");
-      }
+      let totalOverallQuota = 0;
+      let totalOverallPassed = 0;
 
-      renderCandidatesTable(results);
+      SIX_BRANCHES.forEach(branchName => {
+        const quotas = branchQuotas[branchName] || {};
+        
+        // Find full-time candidates for this branch that passed (ช่อง X)
+        const branchCandidates = candidates.filter(c => c.branch === branchName);
+        const passedCandidates = branchCandidates.filter(c => (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว') && c.type === 'ครูประจำ');
+        const waitingCandidates = branchCandidates.filter(c => c.status === 'รอสัมภาษณ์' && c.type === 'ครูประจำ');
+
+        let branchTargetQuota = 0;
+        Object.values(quotas).forEach(v => branchTargetQuota += (parseInt(v) || 0));
+        
+        const branchPassedCount = passedCandidates.length;
+        totalOverallQuota += branchTargetQuota;
+        totalOverallPassed += branchPassedCount;
+
+        const percentage = branchTargetQuota > 0 ? Math.min(100, Math.round((branchPassedCount / branchTargetQuota) * 100)) : 0;
+        const remainingNeeded = Math.max(0, branchTargetQuota - branchPassedCount);
+
+        // Subject Quota Table Rows
+        let subjectRowsHtml = '';
+        const subjectsWithQuota = Object.keys(quotas).filter(s => quotas[s] > 0);
+        
+        subjectsWithQuota.forEach(sub => {
+          const target = quotas[sub] || 0;
+          const currentPassed = passedCandidates.filter(c => c.subject === sub).length;
+          const isComplete = currentPassed >= target;
+
+          subjectRowsHtml += `
+            <div class="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/80 text-xs">
+              <span class="font-medium text-slate-700 dark:text-slate-300">${sub}</span>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono text-xs font-bold ${isComplete ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">
+                  ${currentPassed} / ${target} คน
+                </span>
+                ${isComplete 
+                  ? `<span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold">ครบ</span>`
+                  : `<span class="px-1.5 py-0.5 rounded text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-bold">ขาด ${target - currentPassed}</span>`}
+              </div>
+            </div>
+          `;
+        });
+
+        // Passed Teachers Name list in this branch
+        let passedTeachersListHtml = '';
+        if (passedCandidates.length > 0) {
+          passedTeachersListHtml = `
+            <div class="pt-2">
+              <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 block mb-1">รายชื่อครูที่ผ่านการคัดเลือก (ช่อง X):</span>
+              <div class="space-y-1">
+                ${passedCandidates.map(tc => `
+                  <div class="flex items-center justify-between bg-emerald-50/70 dark:bg-emerald-950/40 px-2.5 py-1 rounded-lg text-xs">
+                    <span class="font-semibold text-emerald-900 dark:text-emerald-200">${tc.name} ${tc.nickname ? `(${tc.nickname})` : ''} - <span class="font-normal text-emerald-700 dark:text-emerald-400">${tc.subject}</span></span>
+                    <span class="font-mono text-[11px] text-slate-500 dark:text-slate-400">${tc.phone}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = "bg-white/90 dark:bg-slate-850 border border-rose-100 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4 hover:shadow-md transition";
+        card.innerHTML = `
+          <!-- Header -->
+          <div class="flex items-start justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <div class="flex items-center space-x-1.5 font-bold text-slate-900 dark:text-white text-sm">
+                <i data-lucide="map-pin" class="w-4 h-4 text-brand-pink"></i>
+                <span>${branchName}</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-0.5">ผู้สมัครรวม: ${branchCandidates.length} คน (รอสัมภาษณ์: ${waitingCandidates.length})</p>
+            </div>
+            <button onclick="filterByBranchCard('${branchName}')" title="คลิกดูรายชื่อสาขานี้ในตาราง" class="text-xs text-brand-pink hover:underline font-semibold flex items-center space-x-0.5">
+              <span>ดูรายชื่อ</span>
+              <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </button>
+          </div>
+
+          <!-- Headcount Progress Bar -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-baseline text-xs">
+              <span class="text-slate-600 dark:text-slate-400">อัตรากำลังที่ได้: <strong class="text-slate-900 dark:text-white font-mono font-bold">${branchPassedCount}/${branchTargetQuota} คน</strong></span>
+              <span class="font-bold text-xs ${percentage >= 100 ? 'text-emerald-600' : 'text-brand-pink'}">${percentage}%</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
+              <div class="h-2.5 rounded-full ${percentage >= 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-rose-500 to-pink-500'}" style="width: ${percentage}%"></div>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>${remainingNeeded === 0 ? '🎉 อัตรากำลังครบตามเป้าหมาย' : `ยังต้องการอีก ${remainingNeeded} คน`}</span>
+              <span class="font-mono">${branchPassedCount} ผ่านแล้ว</span>
+            </div>
+          </div>
+
+          <!-- Subject Quota Breakdown -->
+          <div class="space-y-0.5 max-h-48 overflow-y-auto pr-1">
+            ${subjectRowsHtml || '<p class="text-xs text-slate-400 py-2 text-center">ยังไม่ได้ระบุโควตาสาขา</p>'}
+          </div>
+
+          ${passedTeachersListHtml}
+        `;
+
+        container.appendChild(card);
+      });
+
+      // Update overview badge
+      document.getElementById('overviewPassedTotal').textContent = totalOverallPassed;
+      document.getElementById('badgeBranchPassed').textContent = `${totalOverallPassed}/${totalOverallQuota}`;
+
+      // Render Part-time Breakdown
+      renderParttimeHeadcount();
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderParttimeHeadcount() {
+      const container = document.getElementById('parttimeBreakdownContainer');
+      container.innerHTML = '';
+
+      const parttimeCandidates = candidates.filter(c => c.type === 'พาร์ทไทม์');
+      const passedParttime = parttimeCandidates.filter(c => c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว');
+
+      document.getElementById('parttimeTotalBadge').textContent = parttimeCandidates.length;
+      document.getElementById('parttimePassedBadge').textContent = passedParttime.length;
+
+      SUBJECT_LIST.forEach(sub => {
+        const totalSub = parttimeCandidates.filter(c => c.subject === sub).length;
+        const passedSub = passedParttime.filter(c => c.subject === sub).length;
+
+        const box = document.createElement('div');
+        box.className = "bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 rounded-xl text-center space-y-1";
+        box.innerHTML = `
+          <div class="font-semibold text-xs text-slate-800 dark:text-slate-200 truncate" title="${sub}">${sub}</div>
+          <div class="text-lg font-bold font-mono text-brand-pink">${totalSub} <span class="text-[10px] text-slate-400 font-normal">คน</span></div>
+          <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">ผ่าน ${passedSub} คน</div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function filterByBranchCard(branchName) {
+      switchTab('candidates');
+      document.getElementById('filterBranch').value = branchName;
+      applyFilters();
+      showToast(`กรองข้อมูลผู้สมัคร: ${branchName}`, "info");
+    }
+
+    // =========================================================================
+    // 📞 CALL CENTER & SCHEDULE BOARDS
+    // =========================================================================
+    function renderCallCenterBoard() {
+      const waitBox = document.getElementById('callWaitingList');
+      const confBox = document.getElementById('callConfirmedList');
+      const pendBox = document.getElementById('callPendingList');
+
+      waitBox.innerHTML = '';
+      confBox.innerHTML = '';
+      pendBox.innerHTML = '';
+
+      const waiting = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์');
+      const confirmed = candidates.filter(c => c.callStatus === 'โทรแล้ว - นัดวันแล้ว');
+      const pending = candidates.filter(c => !c.callStatus || c.callStatus === 'ยังไม่ได้โทร' || c.callStatus === 'ติดต่อไม่ได้ - รอโทรซ้ำ');
+
+      document.getElementById('countCallWaiting').textContent = waiting.length;
+      document.getElementById('countCallConfirmed').textContent = confirmed.length;
+      document.getElementById('countCallPending').textContent = pending.length;
+      document.getElementById('badgePendingCall').textContent = waiting.length;
+
+      const createCard = (c, colorClass) => `
+        <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs hover:border-brand-pink transition">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-900 dark:text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded ${colorClass} font-semibold">${c.callStatus || 'ยังไม่ได้โทร'}</span>
+          </div>
+          <div class="text-slate-500 dark:text-slate-400 text-[11px] flex justify-between">
+            <span>${c.subject} [${c.branch}]</span>
+            <span class="font-mono">${c.phone}</span>
+          </div>
+          ${c.notes ? `<div class="text-[10px] text-amber-700 dark:text-amber-400 italic bg-amber-50 dark:bg-amber-950/40 p-1.5 rounded">${c.notes}</div>` : ''}
+          <div class="flex justify-end pt-1">
+            <button onclick="quickMarkCalled('${c.id}')" class="text-[11px] text-brand-pink hover:underline font-semibold">อัปเดตผลการโทร</button>
+          </div>
+        </div>
+      `;
+
+      waiting.forEach(c => waitBox.innerHTML += createCard(c, 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'));
+      confirmed.forEach(c => confBox.innerHTML += createCard(c, 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'));
+      pending.forEach(c => pendBox.innerHTML += createCard(c, 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'));
+    }
+
+    function renderScheduleBoard() {
+      const colInterview = document.getElementById('colInterviewCards');
+      const colAnnounce = document.getElementById('colAnnounceCards');
+      const colOnboard = document.getElementById('colOnboardCards');
+
+      colInterview.innerHTML = '';
+      colAnnounce.innerHTML = '';
+      colOnboard.innerHTML = '';
+
+      const interviewList = candidates.filter(c => c.interviewDate);
+      const announceList = candidates.filter(c => c.announceDate);
+      const onboardList = candidates.filter(c => c.onboardDate);
+
+      document.getElementById('colCountInterview').textContent = interviewList.length;
+      document.getElementById('colCountAnnounce').textContent = announceList.length;
+      document.getElementById('colCountOnboard').textContent = onboardList.length;
+
+      const makeCard = (c, dateField, badgeColor) => `
+        <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1 hover:border-brand-pink transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-900 dark:text-white">${c.name} (${c.nickname || '-'})</span>
+            <span class="px-2 py-0.5 rounded font-mono text-[11px] font-bold ${badgeColor}">${formatThaiDate(c[dateField])}</span>
+          </div>
+          <div class="text-slate-500 dark:text-slate-400 text-[11px]">${c.subject} • ${c.branch}</div>
+        </div>
+      `;
+
+      interviewList.forEach(c => colInterview.innerHTML += makeCard(c, 'interviewDate', 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'));
+      announceList.forEach(c => colAnnounce.innerHTML += makeCard(c, 'announceDate', 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'));
+      onboardList.forEach(c => colOnboard.innerHTML += makeCard(c, 'onboardDate', 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'));
     }
 
     function quickMarkCalled(id) {
       const c = candidates.find(item => item.id === id);
       if (!c) return;
 
-      // Cycle status: ยังไม่ได้โทร -> โทรแล้ว - รอนัดสัมภาษณ์ -> โทรแล้ว - นัดวันแล้ว -> ติดต่อไม่ได้ - รอโทรซ้ำ
       const states = [
         "โทรแล้ว - รอนัดสัมภาษณ์",
         "โทรแล้ว - นัดวันแล้ว",
@@ -1639,8 +1947,207 @@
       renderCandidatesTable();
       renderCallCenterBoard();
       updateKPICounters();
-      showToast(`อัปเดตผลการโทร ${c.name}: "${c.callStatus}" วันนี้แล้ว`);
+      showToast(`อัปเดตผลการโทร ${c.name}: "${c.callStatus}" แล้ว`);
       syncToCloudflareWorker();
+    }
+
+    function updateCandidateStatusInline(id, newStatus) {
+      const item = candidates.find(c => c.id === id);
+      if (item) {
+        item.status = newStatus;
+        persistDataLocally();
+        renderBranchHeadcountBoard();
+        updateKPICounters();
+        showToast(`อัปเดตสถานะของ ${item.name} เป็น "${newStatus}" แล้ว`);
+        syncToCloudflareWorker();
+      }
+    }
+
+    function openAddCandidateModal() {
+      currentEditingId = null;
+      document.getElementById('modalCandidateTitle').textContent = "เพิ่มข้อมูลผู้สมัครใหม่";
+      document.getElementById('candidateForm').reset();
+      document.getElementById('cId').value = "";
+      document.getElementById('cAppliedDate').value = getTodayString();
+      document.getElementById('candidateModal').classList.remove('hidden');
+    }
+
+    function closeCandidateModal() {
+      document.getElementById('candidateModal').classList.add('hidden');
+    }
+
+    function editCandidate(id) {
+      const c = candidates.find(item => item.id === id);
+      if (!c) return;
+
+      currentEditingId = id;
+      document.getElementById('modalCandidateTitle').textContent = `แก้ไขข้อมูล: ${c.name}`;
+      document.getElementById('cId').value = c.id;
+      document.getElementById('cName').value = c.name || "";
+      document.getElementById('cNickname').value = c.nickname || "";
+      document.getElementById('cPhone').value = c.phone || "";
+      document.getElementById('cContact').value = c.contact || "";
+      document.getElementById('cSubject').value = c.subject || "คณิตศาสตร์";
+      document.getElementById('cType').value = c.type || "ครูประจำ";
+      document.getElementById('cBranch').value = c.branch || "สาขาข้างเซ็นทรัล พระราม 2";
+      document.getElementById('cStatus').value = c.status || "รอสัมภาษณ์";
+      document.getElementById('cAppliedDate').value = parseDateToIso(c.appliedDate) || "";
+      document.getElementById('cInterviewDate').value = parseDateToIso(c.interviewDate) || "";
+      document.getElementById('cAnnounceDate').value = parseDateToIso(c.announceDate) || "";
+      document.getElementById('cOnboardDate').value = parseDateToIso(c.onboardDate) || "";
+      document.getElementById('cNotes').value = c.notes || "";
+
+      document.getElementById('candidateModal').classList.remove('hidden');
+    }
+
+    function saveCandidate(e) {
+      e.preventDefault();
+
+      const existingItem = currentEditingId ? candidates.find(i => i.id === currentEditingId) : null;
+      const candidateObj = {
+        id: currentEditingId || 'c-' + Date.now(),
+        rowNumber: existingItem?.rowNumber || (candidates.length + 2),
+        appliedDate: document.getElementById('cAppliedDate').value || getTodayString(),
+        name: document.getElementById('cName').value.trim(),
+        nickname: document.getElementById('cNickname').value.trim(),
+        phone: document.getElementById('cPhone').value.trim(),
+        contact: document.getElementById('cContact').value.trim(),
+        subject: document.getElementById('cSubject').value,
+        type: document.getElementById('cType').value,
+        branch: document.getElementById('cBranch').value,
+        status: document.getElementById('cStatus').value,
+        callStatus: existingItem?.callStatus || "ยังไม่ได้โทร",
+        lastCallDate: existingItem?.lastCallDate || "",
+        interviewDate: document.getElementById('cInterviewDate').value,
+        announceDate: document.getElementById('cAnnounceDate').value,
+        onboardDate: document.getElementById('cOnboardDate').value,
+        notes: document.getElementById('cNotes').value.trim()
+      };
+
+      if (currentEditingId) {
+        const index = candidates.findIndex(item => item.id === currentEditingId);
+        if (index !== -1) candidates[index] = candidateObj;
+        showToast(`แก้ไขข้อมูล ${candidateObj.name} เรียบร้อยแล้ว`);
+      } else {
+        candidates.unshift(candidateObj);
+        showToast(`เพิ่มผู้สมัคร ${candidateObj.name} เรียบร้อยแล้ว`);
+      }
+
+      persistDataLocally();
+      closeCandidateModal();
+      renderCandidatesTable();
+      renderBranchHeadcountBoard();
+      renderCallCenterBoard();
+      renderScheduleBoard();
+      updateKPICounters();
+      syncToCloudflareWorker();
+    }
+
+    function deleteCandidate(id) {
+      const c = candidates.find(item => item.id === id);
+      if (!c) return;
+
+      candidates = candidates.filter(item => item.id !== id);
+      persistDataLocally();
+      renderCandidatesTable();
+      renderBranchHeadcountBoard();
+      renderCallCenterBoard();
+      renderScheduleBoard();
+      updateKPICounters();
+      showToast(`ลบข้อมูล ${c.name} แล้ว`, "info");
+      syncToCloudflareWorker();
+    }
+
+    function updateKPICounters() {
+      document.getElementById('kpiTotal').textContent = candidates.length;
+      
+      const passed = candidates.filter(c => c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว').length;
+      document.getElementById('kpiPassed').textContent = passed;
+
+      const waiting = candidates.filter(c => c.status === 'รอสัมภาษณ์').length;
+      document.getElementById('kpiWaiting').textContent = waiting;
+
+      const calledWaiting = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์').length;
+      document.getElementById('kpiCalledWaiting').textContent = calledWaiting;
+
+      const parttime = candidates.filter(c => c.type === 'พาร์ทไทม์').length;
+      document.getElementById('kpiParttime').textContent = parttime;
+    }
+
+    function toggleSelectCandidate(id, isChecked) {
+      if (isChecked) selectedCandidateIds.add(id);
+      else selectedCandidateIds.delete(id);
+      updateBulkActionBar();
+    }
+
+    function selectAllCandidates() {
+      const visibleList = getFilteredCandidates();
+      visibleList.forEach(c => selectedCandidateIds.add(c.id));
+      renderCandidatesTable();
+      showToast(`เลือกข้อมูล ${visibleList.length} คน เรียบร้อยแล้ว`);
+    }
+
+    function toggleSelectAllInTable(isChecked) {
+      const visibleList = getFilteredCandidates();
+      if (isChecked) visibleList.forEach(c => selectedCandidateIds.add(c.id));
+      else visibleList.forEach(c => selectedCandidateIds.delete(c.id));
+      renderCandidatesTable();
+    }
+
+    function clearSelectedInTable() {
+      selectedCandidateIds.clear();
+      const checkAll = document.getElementById('selectAllTableCheckbox');
+      if (checkAll) checkAll.checked = false;
+      renderCandidatesTable();
+      showToast("ยกเลิกการเลือกทั้งหมดแล้ว", "info");
+    }
+
+    function bulkUpdateStatus(newStatus) {
+      if (!newStatus) return;
+      const count = selectedCandidateIds.size;
+      if (count === 0) {
+        showToast("กรุณาเลือกรายชื่อผู้สมัครก่อนเปลี่ยนสถานะ", "error");
+        return;
+      }
+
+      candidates.forEach(c => {
+        if (selectedCandidateIds.has(c.id)) {
+          c.status = newStatus;
+        }
+      });
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderBranchHeadcountBoard();
+      updateKPICounters();
+      showToast(`อัปเดตสถานะ ${count} คน เป็น "${newStatus}" เรียบร้อยแล้ว`, "success");
+      syncToCloudflareWorker();
+    }
+
+    function deleteSelectedCandidates() {
+      const count = selectedCandidateIds.size;
+      if (count === 0) {
+        showToast("กรุณาเลือกผู้สมัครที่ต้องการลบก่อน", "error");
+        return;
+      }
+
+      candidates = candidates.filter(c => !selectedCandidateIds.has(c.id));
+      selectedCandidateIds.clear();
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderBranchHeadcountBoard();
+      renderCallCenterBoard();
+      renderScheduleBoard();
+      updateKPICounters();
+
+      showToast(`ลบรายการที่เลือก ${count} คน เรียบร้อยแล้ว`, "success");
+      syncToCloudflareWorker();
+    }
+
+    function updateBulkActionBar() {
+      const countBadge = document.getElementById('selectedCountBadge');
+      if (countBadge) countBadge.textContent = selectedCandidateIds.size;
     }
 
     function openQuickCallModal() {
@@ -1680,68 +2187,28 @@
         renderCandidatesTable();
         renderCallCenterBoard();
         updateKPICounters();
-        showToast(`บันทึกผลการโทรของ ${item.name} เป็น "${status}" แล้ว`, "success");
+        showToast(`บันทึกผลการโทรของ ${item.name} เรียบร้อยแล้ว`, "success");
         syncToCloudflareWorker();
       }
     }
 
-    function updateCandidateStatusInline(id, newStatus) {
-      const item = candidates.find(c => c.id === id);
-      if (item) {
-        item.status = newStatus;
-        persistDataLocally();
-        updateKPICounters();
-        showToast(`อัปเดตสถานะของ ${item.name} เป็น "${newStatus}" แล้ว`);
-        
-        // ส่งข้อมูลกลับไปอัปเดตช่อง X ใน Google Sheet และ Worker ทันที
-        writeBackStatusToSheet(item);
-        syncToCloudflareWorker();
-      }
-    }
-
-    // ฟังก์ชันส่งค่าสถานะช่อง X กลับไปบันทึกใน Google Sheet จริง
-    async function writeBackStatusToSheet(candidate) {
-      if (!candidate) return;
-
-      // 1. ส่งผ่าน Google Apps Script โดยตรง (ถ้ามีต่อไว้)
-      if (APPS_SCRIPT_URL) {
-        try {
-          await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // รองรับ Apps Script Web App POST redirection
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'updateStatusX',
-              token: DEFAULT_API_TOKEN,
-              rowNumber: candidate.rowNumber,
-              status: candidate.status,
-              callStatus: candidate.callStatus,
-              notes: candidate.notes
-            })
-          });
-          showToast(`☁️ อัปเดตช่อง X ใน Google Sheet แถวที่ ${candidate.rowNumber} แล้ว`, "success");
-        } catch (err) {
-          console.warn("Apps Script update notice:", err);
-        }
-      }
-    }
-    // --- ฟังก์ชันดึงข้อมูลสดโดยตรงจาก Google Sheets (Live Data Sync with Multi-Tier Fallback) ---
+    // =========================================================================
+    // 🌐 GOOGLE SHEETS LIVE SYNC ENGINE
+    // =========================================================================
     async function syncFromGoogleSheets(silent = false) {
       const icon = document.getElementById('syncSheetIcon');
       if (icon) icon.classList.add('animate-spin');
-      if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดผ่าน Cloudflare Worker...", "info");
+      if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดจาก Google Sheet...", "info");
 
-      const activeSheetId = extractCleanSheetId(GOOGLE_SHEET_ID);
+      const activeSheetId = extractCleanSheetId(GOOGLE_SHEET_ID) || "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
       let fetchedSuccess = false;
-      let lastErrorMessage = "";
 
       try {
-        // แผน 1: ดึงผ่าน Cloudflare Worker ที่เชื่อมต่อไว้ (wedhrm.jayppuza12.workers.dev)
+        // Step 1: Try fetching through Cloudflare Worker (wedhrm)
         if (workerApiUrl) {
           try {
             const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
-            const scriptParam = APPS_SCRIPT_URL ? `&scriptUrl=${encodeURIComponent(APPS_SCRIPT_URL)}` : '';
-            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${activeSheetId}${sheetTabParam}${scriptParam}`);
+            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${activeSheetId}${sheetTabParam}`);
             if (res.ok) {
               const resData = await res.json();
               if (resData.success && Array.isArray(resData.data) && resData.data.length > 0) {
@@ -1749,40 +2216,17 @@
                 fetchedSuccess = true;
               }
             }
-          } catch (workerErr) {
-            console.warn("Worker proxy notice, trying next method:", workerErr);
-            lastErrorMessage = workerErr.message;
+          } catch (wErr) {
+            console.warn("Worker proxy failed, trying direct CSV fetch:", wErr);
           }
         }
 
-        // แผน 2: ดึงผ่าน Google Apps Script Web App โดยตรง (ถ้ามีต่อไว้)
-        if (!fetchedSuccess && APPS_SCRIPT_URL) {
-          try {
-            const scriptUrl = new URL(APPS_SCRIPT_URL);
-            scriptUrl.searchParams.set('token', DEFAULT_API_TOKEN);
-            if (GOOGLE_SHEET_TAB) scriptUrl.searchParams.set('sheet', GOOGLE_SHEET_TAB);
-            
-            const scriptRes = await fetch(scriptUrl.toString());
-            if (scriptRes.ok) {
-              const scriptJson = await scriptRes.json();
-              if (scriptJson && scriptJson.success && Array.isArray(scriptJson.data) && scriptJson.data.length > 0) {
-                candidates = scriptJson.data;
-                fetchedSuccess = true;
-              }
-            }
-          } catch (scriptErr) {
-            console.warn("Apps Script fetch notice, trying next method:", scriptErr);
-            lastErrorMessage = scriptErr.message;
-          }
-        }
-
-        // แผน 3: ดึงตรงจาก Google Sheet ID (พร้อมระบบทะลวง CORS Proxy อัตโนมัติ)
-        if (!fetchedSuccess && activeSheetId) {
+        // Step 2: Direct Google Sheet CSV Fetch with fallback proxies
+        if (!fetchedSuccess) {
           const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
           const targetGvizUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/gviz/tq?tqx=out:csv${sheetTabParam}`;
           const targetExportUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/export?format=csv`;
 
-          // รายการ URL ที่จะลองเรียกตามลำดับ (ดึงตรง -> CORS Proxy 1 -> CORS Proxy 2)
           const urlsToTry = [
             targetGvizUrl,
             `https://corsproxy.io/?${encodeURIComponent(targetGvizUrl)}`,
@@ -1790,21 +2234,17 @@
           ];
 
           let csvText = null;
-
-          for (const url of urlsToTry) {
+          for (const u of urlsToTry) {
             try {
-              const resp = await fetch(url);
-              if (resp.ok) {
-                const text = await resp.text();
-                // ตรวจสอบว่าไม่ใช่หน้า HTML Login ของ Google
-                if (text && !text.includes('<!DOCTYPE html>') && !text.includes('accounts.google.com')) {
-                  csvText = text;
+              const r = await fetch(u);
+              if (r.ok) {
+                const t = await r.text();
+                if (t && !t.includes('<!DOCTYPE html>') && !t.includes('accounts.google.com')) {
+                  csvText = t;
                   break;
                 }
               }
-            } catch (tryErr) {
-              console.warn(`URL failed (${url}):`, tryErr);
-            }
+            } catch (err) {}
           }
 
           if (csvText) {
@@ -1814,8 +2254,8 @@
 
             if (rawRows && rawRows.length >= 2) {
               const headers = rawRows[0];
-              let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น
-              let timestampColIndex = 0; // คอลัมน์ A (Timestamp)
+              let statusColIndex = 23; // Column X default (index 23 = 24th col)
+              let timestampColIndex = 0;
               let nameColIndex = 1;
               let nicknameColIndex = 2;
               let phoneColIndex = 3;
@@ -1827,7 +2267,7 @@
                   if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status') || hLow.includes('ช่อง x')) {
                     statusColIndex = idx;
                   }
-                  if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
+                  if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp')) {
                     timestampColIndex = idx;
                   }
                   if (h.includes('ชื่อ-สกุล') || h.includes('ชื่อ - นามสกุล') || (h.includes('ชื่อ') && !h.includes('เล่น'))) {
@@ -1868,311 +2308,92 @@
                   id: 'gs-' + i,
                   rowNumber: i + 1,
                   appliedDate: parsedAppliedDate,
-    // ฟังก์ชันส่งค่าสถานะช่อง X กลับไปบันทึกใน Google Sheet จริง
-    async function writeBackStatusToSheet(candidate) {
-      if (!candidate) return;
+                  name: String(name).trim(),
+                  nickname: row[nicknameColIndex] ? String(row[nicknameColIndex]).trim() : (row[2] ? String(row[2]).trim() : ""),
+                  phone: String(phone).trim(),
+                  contact: row[contactColIndex] ? String(row[contactColIndex]).trim() : (row[5] ? String(row[5]).trim() : ""),
+                  subject: subject,
+                  type: rowText.includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
+                  branch: branch,
+                  status: status,
+                  callStatus: status === "ผ่าน" ? "โทรแล้ว - นัดวันแล้ว" : "ยังไม่ได้โทร",
+                  lastCallDate: "",
+                  interviewDate: "",
+                  announceDate: "",
+                  onboardDate: "",
+                  notes: `แถวที่ ${i + 1} (วันที่สมัคร: ${rawTimestamp || '-'})`
+                });
+              }
 
-      // 1. ส่งผ่าน Cloudflare Worker (wedhrm) ไปยัง KV & Backend
-      if (workerApiUrl) {
-        try {
-          await fetch(workerApiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'updateStatusX',
-              id: candidate.id,
-              rowNumber: candidate.rowNumber,
-              status: candidate.status,
-              callStatus: candidate.callStatus,
-              lastCallDate: candidate.lastCallDate,
-              interviewDate: candidate.interviewDate,
-              announceDate: candidate.announceDate,
-              onboardDate: candidate.onboardDate,
-              notes: candidate.notes
-            })
-          });
-        } catch (workerErr) {
-          console.warn("Worker status update notice:", workerErr);
-        }
-      }
-
-      // 2. ส่งผ่าน Google Apps Script โดยตรง (ถ้ามีต่อไว้)
-      if (APPS_SCRIPT_URL) {
-        try {
-          await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // รองรับ Apps Script Web App POST redirection
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'updateStatusX',
-              token: DEFAULT_API_TOKEN,
-              rowNumber: candidate.rowNumber,
-              status: candidate.status,
-              callStatus: candidate.callStatus,
-              notes: candidate.notes
-            })
-          });
-          showToast(`☁️ อัปเดตช่อง X ใน Google Sheet แถวที่ ${candidate.rowNumber} แล้ว`, "success");
-        } catch (err) {
-          console.warn("Apps Script update notice:", err);
-        }
-      }
-    }
-
-    // --- Modal Configuration for Google Sheets & Apps Script ---
-    function openSheetConfigModal() {
-      document.getElementById('sheetUrlOrIdInput').value = GOOGLE_SHEET_ID;
-      document.getElementById('sheetTabNameInput').value = GOOGLE_SHEET_TAB || "";
-      document.getElementById('appsScriptUrlInput').value = APPS_SCRIPT_URL || "";
-      document.getElementById('sheetConfigModal').classList.remove('hidden');
-    }
-
-    function closeSheetConfigModal() {
-      document.getElementById('sheetConfigModal').classList.add('hidden');
-    }
-
-    function resetDefaultSheetId() {
-      document.getElementById('sheetUrlOrIdInput').value = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
-      document.getElementById('sheetTabNameInput').value = "";
-      document.getElementById('appsScriptUrlInput').value = "";
-    }
-
-    async function testAndSaveSheetConnection() {
-      const inputVal = document.getElementById('sheetUrlOrIdInput').value.trim();
-      const tabVal = document.getElementById('sheetTabNameInput').value.trim();
-      const appsScriptVal = document.getElementById('appsScriptUrlInput').value.trim();
-      const badge = document.getElementById('sheetConnectionBadge');
-      const detail = document.getElementById('sheetDiagnosticDetail');
-
-      badge.textContent = "กำลังทดสอบเชื่อมต่อ...";
-      badge.className = "px-2 py-0.5 rounded text-[11px] bg-amber-100 text-amber-800 font-bold";
-      detail.textContent = `กำลังเชื่อมต่อและตรวจสอบสิทธิ์...`;
-
-      if (appsScriptVal) {
-        APPS_SCRIPT_URL = appsScriptVal;
-        localStorage.setItem('lnc_apps_script_url', APPS_SCRIPT_URL);
-      }
-
-      if (inputVal) {
-        const cleanId = extractCleanSheetId(inputVal);
-        GOOGLE_SHEET_ID = cleanId;
-        GOOGLE_SHEET_TAB = tabVal;
-        localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
-        localStorage.setItem('lnc_google_sheet_tab', GOOGLE_SHEET_TAB);
-      }
-
-      const result = await syncFromGoogleSheets(true);
-
-      if (result && result.success) {
-        badge.textContent = `เชื่อมต่อสำเร็จ (${result.count} แถว)`;
-        badge.className = "px-2 py-0.5 rounded text-[11px] bg-emerald-100 text-emerald-800 font-bold";
-        detail.textContent = `✅ ดึงข้อมูลสำเร็จ! อ่านวันที่จากคอลัมน์ A และสถานะช่อง X เรียบร้อยแล้ว พร้อมส่งค่ากลับได้`;
-        showToast(`บันทึกและซิงก์สำเร็จ ${result.count} รายการ`, "success");
-      } else {
-        badge.textContent = "เชื่อมต่อไม่ได้";
-        badge.className = "px-2 py-0.5 rounded text-[11px] bg-rose-100 text-rose-800 font-bold";
-        detail.textContent = `❌ ${result?.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล'}\n(คำแนะนำ: หากชีตเป็นส่วนตัว ให้คัดลอก Web App URL จาก Apps Script มาวางในช่องด้านบน)`;
-      }
-    }
-
-    function getFilteredCandidates() {
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      const st = document.getElementById('filterStatus').value;
-      const br = document.getElementById('filterBranch').value;
-      const tp = document.getElementById('filterType').value;
-      const callSt = document.getElementById('filterCallStatus').value;
-
-      // Date range filtering
-      const dateType = document.getElementById('dateFilterType').value;
-      const startDate = document.getElementById('dateFilterStart').value;
-      const endDate = document.getElementById('dateFilterEnd').value;
-
-      // Row range filtering
-      const rowStartVal = parseInt(document.getElementById('rowFilterStart').value, 10);
-      const rowEndVal = parseInt(document.getElementById('rowFilterEnd').value, 10);
-
-      return candidates.filter((c, idx) => {
-        // Text query
-        const matchQ = !q || 
-          (c.name && c.name.toLowerCase().includes(q)) ||
-          (c.nickname && c.nickname.toLowerCase().includes(q)) ||
-          (c.phone && c.phone.includes(q)) ||
-          (c.subject && c.subject.toLowerCase().includes(q)) ||
-          (c.notes && c.notes.toLowerCase().includes(q));
-
-        // Status match (ช่อง X)
-        const matchSt = (st === 'ALL') || (c.status === st);
-
-        // Branch match
-        const matchBr = (br === 'ALL') || (c.branch === br);
-
-        // Job type match
-        const matchTp = (tp === 'ALL') || (c.type === tp);
-
-        // Call status match
-        const matchCall = (callSt === 'ALL') || (c.callStatus === callSt);
-
-        // Row range match
-        const candidateRowNum = c.rowNumber || (idx + 2);
-        let matchRow = true;
-        if (!isNaN(rowStartVal) && candidateRowNum < rowStartVal) matchRow = false;
-        if (!isNaN(rowEndVal) && candidateRowNum > rowEndVal) matchRow = false;
-
-        // Date Range logic (รองรับทั้งดูเจาะจงวันเดียว หรือดูแบบช่วงวันที่)
-        let matchDate = true;
-        if (startDate || endDate) {
-          const rawDateVal = c[dateType];
-          const targetDateVal = parseDateToIso(rawDateVal) || rawDateVal;
-          if (!targetDateVal) {
-            matchDate = false;
-          } else {
-            if (startDate && !endDate) {
-              // เลือกเฉพาะวันเดียว
-              if (targetDateVal !== startDate) matchDate = false;
-            } else {
-              if (startDate && targetDateVal < startDate) matchDate = false;
-              if (endDate && targetDateVal > endDate) matchDate = false;
+              if (parsedList.length > 0) {
+                candidates = parsedList;
+                fetchedSuccess = true;
+              }
             }
           }
         }
 
-        return matchQ && matchSt && matchBr && matchTp && matchCall && matchRow && matchDate;
-      });
-    }
-
-    function resetFilters() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('filterStatus').value = 'ALL';
-      document.getElementById('filterBranch').value = 'ALL';
-      document.getElementById('filterType').value = 'ALL';
-      document.getElementById('filterCallStatus').value = 'ALL';
-      document.getElementById('dateFilterStart').value = '';
-      document.getElementById('dateFilterEnd').value = '';
-      document.getElementById('rowFilterStart').value = '';
-      document.getElementById('rowFilterEnd').value = '';
-      renderCandidatesTable();
-      showToast("ล้างตัวกรองทั้งหมดแล้ว", "info");
-    }
-
-    function editCandidate(id) {
-      const c = candidates.find(item => item.id === id);
-      if (!c) return;
-
-      currentEditingId = id;
-      document.getElementById('modalCandidateTitle').textContent = `แก้ไขข้อมูล: ${c.name}`;
-      document.getElementById('cId').value = c.id;
-      document.getElementById('cName').value = c.name || "";
-      document.getElementById('cNickname').value = c.nickname || "";
-      document.getElementById('cPhone').value = c.phone || "";
-      document.getElementById('cContact').value = c.contact || "";
-      document.getElementById('cSubject').value = c.subject || "คณิตศาสตร์";
-      document.getElementById('cType').value = c.type || "ครูประจำ";
-      document.getElementById('cBranch').value = c.branch || "สาขาข้างเซ็นทรัล พระราม 2";
-      document.getElementById('cStatus').value = c.status || "รอสัมภาษณ์";
-      document.getElementById('cCallStatus').value = c.callStatus || "ยังไม่ได้โทร";
-      document.getElementById('cLastCallDate').value = c.lastCallDate || "";
-      document.getElementById('cAppliedDate').value = parseDateToIso(c.appliedDate) || "";
-      document.getElementById('cInterviewDate').value = parseDateToIso(c.interviewDate) || "";
-      document.getElementById('cAnnounceDate').value = parseDateToIso(c.announceDate) || "";
-      document.getElementById('cOnboardDate').value = parseDateToIso(c.onboardDate) || "";
-      document.getElementById('cNotes').value = c.notes || "";
-
-      document.getElementById('candidateModal').classList.remove('hidden');
-    }
-
-    function saveCandidate(e) {
-      e.preventDefault();
-
-      const existingItem = currentEditingId ? candidates.find(i => i.id === currentEditingId) : null;
-      const candidateObj = {
-        id: currentEditingId || 'c-' + Date.now(),
-        rowNumber: existingItem?.rowNumber || (candidates.length + 2),
-        appliedDate: document.getElementById('cAppliedDate').value || getTodayString(),
-        name: document.getElementById('cName').value.trim(),
-        nickname: document.getElementById('cNickname').value.trim(),
-        phone: document.getElementById('cPhone').value.trim(),
-        contact: document.getElementById('cContact').value.trim(),
-        subject: document.getElementById('cSubject').value,
-        type: document.getElementById('cType').value,
-        branch: document.getElementById('cBranch').value,
-        status: document.getElementById('cStatus').value,
-        callStatus: document.getElementById('cCallStatus').value,
-        lastCallDate: document.getElementById('cLastCallDate').value,
-        interviewDate: document.getElementById('cInterviewDate').value,
-        announceDate: document.getElementById('cAnnounceDate').value,
-        onboardDate: document.getElementById('cOnboardDate').value,
-        notes: document.getElementById('cNotes').value.trim()
-      };
-
-      if (currentEditingId) {
-        const index = candidates.findIndex(item => item.id === currentEditingId);
-        if (index !== -1) candidates[index] = candidateObj;
-        showToast(`แก้ไขข้อมูล ${candidateObj.name} เรียบร้อยแล้ว`);
-      } else {
-        candidates.unshift(candidateObj);
-        showToast(`เพิ่มผู้สมัคร ${candidateObj.name} เรียบร้อยแล้ว`);
+        if (fetchedSuccess) {
+          persistDataLocally();
+          renderCandidatesTable();
+          renderBranchHeadcountBoard();
+          renderCallCenterBoard();
+          renderScheduleBoard();
+          updateKPICounters();
+          if (!silent) showToast(`ซิงก์ข้อมูลสดสำเร็จ (${candidates.length} คน) พร้อมวันที่คอลัมน์ A`, "success");
+          return { success: true, count: candidates.length };
+        } else {
+          throw new Error("ไม่สามารถดึงข้อมูลได้ (กรุณาตรวจการแชร์เป็น 'ทุกคนที่มีลิงก์มีสิทธิ์ดู')");
+        }
+      } catch (err) {
+        console.warn("Google Sheet Sync Note:", err);
+        if (!silent) showToast(`การเชื่อมต่อ: ${err.message}`, "info");
+        return { success: false, error: err.message };
+      } finally {
+        if (icon) icon.classList.remove('animate-spin');
       }
-
-      persistDataLocally();
-      closeCandidateModal();
-      renderCandidatesTable();
-      renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
-      renderScheduleBoard();
-      updateKPICounters();
-      syncToCloudflareWorker();
     }
 
-    function deleteCandidate(id) {
-      const c = candidates.find(item => item.id === id);
-      if (!c) return;
-
-      candidates = candidates.filter(item => item.id !== id);
-      persistDataLocally();
-      renderCandidatesTable();
-      renderCallCenterBoard();
-      renderBranchCards();
-      renderScheduleBoard();
-      updateKPICounters();
-      showToast(`ลบข้อมูล ${c.name} แล้ว`, "info");
-      syncToCloudflareWorker();
+    async function syncToCloudflareWorker() {
+      if (!workerApiUrl) return;
+      try {
+        await fetch(workerApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'saveCandidates', candidates: candidates })
+        });
+      } catch (e) {
+        console.warn("Worker sync notice:", e);
+      }
     }
 
-    function updateKPICounters() {
-      document.getElementById('kpiTotal').textContent = candidates.length;
-      
-      const passed = candidates.filter(c => c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว').length;
-      document.getElementById('kpiPassed').textContent = passed;
+    function detectBranch(rowText) {
+      if (rowText.includes("เซ็นทรัล พระราม 2")) return "สาขาข้างเซ็นทรัล พระราม 2";
+      if (rowText.includes("เดอะไบร์ท")) return "สาขาเดอะไบร์ท พระราม 2";
+      if (rowText.includes("มหาชัย") || rowText.includes("แลนด์มาร์ค")) return "สาขาแลนด์มาร์ค มหาชัย";
+      if (rowText.includes("ราชพฤกษ์") || rowText.includes("เดอะวอล์ค")) return "สาขาเดอะวอล์ค ราชพฤกษ์";
+      if (rowText.includes("เชียงใหม่") || rowText.includes("Meta")) return "สาขา Meta Mall เชียงใหม่";
+      if (rowText.includes("บางนา") || rowText.includes("Happitat")) return "สาขา Happitat บางนา";
+      return "สาขาข้างเซ็นทรัล พระราม 2";
+    }
 
-      const waiting = candidates.filter(c => c.status === 'รอสัมภาษณ์').length;
-      document.getElementById('kpiWaiting').textContent = waiting;
-
-      const calledWaiting = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์').length;
-      document.getElementById('kpiCalledWaiting').textContent = calledWaiting;
-
-      const parttime = candidates.filter(c => c.type === 'พาร์ทไทม์').length;
-      document.getElementById('kpiParttime').textContent = parttime;
+    function detectSubject(rowText) {
+      for (const sub of SUBJECT_LIST) {
+        if (rowText.includes(sub)) return sub;
+      }
+      return "คณิตศาสตร์";
     }
 
     function openCsvModal() {
-      resetImportStep();
+      document.getElementById('csvUploadStep').classList.remove('hidden');
+      document.getElementById('csvPreviewStep').classList.add('hidden');
+      document.getElementById('btnConfirmImport').classList.add('hidden');
+      document.getElementById('csvFileInput').value = '';
       document.getElementById('csvModal').classList.remove('hidden');
     }
 
     function closeCsvModal() {
       document.getElementById('csvModal').classList.add('hidden');
-      resetImportStep();
-    }
-
-    function resetImportStep() {
-      pendingImportCandidates = [];
-      document.getElementById('csvUploadStep').classList.remove('hidden');
-      document.getElementById('csvPreviewStep').classList.add('hidden');
-      document.getElementById('previewSecondaryActions').classList.add('hidden');
-      document.getElementById('btnConfirmImport').classList.add('hidden');
-      document.getElementById('csvModalTitle').textContent = "นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV";
-      document.getElementById('csvFileInput').value = "";
     }
 
     function handleFileSelect(e) {
@@ -2184,41 +2405,28 @@
         try {
           const data = new Uint8Array(evt.target.result);
           const workbook = XLSX.read(data, { type: 'array' });
-          const firstSheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[firstSheetName];
-          const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const firstSheet = workbook.SheetNames[0];
+          const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
 
           if (rawRows.length < 2) {
-            showToast("ไฟล์ไม่มีแถวข้อมูลที่เพียงพอ", "error");
+            showToast("ไฟล์ไม่มีข้อมูลที่เพียงพอ", "error");
             return;
           }
 
           const headers = rawRows[0];
-          let statusColIndex = 23; // Column X index
-          let timestampColIndex = 0; // Timestamp / Applied date column
+          let statusColIndex = 23;
+          let timestampColIndex = 0;
 
           headers.forEach((h, idx) => {
             if (h && typeof h === 'string') {
               const hLow = h.toLowerCase();
-              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status')) {
-                statusColIndex = idx;
-              }
-              if (h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
-                timestampColIndex = idx;
-              }
+              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์')) statusColIndex = idx;
+              if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่')) timestampColIndex = idx;
             }
           });
 
-          // Check Custom Row Range selection
-          const importMode = document.querySelector('input[name="importRowMode"]:checked')?.value || 'all';
-          const fromRow = importMode === 'custom' ? Math.max(1, parseInt(document.getElementById('importRowFrom').value, 10) - 1 || 1) : 1;
-          const toRow = importMode === 'custom' && document.getElementById('importRowTo').value 
-            ? Math.min(rawRows.length - 1, parseInt(document.getElementById('importRowTo').value, 10) - 1) 
-            : rawRows.length - 1;
-
           pendingImportCandidates = [];
-
-          for (let i = fromRow; i <= toRow; i++) {
+          for (let i = 1; i < rawRows.length; i++) {
             const row = rawRows[i];
             if (!row || row.length === 0) continue;
 
@@ -2226,12 +2434,13 @@
             if (!name || String(name).trim() === '') continue;
 
             const phone = row[3] || row[4] || "";
-            const subject = detectSubject(row.join(' '));
-            const branch = detectBranch(row.join(' '));
+            const rowText = row.join(' ');
+            const subject = detectSubject(rowText);
+            const branch = detectBranch(rowText);
             const statusRaw = row[statusColIndex] || row[23] || "";
             const rawTimestamp = row[timestampColIndex] || row[0] || "";
             const parsedAppliedDate = parseDateToIso(rawTimestamp) || getTodayString();
-            
+
             let status = "รอสัมภาษณ์";
             if (statusRaw) {
               const sStr = String(statusRaw).trim();
@@ -2252,7 +2461,7 @@
               phone: String(phone).trim(),
               contact: row[5] ? String(row[5]).trim() : "",
               subject: subject,
-              type: row.join(' ').includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
+              type: rowText.includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
               branch: branch,
               status: status,
               callStatus: "ยังไม่ได้โทร",
@@ -2260,20 +2469,13 @@
               interviewDate: "",
               announceDate: "",
               onboardDate: "",
-              notes: `นำเข้าจากแถวที่ ${i + 1} (${file.name})`
+              notes: `นำเข้าจากไฟล์: ${file.name}`
             });
           }
 
-          if (pendingImportCandidates.length === 0) {
-            showToast("ไม่พบรายชื่อผู้สมัครที่ถูกต้องในช่วงแถวที่เลือก", "error");
-            return;
-          }
-
           renderPreviewTable();
-
         } catch (err) {
-          console.error("CSV Import Error:", err);
-          showToast("ไม่สามารถประมวลผลไฟล์ได้ กรุณาตรวจสอบฟอร์แมต", "error");
+          showToast("ไม่สามารถเปิดไฟล์ได้ กรุณาตรวจฟอร์แมต", "error");
         }
       };
       reader.readAsArrayBuffer(file);
@@ -2290,41 +2492,23 @@
       document.getElementById('previewSelectedCount').textContent = selectedCount;
       document.getElementById('confirmImportBtnLabel').textContent = `ยืนยันนำเข้า ${selectedCount} คน`;
 
-      // Switch view to preview step
       document.getElementById('csvUploadStep').classList.add('hidden');
       document.getElementById('csvPreviewStep').classList.remove('hidden');
-      document.getElementById('previewSecondaryActions').classList.remove('hidden');
       document.getElementById('btnConfirmImport').classList.remove('hidden');
-      document.getElementById('csvModalTitle').textContent = `ตรวจสอบรายชื่อ (${total} รายการ)`;
 
-      pendingImportCandidates.forEach((c, idx) => {
+      pendingImportCandidates.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = `hover:bg-slate-50 dark:hover:bg-slate-800/60 ${c.selected ? '' : 'opacity-40 line-through bg-slate-100/50 dark:bg-slate-850/40'}`;
-
+        tr.className = `hover:bg-slate-50 dark:hover:bg-slate-800 ${c.selected ? '' : 'opacity-40 line-through'}`;
         tr.innerHTML = `
-          <td class="p-2.5 text-center">
-            <input type="checkbox" ${c.selected ? 'checked' : ''} onchange="togglePreviewRowSelection('${c.tempId}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
+          <td class="p-2 text-center">
+            <input type="checkbox" ${c.selected ? 'checked' : ''} onchange="togglePreviewRowSelection('${c.tempId}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400">
           </td>
-          <td class="p-2.5 font-bold text-slate-800 dark:text-slate-100">
-            ${c.name} ${c.nickname ? `<span class="text-xs text-brand-pink">(${c.nickname})</span>` : ''}
-            <div class="text-[11px] text-slate-400 font-normal">${c.phone || '-'}</div>
-          </td>
-          <td class="p-2.5 text-slate-700 dark:text-slate-300 font-medium">${c.subject}</td>
-          <td class="p-2.5">
-            <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${c.type === 'ครูประจำ' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300' : 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'}">
-              ${c.type}
-            </span>
-          </td>
-          <td class="p-2.5 text-slate-600 dark:text-slate-400 max-w-[150px] truncate">${c.branch}</td>
-          <td class="p-2.5 text-center">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.status === 'ผ่าน' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300'}">
-              ${c.status}
-            </span>
-          </td>
-          <td class="p-2.5 text-center">
-            <button onclick="removePreviewRow('${c.tempId}')" title="ลบแถวนี้ออกจากรายการนำเข้า" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
+          <td class="p-2 font-bold">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</td>
+          <td class="p-2">${c.subject}</td>
+          <td class="p-2 truncate max-w-[120px]">${c.branch}</td>
+          <td class="p-2 font-bold ${c.status === 'ผ่าน' ? 'text-emerald-600' : 'text-amber-600'}">${c.status}</td>
+          <td class="p-2 text-center">
+            <button onclick="removePreviewRow('${c.tempId}')" class="text-slate-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -2334,13 +2518,12 @@
     }
 
     function togglePreviewRowSelection(tempId, isChecked) {
-      const item = pendingImportCandidates.find(c => c.tempId === tempId);
-      if (item) {
-        item.selected = isChecked;
+      const it = pendingImportCandidates.find(c => c.tempId === tempId);
+      if (it) {
+        it.selected = isChecked;
         const selectedCount = pendingImportCandidates.filter(c => c.selected).length;
         document.getElementById('previewSelectedCount').textContent = selectedCount;
         document.getElementById('confirmImportBtnLabel').textContent = `ยืนยันนำเข้า ${selectedCount} คน`;
-        renderPreviewTable();
       }
     }
 
@@ -2351,25 +2534,17 @@
 
     function removePreviewRow(tempId) {
       pendingImportCandidates = pendingImportCandidates.filter(c => c.tempId !== tempId);
-      if (pendingImportCandidates.length === 0) {
-        resetImportStep();
-        showToast("นำรายการออกทั้งหมดแล้ว", "info");
-      } else {
-        renderPreviewTable();
-      }
+      renderPreviewTable();
     }
 
     function confirmImportSelected() {
       const selectedItems = pendingImportCandidates.filter(c => c.selected);
       if (selectedItems.length === 0) {
-        showToast("กรุณาเลือกอย่างน้อย 1 รายการเพื่อนำเข้า", "error");
+        showToast("กรุณาเลือกอย่างน้อย 1 รายการ", "error");
         return;
       }
 
-      // Record batch IDs for the Undo feature
       lastImportedBatchIds = selectedItems.map(c => c.id);
-
-      // Add selected candidates to main candidate store
       selectedItems.forEach(item => {
         const { tempId, selected, ...cleanItem } = item;
         candidates.unshift(cleanItem);
@@ -2377,112 +2552,40 @@
 
       persistDataLocally();
       renderCandidatesTable();
+      renderBranchHeadcountBoard();
       renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
       renderScheduleBoard();
       updateKPICounters();
       closeCsvModal();
 
-      // Show Undo button
       const undoBtn = document.getElementById('btnUndoImport');
-      const undoText = document.getElementById('undoImportText');
       if (undoBtn) {
         undoBtn.classList.remove('hidden');
-        undoText.textContent = `ยกเลิกนำเข้าล่าสุด (${selectedItems.length} คน)`;
+        document.getElementById('undoImportText').textContent = `ยกเลิกนำเข้าล่าสุด (${selectedItems.length} คน)`;
       }
 
-      showToast(`นำเข้าสำเร็จ ${selectedItems.length} คน (สามารถกดยกเลิกนำเข้าได้)`, "success");
+      showToast(`นำเข้าสำเร็จ ${selectedItems.length} คน เรียบร้อยแล้ว`, "success");
       syncToCloudflareWorker();
     }
 
     function undoLatestImport() {
       if (!lastImportedBatchIds || lastImportedBatchIds.length === 0) return;
-
       const count = lastImportedBatchIds.length;
       candidates = candidates.filter(c => !lastImportedBatchIds.includes(c.id));
       lastImportedBatchIds = [];
-
-      // Hide undo button
       document.getElementById('btnUndoImport').classList.add('hidden');
 
       persistDataLocally();
       renderCandidatesTable();
+      renderBranchHeadcountBoard();
       renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
       renderScheduleBoard();
       updateKPICounters();
-
-      showToast(`ยกเลิกและลบข้อมูลที่นำเข้า ${count} รายการออกแล้ว`, "info");
+      showToast(`ยกเลิกและนำข้อมูลออก ${count} รายการแล้ว`, "info");
       syncToCloudflareWorker();
     }
 
-    // --- Bulk Selection in Main Table ---
-    function toggleSelectCandidate(id, isChecked) {
-      if (isChecked) {
-        selectedCandidateIds.add(id);
-      } else {
-        selectedCandidateIds.delete(id);
-      }
-      updateBulkActionBar();
-    }
-
-    // ฟังก์ชันเลือกทั้งหมดในตาราง (Select All Visible)
-    function selectAllCandidates() {
-      const visibleList = getFilteredCandidates();
-      if (visibleList.length === 0) {
-        showToast("ไม่มีข้อมูลในตารางให้เลือก", "info");
-        return;
-      }
-      visibleList.forEach(c => selectedCandidateIds.add(c.id));
-      renderCandidatesTable();
-      showToast(`เลือกข้อมูลผู้สมัครทั้งหมด ${visibleList.length} คน แล้ว`, "info");
-    }
-
-    function toggleSelectAllInTable(isChecked) {
-      const visibleList = getFilteredCandidates();
-      if (isChecked) {
-        visibleList.forEach(c => selectedCandidateIds.add(c.id));
-      } else {
-        visibleList.forEach(c => selectedCandidateIds.delete(c.id));
-      }
-      renderCandidatesTable();
-    }
-
-    function clearSelectedInTable() {
-      selectedCandidateIds.clear();
-      const checkAll = document.getElementById('selectAllTableCheckbox');
-      if (checkAll) checkAll.checked = false;
-      renderCandidatesTable();
-      showToast("ยกเลิกการเลือกทั้งหมดแล้ว", "info");
-    }
-
-    // ฟังก์ชันเปลี่ยนสถานะช่อง X แบบกลุ่มพร้อมกัน
-    function bulkUpdateStatus(newStatus) {
-      if (!newStatus) return;
-      const count = selectedCandidateIds.size;
-      if (count === 0) {
-        showToast("กรุณาเลือกรายชื่อผู้สมัครก่อนเปลี่ยนสถานะ", "error");
-        return;
-      }
-
-      candidates.forEach(c => {
-        if (selectedCandidateIds.has(c.id)) {
-          c.status = newStatus;
-        }
-      });
-
-      persistDataLocally();
-      renderCandidatesTable();
-      renderBranchCards();
-      renderScheduleBoard();
-      updateKPICounters();
-      showToast(`อัปเดตสถานะช่อง X ของผู้สมัคร ${count} คน เป็น "${newStatus}" เรียบร้อยแล้ว`, "success");
-      syncToCloudflareWorker();
-    }
-
-    // --- ฟังก์ชันจัดการล้างข้อมูล & นำข้อมูล CSV ออก ---
+    // Clear Data Handlers
     function openClearDataModal() {
       document.getElementById('clearDataModal').classList.remove('hidden');
     }
@@ -2491,442 +2594,35 @@
       document.getElementById('clearDataModal').classList.add('hidden');
     }
 
-    // 1. ลบเฉพาะรายการที่นำเข้าจาก CSV / Google Sheet (ID ขึ้นต้นด้วย imp- หรือ gs-)
     function executeClearImportedOnly() {
-      const initialCount = candidates.length;
+      const countBefore = candidates.length;
       candidates = candidates.filter(c => !c.id.startsWith('imp-') && !c.id.startsWith('gs-'));
-      const removedCount = initialCount - candidates.length;
-
       persistDataLocally();
-      clearSelectedInTable();
       renderCandidatesTable();
-      renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
-      renderScheduleBoard();
+      renderBranchHeadcountBoard();
       updateKPICounters();
       closeClearDataModal();
-
-      showToast(`ลบข้อมูลที่นำเข้าทั้งหมดแล้ว (${removedCount} รายการ)`, "info");
+      showToast(`ลบข้อมูลที่นำเข้าแล้ว (${countBefore - candidates.length} คน)`, "info");
       syncToCloudflareWorker();
     }
 
-    // 2. ล้างข้อมูลทั้งหมดในตาราง (0 คน)
     function executeClearAll() {
-      const removedCount = candidates.length;
       candidates = [];
-
       persistDataLocally();
-      clearSelectedInTable();
       renderCandidatesTable();
-      renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
-      renderScheduleBoard();
+      renderBranchHeadcountBoard();
       updateKPICounters();
       closeClearDataModal();
-
-      showToast(`ล้างข้อมูลในระบบทั้งหมดเรียบร้อยแล้ว (${removedCount} รายการ)`, "info");
+      showToast("ล้างข้อมูลทั้งหมดในระบบเรียบร้อยแล้ว", "info");
       syncToCloudflareWorker();
     }
 
-    // 3. คืนค่าเป็นข้อมูลตัวอย่างเริ่มต้น
     function executeResetDefaults() {
       localStorage.removeItem('lnc_recruitment_candidates');
       location.reload();
     }
 
-    function updateBulkActionBar() {
-      const countBadge = document.getElementById('selectedCountBadge');
-      if (countBadge) {
-        countBadge.textContent = selectedCandidateIds.size;
-      }
-    }
-
-    function deleteSelectedCandidates() {
-      const count = selectedCandidateIds.size;
-      if (count === 0) {
-        showToast("กรุณาเลือกผู้สมัครที่ต้องการลบก่อน", "error");
-        return;
-      }
-
-      candidates = candidates.filter(c => !selectedCandidateIds.has(c.id));
-      selectedCandidateIds.clear();
-
-      persistDataLocally();
-      renderCandidatesTable();
-      renderCallCenterBoard();
-      renderBranchCards();
-      renderParttimePool();
-      renderScheduleBoard();
-      updateKPICounters();
-
-      showToast(`ลบรายการที่เลือกทั้งหมด ${count} คน เรียบร้อยแล้ว`, "success");
-      syncToCloudflareWorker();
-    }
-
-    function closeCsvModal() {
-      document.getElementById('csvModal').classList.add('hidden');
-      document.getElementById('csvFileInput').value = "";
-    }
-
-    function handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        try {
-          const data = new Uint8Array(evt.target.result);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const firstSheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[firstSheetName];
-          const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-          if (rawRows.length < 2) {
-            showToast("ไฟล์ไม่มีแถวข้อมูลที่เพียงพอ", "error");
-            return;
-          }
-
-          const headers = rawRows[0];
-          let importedCount = 0;
-          let statusColIndex = 23; // Column X index
-
-          headers.forEach((h, idx) => {
-            if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์'))) {
-              statusColIndex = idx;
-            }
-          });
-
-          for (let i = 1; i < rawRows.length; i++) {
-            const row = rawRows[i];
-            if (!row || row.length === 0) continue;
-
-            const name = row[1] || row[2] || `ผู้สมัคร #${i}`;
-            const phone = row[3] || row[4] || "";
-            const subject = detectSubject(row.join(' '));
-            const branch = detectBranch(row.join(' '));
-            const statusRaw = row[statusColIndex] || row[23] || "";
-            
-            let status = "รอสัมภาษณ์";
-            if (statusRaw) {
-              const sStr = String(statusRaw).trim();
-              if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
-              else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
-              else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
-              else if (sStr.includes('แจ้งเข้า')) status = "แจ้งเข้างานแล้ว";
-            }
-
-            candidates.unshift({
-              id: 'imp-' + Date.now() + '-' + i,
-              name: String(name).trim(),
-              nickname: "",
-              phone: String(phone).trim(),
-              contact: "",
-              subject: subject,
-              type: row.join(' ').includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
-              branch: branch,
-              status: status,
-              callStatus: "ยังไม่ได้โทร",
-              lastCallDate: "",
-              interviewDate: "",
-              announceDate: "",
-              onboardDate: "",
-              notes: "นำเข้าจากไฟล์: " + file.name
-            });
-            importedCount++;
-          }
-
-          persistDataLocally();
-          renderCandidatesTable();
-          renderCallCenterBoard();
-          renderBranchCards();
-          renderParttimePool();
-          updateKPICounters();
-          closeCsvModal();
-          showToast(`นำเข้าข้อมูลสำเร็จ ${importedCount} รายการ (อิงข้อมูลช่อง X)`, "success");
-
-        } catch (err) {
-          console.error("CSV Import Error:", err);
-          showToast("ไม่สามารถประมวลผลไฟล์ได้ กรุณาตรวจสอบฟอร์แมต", "error");
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    function detectBranch(rowText) {
-      if (rowText.includes("เซ็นทรัล พระราม 2")) return "สาขาข้างเซ็นทรัล พระราม 2";
-      if (rowText.includes("เดอะไบร์ท")) return "สาขาเดอะไบร์ท พระราม 2";
-      if (rowText.includes("มหาชัย") || rowText.includes("แลนด์มาร์ค")) return "สาขาแลนด์มาร์ค มหาชัย";
-      if (rowText.includes("ราชพฤกษ์") || rowText.includes("เดอะวอล์ค")) return "สาขาเดอะวอล์ค ราชพฤกษ์";
-      if (rowText.includes("เชียงใหม่") || rowText.includes("Meta")) return "สาขา Meta Mall เชียงใหม่";
-      if (rowText.includes("บางนา") || rowText.includes("Happitat")) return "สาขา Happitat บางนา";
-      return "สาขาข้างเซ็นทรัล พระราม 2";
-    }
-
-    function detectSubject(rowText) {
-      for (const sub of SUBJECT_LIST) {
-        if (rowText.includes(sub)) return sub;
-      }
-      return "คณิตศาสตร์";
-    }
-
-    // --- ฟังก์ชันดึงข้อมูลสดโดยตรงจาก Google Sheets (Live Data Sync) ---
-    async function syncFromGoogleSheets(silent = false) {
-      const icon = document.getElementById('syncSheetIcon');
-      if (icon) icon.classList.add('animate-spin');
-      if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดจาก Google Sheet...", "info");
-
-      const activeSheetId = extractCleanSheetId(GOOGLE_SHEET_ID);
-
-      try {
-        let fetchedSuccess = false;
-
-        // 1. ลองดึงผ่าน Cloudflare Worker ก่อน (ถ้ามีตั้งค่าไว้ เพื่อเลี่ยง CORS)
-        if (workerApiUrl) {
-          try {
-            const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
-            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${activeSheetId}${sheetTabParam}`);
-            if (res.ok) {
-              const resData = await res.json();
-              if (resData.success && Array.isArray(resData.data) && resData.data.length > 0) {
-                candidates = resData.data;
-                fetchedSuccess = true;
-              }
-            }
-          } catch (e) {
-            console.warn("Worker proxy error, switching to direct fetch:", e);
-          }
-        }
-
-        // 2. หากไม่มี Worker ให้ดึงตรงผ่าน Google Visualization API (GViz) พร้อม Fallback export?format=csv
-        if (!fetchedSuccess) {
-          const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
-          const primaryUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/gviz/tq?tqx=out:csv${sheetTabParam}`;
-          const fallbackUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/export?format=csv`;
-
-          let response;
-          try {
-            response = await fetch(primaryUrl);
-            if (!response.ok) throw new Error(`Primary response status: ${response.status}`);
-          } catch (fetchErr) {
-            console.warn("Primary gviz failed, trying fallback export url:", fetchErr);
-            response = await fetch(fallbackUrl);
-          }
-
-          if (!response || !response.ok) {
-            throw new Error(`Google Sheet ตอบกลับรหัส ${response?.status || 'Network Error'} (กรุณาตรวจสอบว่าตั้งค่าแชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" แล้วหรือยัง)`);
-          }
-
-          const csvText = await response.text();
-          const workbook = XLSX.read(csvText, { type: 'string' });
-          const firstSheet = workbook.SheetNames[0];
-          const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
-
-          if (rawRows.length < 2) {
-            throw new Error("ไม่พบแถวข้อมูลในชีต หรือตารางในแท็บแรกว่างเปล่า");
-          }
-
-          const headers = rawRows[0];
-          let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น (Index 23 = คอลัมน์ที่ 24)
-          let timestampColIndex = 0; // คอลัมน์ A (Index 0 = ประทับเวลา/วันที่ส่งใบสมัคร)
-          let nameColIndex = 1;
-          let nicknameColIndex = 2;
-          let phoneColIndex = 3;
-          let contactColIndex = 4;
-
-          headers.forEach((h, idx) => {
-            if (h && typeof h === 'string') {
-              const hLow = h.toLowerCase().trim();
-              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status') || hLow.includes('ช่อง x')) {
-                statusColIndex = idx;
-              }
-              // ตรวจจับคอลัมน์วันที่สมัครจากคอลัมน์ A หรือชื่อหัวตาราง
-              if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
-                timestampColIndex = idx;
-              }
-              if (h.includes('ชื่อ-สกุล') || h.includes('ชื่อ - นามสกุล') || (h.includes('ชื่อ') && !h.includes('เล่น'))) {
-                nameColIndex = idx;
-              }
-              if (h.includes('ชื่อเล่น')) {
-                nicknameColIndex = idx;
-              }
-              if (h.includes('เบอร์') || h.includes('โทร') || hLow.includes('phone')) {
-                phoneColIndex = idx;
-              }
-            }
-          });
-
-          const parsedList = [];
-          for (let i = 1; i < rawRows.length; i++) {
-            const row = rawRows[i];
-            if (!row || row.length === 0) continue;
-
-            const name = row[nameColIndex] || row[1] || row[2] || `ผู้สมัคร #${i}`;
-            if (!name || String(name).trim() === '') continue;
-
-            const phone = row[phoneColIndex] || row[3] || row[4] || "";
-            const rowText = row.join(' ');
-            const subject = detectSubject(rowText);
-            const branch = detectBranch(rowText);
-            
-            // ดึงข้อมูลสถานะจากช่อง X
-            const statusRaw = row[statusColIndex] || row[23] || "";
-            
-            // ดึงข้อมูลวันที่สมัครจากคอลัมน์ A (Timestamp)
-            const rawTimestamp = row[timestampColIndex] !== undefined ? row[timestampColIndex] : (row[0] || "");
-            const parsedAppliedDate = parseDateToIso(rawTimestamp) || "";
-
-            let status = "รอสัมภาษณ์";
-            if (statusRaw) {
-              const sStr = String(statusRaw).trim();
-              if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
-              else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
-              else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
-              else if (sStr.includes('แจ้งเข้า') || sStr.includes('เริ่มงาน')) status = "แจ้งเข้างานแล้ว";
-            }
-
-            parsedList.push({
-              id: 'gs-' + i,
-              rowNumber: i + 1,
-              appliedDate: parsedAppliedDate, // วันที่สมัครสกัดจากคอลัมน์ A
-              appliedDateRaw: String(rawTimestamp).trim(), // เก็บข้อความดิบจากคอลัมน์ A ไว้เผื่ออ้างอิง
-              name: String(name).trim(),
-              nickname: row[nicknameColIndex] ? String(row[nicknameColIndex]).trim() : (row[2] ? String(row[2]).trim() : ""),
-              phone: String(phone).trim(),
-              contact: row[contactColIndex] ? String(row[contactColIndex]).trim() : (row[5] ? String(row[5]).trim() : ""),
-              subject: subject,
-              type: rowText.includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
-              branch: branch,
-              status: status, // อิงข้อมูลช่อง X
-              rawStatusX: String(statusRaw).trim(),
-              callStatus: status === "ผ่าน" ? "โทรแล้ว - นัดวันแล้ว" : "ยังไม่ได้โทร",
-              lastCallDate: "",
-              interviewDate: "",
-              announceDate: "",
-              onboardDate: "",
-              notes: `ดึงจาก Google Sheet แถวที่ ${i + 1} (วันที่คอลัมน์ A: ${rawTimestamp || '-'})`
-            });
-          }
-
-          if (parsedList.length > 0) {
-            candidates = parsedList;
-            fetchedSuccess = true;
-          }
-        }
-
-        if (fetchedSuccess) {
-          persistDataLocally();
-          renderCandidatesTable();
-          renderCallCenterBoard();
-          renderBranchCards();
-          renderParttimePool();
-          renderScheduleBoard();
-          updateKPICounters();
-          if (!silent) showToast(`ซิงก์ข้อมูลสดสำเร็จ (${candidates.length} คน) พร้อมวันที่คอลัมน์ A`, "success");
-          return { success: true, count: candidates.length };
-        } else {
-          throw new Error("ไม่พบรายการผู้สมัครในชีตที่ระบุ");
-        }
-      } catch (err) {
-        console.error("Google Sheet Sync Error:", err);
-        if (!silent) {
-          showToast(`ไม่สามารถดึงข้อมูลได้: ${err.message}`, "error");
-        }
-        return { success: false, error: err.message };
-      } finally {
-        if (icon) icon.classList.remove('animate-spin');
-      }
-    }
-
-    // --- Modal Configuration for Google Sheets ---
-    function openSheetConfigModal() {
-      document.getElementById('sheetUrlOrIdInput').value = GOOGLE_SHEET_ID;
-      document.getElementById('sheetTabNameInput').value = GOOGLE_SHEET_TAB || "";
-      document.getElementById('sheetConfigModal').classList.remove('hidden');
-    }
-
-    function closeSheetConfigModal() {
-      document.getElementById('sheetConfigModal').classList.add('hidden');
-    }
-
-    function resetDefaultSheetId() {
-      document.getElementById('sheetUrlOrIdInput').value = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
-      document.getElementById('sheetTabNameInput').value = "";
-    }
-
-    async function testAndSaveSheetConnection() {
-      const inputVal = document.getElementById('sheetUrlOrIdInput').value.trim();
-      const tabVal = document.getElementById('sheetTabNameInput').value.trim();
-      const badge = document.getElementById('sheetConnectionBadge');
-      const detail = document.getElementById('sheetDiagnosticDetail');
-
-      if (!inputVal) {
-        showToast("กรุณากรอก Google Sheet URL หรือ Sheet ID", "error");
-        return;
-      }
-
-      const cleanId = extractCleanSheetId(inputVal);
-      badge.textContent = "กำลังทดสอบเชื่อมต่อ...";
-      badge.className = "px-2 py-0.5 rounded text-[11px] bg-amber-100 text-amber-800 font-bold";
-      detail.textContent = `กำลังเชื่อมต่อ Sheet ID: ${cleanId}...`;
-
-      GOOGLE_SHEET_ID = cleanId;
-      GOOGLE_SHEET_TAB = tabVal;
-      localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
-      localStorage.setItem('lnc_google_sheet_tab', GOOGLE_SHEET_TAB);
-
-      const result = await syncFromGoogleSheets(true);
-
-      if (result && result.success) {
-        badge.textContent = `เชื่อมต่อสำเร็จ (${result.count} แถว)`;
-        badge.className = "px-2 py-0.5 rounded text-[11px] bg-emerald-100 text-emerald-800 font-bold";
-        detail.textContent = `✅ ดึงข้อมูลสำเร็จ! อ่านวันที่จากคอลัมน์ A และสถานะช่อง X เรียบร้อยแล้ว`;
-        showToast(`บันทึกและซิงก์สำเร็จ ${result.count} รายการ`, "success");
-      } else {
-        badge.textContent = "เชื่อมต่อไม่ได้";
-        badge.className = "px-2 py-0.5 rounded text-[11px] bg-rose-100 text-rose-800 font-bold";
-        detail.textContent = `❌ ${result?.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล'}\n(คำแนะนำ: โปรดตรวจดูว่าชีตตั้งสิทธิ์แชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" แล้วหรือไม่)`;
-      }
-    }
-
-    function exportCandidatesToCsv() {
-      if (candidates.length === 0) {
-        showToast("ไม่มีข้อมูลสำหรับส่งออก", "error");
-        return;
-      }
-
-      const rows = [
-        ["รหัส", "ชื่อ-นามสกุล", "ชื่อเล่น", "เบอร์โทร", "ช่องทางติดต่อ", "วิชา", "ประเภทงาน", "สาขา", "สถานะ (ช่อง X)", "ผลการโทร", "วันที่โทรล่าสุด", "วันที่สัมภาษณ์", "วันที่ประกาศผล", "วันที่แจ้งเข้างาน", "โน้ต HR"]
-      ];
-
-      candidates.forEach(c => {
-        rows.push([
-          c.id,
-          c.name,
-          c.nickname,
-          c.phone,
-          c.contact,
-          c.subject,
-          c.type,
-          c.branch,
-          c.status,
-          c.callStatus,
-          c.lastCallDate,
-          c.interviewDate,
-          c.announceDate,
-          c.onboardDate,
-          c.notes
-        ]);
-      });
-
-      const ws = XLSX.utils.aoa_to_sheet(rows);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "LNC_Recruitment");
-      XLSX.writeFile(wb, `LNC_Recruitment_${new Date().toISOString().split('T')[0]}.xlsx`);
-      showToast("ส่งออกข้อมูลเป็นไฟล์ Excel เรียบร้อยแล้ว", "success");
-    }
-
+    // Quota Settings
     function openQuotaConfigModal() {
       const container = document.getElementById('quotaSettingsList');
       container.innerHTML = '';
@@ -2972,15 +2668,62 @@
         const branch = inp.getAttribute('data-branch');
         const sub = inp.getAttribute('data-subject');
         const val = parseInt(inp.value, 10) || 0;
-        
         if (!branchQuotas[branch]) branchQuotas[branch] = {};
         branchQuotas[branch][sub] = val;
       });
 
       persistDataLocally();
       closeQuotaModal();
-      renderBranchCards();
-      showToast("บันทึกโควตารับครูประจำเรียบร้อยแล้ว", "success");
+      renderBranchHeadcountBoard();
+      showToast("บันทึกโควตาของ 6 สาขาเรียบร้อยแล้ว", "success");
+    }
+
+    // Google Sheet & Worker Config Modals
+    function openSheetConfigModal() {
+      document.getElementById('sheetUrlOrIdInput').value = GOOGLE_SHEET_ID;
+      document.getElementById('sheetTabNameInput').value = GOOGLE_SHEET_TAB || "";
+      document.getElementById('sheetConfigModal').classList.remove('hidden');
+    }
+
+    function closeSheetConfigModal() {
+      document.getElementById('sheetConfigModal').classList.add('hidden');
+    }
+
+    function resetDefaultSheetId() {
+      document.getElementById('sheetUrlOrIdInput').value = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
+      document.getElementById('sheetTabNameInput').value = "";
+    }
+
+    async function testAndSaveSheetConnection() {
+      const inputVal = document.getElementById('sheetUrlOrIdInput').value.trim();
+      const tabVal = document.getElementById('sheetTabNameInput').value.trim();
+      const badge = document.getElementById('sheetConnectionBadge');
+      const detail = document.getElementById('sheetDiagnosticDetail');
+
+      if (!inputVal) {
+        showToast("กรุณาระบุ Sheet ID", "error");
+        return;
+      }
+
+      const cleanId = extractCleanSheetId(inputVal);
+      GOOGLE_SHEET_ID = cleanId;
+      GOOGLE_SHEET_TAB = tabVal;
+      localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
+      localStorage.setItem('lnc_google_sheet_tab', GOOGLE_SHEET_TAB);
+
+      badge.textContent = "กำลังซิงก์...";
+      badge.className = "px-2 py-0.5 rounded text-[11px] bg-amber-100 text-amber-800 font-bold";
+
+      const res = await syncFromGoogleSheets(false);
+      if (res && res.success) {
+        badge.textContent = `เชื่อมต่อสำเร็จ (${res.count} คน)`;
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-emerald-100 text-emerald-800 font-bold";
+        detail.textContent = `✅ ดึงข้อมูลสำเร็จ! วันที่จากคอลัมน์ A และสถานะช่อง X พร้อมแสดงผล`;
+      } else {
+        badge.textContent = "เชื่อมต่อไม่ได้";
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-rose-100 text-rose-800 font-bold";
+        detail.textContent = `❌ ${res?.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล'}`;
+      }
     }
 
     function openWorkerModal() {
@@ -2995,91 +2738,80 @@
     function saveWorkerConfig() {
       workerApiUrl = document.getElementById('workerApiUrlInput').value.trim();
       localStorage.setItem('lnc_worker_url', workerApiUrl);
-      if (workerApiUrl) {
-        updateWorkerStatusUI(true, "Worker Connected");
-        showToast("บันทึก Worker URL เรียบร้อยแล้ว", "success");
-        fetchCandidatesFromWorker();
-      } else {
-        updateWorkerStatusUI(false, "Worker Local");
-        showToast("เปลี่ยนเป็นโหมด Local Standalone", "info");
-      }
+      updateWorkerStatusUI(!!workerApiUrl, workerApiUrl ? "Worker Live" : "Worker Local");
+      showToast("บันทึก Worker URL เรียบร้อยแล้ว", "success");
       closeWorkerModal();
-    }
-
-    async function fetchCandidatesFromWorker() {
-      if (!workerApiUrl) return;
-      try {
-        const res = await fetch(workerApiUrl + '/api/candidates?action=getCandidates', { method: 'GET' });
-        if (res.ok) {
-          const result = await res.json();
-          if (result && Array.isArray(result.data) && result.data.length > 0) {
-            candidates = result.data;
-            persistDataLocally();
-            renderCandidatesTable();
-            renderCallCenterBoard();
-            renderBranchCards();
-            renderParttimePool();
-            renderScheduleBoard();
-            updateKPICounters();
-            showToast("ซิงก์ข้อมูลล่าสุดจาก Cloudflare Worker สำเร็จ", "success");
-          }
-        }
-      } catch (err) {
-        console.warn("Worker fetch warning:", err);
-      }
     }
 
     async function testWorkerConnection() {
       const url = document.getElementById('workerApiUrlInput').value.trim();
       const badge = document.getElementById('workerConnectionBadge');
       if (!url) {
-        badge.textContent = "กรุณาระบุ URL ก่อนทดสอบ";
-        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300";
+        badge.textContent = "กรุณากรอก URL";
+        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 text-rose-700";
         return;
       }
 
       badge.textContent = "กำลังทดสอบ...";
-      badge.className = "px-2 py-0.5 rounded text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300";
-
       try {
-        const res = await fetch(url + '?action=ping', { method: 'GET' });
+        const res = await fetch(url + '?action=ping');
         if (res.ok) {
           badge.textContent = "เชื่อมต่อสำเร็จ (200 OK)";
-          badge.className = "px-2 py-0.5 rounded text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300";
+          badge.className = "px-2 py-0.5 rounded text-xs bg-emerald-100 text-emerald-800 font-bold";
           showToast("เชื่อมต่อ Cloudflare Worker สำเร็จ!", "success");
         } else {
           badge.textContent = `รหัส ${res.status}`;
-          badge.className = "px-2 py-0.5 rounded text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300";
         }
       } catch (err) {
-        badge.textContent = "เชื่อมต่อไม่ได้ (CORS/Network Error)";
-        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300";
-      }
-    }
-
-    async function syncToCloudflareWorker() {
-      if (!workerApiUrl) return;
-      try {
-        await fetch(workerApiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'saveCandidates', candidates: candidates })
-        });
-      } catch (e) {
-        console.warn("Worker Sync note:", e);
+        badge.textContent = "เชื่อมต่อไม่ได้";
+        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 text-rose-700";
       }
     }
 
     function updateWorkerStatusUI(connected, text) {
       const dot = document.getElementById('workerStatusDot');
       const label = document.getElementById('workerStatusText');
-      if (connected) {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
-        label.textContent = text;
-      } else {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+      if (dot && label) {
+        dot.className = connected ? "w-2.5 h-2.5 rounded-full bg-emerald-500" : "w-2.5 h-2.5 rounded-full bg-amber-400";
         label.textContent = text;
       }
+    }
+
+    function exportCandidatesToCsv() {
+      if (candidates.length === 0) {
+        showToast("ไม่มีข้อมูลสำหรับส่งออก", "error");
+        return;
+      }
+
+      const rows = [
+        ["รหัส", "ชื่อ-นามสกุล", "ชื่อเล่น", "เบอร์โทร", "ช่องทางติดต่อ", "วิชา", "ประเภทงาน", "สาขา", "สถานะ (ช่อง X)", "ผลการโทร", "วันที่สมัคร (คอลัมน์ A)", "วันที่นัดสัมภาษณ์", "วันที่ประกาศผล", "วันที่แจ้งเข้างาน", "โน้ต HR"]
+      ];
+
+      candidates.forEach(c => {
+        rows.push([
+          c.id,
+          c.name,
+          c.nickname,
+          c.phone,
+          c.contact,
+          c.subject,
+          c.type,
+          c.branch,
+          c.status,
+          c.callStatus,
+          c.appliedDate,
+          c.interviewDate,
+          c.announceDate,
+          c.onboardDate,
+          c.notes
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "LNC_Recruitment");
+      XLSX.writeFile(wb, `LNC_Recruitment_${new Date().toISOString().split('T')[0]}.xlsx`);
+      showToast("ส่งออกไฟล์ Excel เรียบร้อยแล้ว", "success");
     }
 
     function renderAnalyticsCharts() {
@@ -3156,8 +2888,8 @@
         }
       });
 
-      // 3. Subject Demand Chart
-      const topSubjects = ["คณิตศาสตร์", "วิทยาศาสตร์", "ภาษาอังกฤษ", "ฟิสิกส์", "Coding/หุ่นยนต์", "ภาษาไทย"];
+      // 3. Subject Chart
+      const topSubjects = ["คณิตศาสตร์", "วิทยาศาสตร์", "ภาษาอังกฤษ", "ฟิสิกส์", "เคมี", "ชีววิทยา"];
       const subApplied = topSubjects.map(s => candidates.filter(c => c.subject === s).length);
       const subPassed = topSubjects.map(s => candidates.filter(c => c.subject === s && (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว')).length);
 
@@ -3169,7 +2901,7 @@
           labels: topSubjects,
           datasets: [
             { label: 'สมัครทั้งหมด', data: subApplied, backgroundColor: isDark ? '#475569' : '#cbd5e1', borderRadius: 6 },
-            { label: 'ผ่านการคัดเลือก', data: subPassed, backgroundColor: '#10b981', borderRadius: 6 }
+            { label: 'ผ่านการคัดเลือก (ช่อง X)', data: subPassed, backgroundColor: '#10b981', borderRadius: 6 }
           ]
         },
         options: {
