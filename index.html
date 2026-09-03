@@ -1057,9 +1057,9 @@
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
     // =========================================================================
-    const DEFAULT_WORKER_URL = ""; 
+    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
 
     // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
     const GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
@@ -1109,6 +1109,8 @@
     let candidates = [
       {
         id: "c-101",
+        rowNumber: 2,
+        appliedDate: "2026-08-20",
         name: "กัญญาณัฐ วงศ์วิจิตร",
         nickname: "ครูแจน",
         phone: "081-452-9811",
@@ -1126,6 +1128,8 @@
       },
       {
         id: "c-102",
+        rowNumber: 3,
+        appliedDate: "2026-08-21",
         name: "ธีรเดช กิตติรัตน์",
         nickname: "ครูอาร์ท",
         phone: "089-223-4451",
@@ -1143,6 +1147,8 @@
       },
       {
         id: "c-103",
+        rowNumber: 4,
+        appliedDate: "2026-08-22",
         name: "พิมพาภรณ์ รัตนโชติ",
         nickname: "ครูมิ้นท์",
         phone: "095-778-9123",
@@ -1157,74 +1163,6 @@
         announceDate: "2026-08-22",
         onboardDate: "2026-09-05",
         notes: "สอนพาร์ทไทม์ช่วงวันเสาร์-อาทิตย์"
-      },
-      {
-        id: "c-104",
-        name: "ชัชวาล สิทธิกุล",
-        nickname: "ครูตั้ม",
-        phone: "084-551-0922",
-        contact: "Line: tum_sci",
-        subject: "วิทยาศาสตร์",
-        type: "ครูประจำ",
-        branch: "สาขาแลนด์มาร์ค มหาชัย",
-        status: "แจ้งเข้างานแล้ว",
-        callStatus: "โทรแล้ว - นัดวันแล้ว",
-        lastCallDate: "2026-08-10",
-        interviewDate: "2026-08-15",
-        announceDate: "2026-08-18",
-        onboardDate: "2026-09-01",
-        notes: "เริ่มปฏิบัติงานประจำสาขามหาชัยแล้ว"
-      },
-      {
-        id: "c-105",
-        name: "วรันธร แก้วมณี",
-        nickname: "ครูบิวตี้",
-        phone: "062-889-1120",
-        contact: "Line: beauty_cm",
-        subject: "Coding/หุ่นยนต์",
-        type: "ครูประจำ",
-        branch: "สาขา Meta Mall เชียงใหม่",
-        status: "นัดสัมภาษณ์แล้ว",
-        callStatus: "โทรแล้ว - นัดวันแล้ว",
-        lastCallDate: getTodayString(),
-        interviewDate: "2026-09-05",
-        announceDate: "2026-09-09",
-        onboardDate: "2026-09-18",
-        notes: "นัดสัมภาษณ์ออนไลน์ผ่าน Google Meet"
-      },
-      {
-        id: "c-106",
-        name: "เอกราช วรวัฒน์",
-        nickname: "ครูเอก",
-        phone: "083-112-9900",
-        contact: "Line: ake_math",
-        subject: "คณิตศาสตร์",
-        type: "พาร์ทไทม์",
-        branch: "สาขา Happitat บางนา",
-        status: "รอสัมภาษณ์",
-        callStatus: "โทรแล้ว - รอนัดสัมภาษณ์",
-        lastCallDate: getTodayString(),
-        interviewDate: "",
-        announceDate: "",
-        onboardDate: "",
-        notes: "กลุ่มพาร์ทไทม์ โทรคุยแล้ว น้องกำลังดูตารางว่างเพื่อรอนัดสัมภาษณ์"
-      },
-      {
-        id: "c-107",
-        name: "ชุติรัตน์ ประเสริฐสุข",
-        nickname: "ครูนุ่น",
-        phone: "082-991-3456",
-        contact: "Line: noon_lnc",
-        subject: "ชีววิทยา",
-        type: "ครูประจำ",
-        branch: "สาขาข้างเซ็นทรัล พระราม 2",
-        status: "รอสัมภาษณ์",
-        callStatus: "ยังไม่ได้โทร",
-        lastCallDate: "",
-        interviewDate: "",
-        announceDate: "",
-        onboardDate: "",
-        notes: "เพิ่งส่งใบสมัคร รอ HR โทรติดต่อ"
       }
     ];
 
@@ -1732,248 +1670,244 @@
       document.getElementById('countCallWaiting').textContent = waitingItems.length;
       document.getElementById('countCallConfirmed').textContent = confirmedItems.length;
       document.getElementById('countCallPending').textContent = pendingItems.length;
-      document.getElementById('badgePendingCall').textContent = waitingItems.length;
+      list.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        const isChecked = selectedCandidateIds.has(c.id);
+        const rowNumDisplay = c.rowNumber || (idx + 2);
+        tr.className = `hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60 ${isChecked ? 'bg-rose-50/60 dark:bg-rose-950/20' : ''}`;
 
-      // Populate Waiting
-      if (waitingItems.length === 0) {
-        listWaiting.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการค้างรอนัดสัมภาษณ์</p>`;
-      } else {
-        waitingItems.forEach(c => listWaiting.appendChild(createCallCard(c, 'amber')));
-      }
+        // Status Badge Styling based on Column X
+        let statusBadgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
+        if (c.status === "ผ่าน") statusBadgeClass = "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/80 font-bold badge-glow";
+        else if (c.status === "รอสัมภาษณ์") statusBadgeClass = "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700/80 font-semibold";
+        else if (c.status === "นัดสัมภาษณ์แล้ว") statusBadgeClass = "bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700/80";
+        else if (c.status === "แจ้งเข้างานแล้ว") statusBadgeClass = "bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700/80 font-bold";
+        else if (c.status === "ไม่ผ่าน") statusBadgeClass = "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800";
 
-      // Populate Confirmed
-      if (confirmedItems.length === 0) {
-        listConfirmed.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการนัดเรียบร้อย</p>`;
-      } else {
-        confirmedItems.forEach(c => listConfirmed.appendChild(createCallCard(c, 'blue')));
-      }
-
-      // Populate Pending
-      if (pendingItems.length === 0) {
-        listPending.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">โทรติดตามครบทุกคนแล้ว</p>`;
-      } else {
-        pendingItems.forEach(c => listPending.appendChild(createCallCard(c, 'slate')));
-      }
-
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function createCallCard(c, colorScheme) {
-      const div = document.createElement('div');
-      div.className = `p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-${colorScheme}-200 dark:border-slate-800 hover:border-brand-pink transition cursor-pointer`;
-      div.onclick = () => editCandidate(c.id);
-
-      div.innerHTML = `
-        <div class="flex items-center justify-between text-xs">
-          <span class="font-bold text-slate-900 dark:text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
-          <span class="text-[10px] text-brand-pink font-semibold">${c.subject}</span>
-        </div>
-        <div class="text-[11px] text-slate-500 truncate mt-0.5">${c.branch}</div>
-        <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-          <span><i data-lucide="phone" class="w-3 h-3 inline mr-1"></i>${c.phone || '-'}</span>
-          <span>${c.lastCallDate ? `โทรเมื่อ: ${formatThaiDate(c.lastCallDate)}` : 'ยังไม่ระบุวันโทร'}</span>
-        </div>
-      `;
-      return div;
-    }
-
-    function renderBranchCards() {
-      const container = document.getElementById('branchCardsContainer');
-      container.innerHTML = '';
-
-      SIX_BRANCHES.forEach(branchName => {
-        const quotas = branchQuotas[branchName] || {};
-        const branchCandidates = candidates.filter(c => c.branch === branchName);
-        const fullTimeCandidates = branchCandidates.filter(c => c.type === "ครูประจำ");
-        const partTimeCandidates = branchCandidates.filter(c => c.type === "พาร์ทไทม์");
-
-        let totalTarget = 0;
-        Object.values(quotas).forEach(v => totalTarget += Number(v));
-
-        const passedFulltimeCount = fullTimeCandidates.filter(c => c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว').length;
-        const waitingInterviewCount = fullTimeCandidates.filter(c => c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว').length;
-        const progressPercent = totalTarget > 0 ? Math.min(100, Math.round((passedFulltimeCount / totalTarget) * 100)) : 0;
-
-        const card = document.createElement('div');
-        card.className = "bg-white/90 dark:bg-slate-850 rounded-2xl border border-rose-100 dark:border-slate-800 p-5 space-y-4 shadow-sm hover:shadow-md transition";
-
-        let subjectRowsHtml = '';
-        const subjectsInQuota = Object.keys(quotas);
-
-        if (subjectsInQuota.length === 0) {
-          subjectRowsHtml = `<p class="text-xs text-slate-400 italic">ยังไม่ได้กำหนดโควตารายวิชา</p>`;
-        } else {
-          subjectRowsHtml = subjectsInQuota.map(sub => {
-            const target = quotas[sub] || 0;
-            const passed = fullTimeCandidates.filter(c => c.subject === sub && (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว')).length;
-            const remaining = Math.max(0, target - passed);
-
-            let statusColor = "text-amber-500 dark:text-amber-400";
-            if (passed >= target) statusColor = "text-emerald-600 dark:text-emerald-400";
-
-            return `
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 dark:border-slate-800">
-                <span class="font-medium text-slate-700 dark:text-slate-200">${sub}</span>
-                <div class="flex items-center space-x-2">
-                  <span class="font-mono ${statusColor}">${passed} / ${target} อัตรา</span>
-                  ${remaining > 0 ? `<span class="px-2 py-0.2 rounded-full text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-semibold">ขาด ${remaining}</span>` : `<span class="px-2 py-0.2 rounded-full text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-semibold">ครบ</span>`}
-                </div>
-              </div>
-            `;
-          }).join('');
+        // Call Status Pill Styling
+        let callPillClass = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
+        let callIcon = "phone";
+        if (c.callStatus === "โทรแล้ว - รอนัดสัมภาษณ์") {
+          callPillClass = "bg-amber-100 dark:bg-amber-950/90 text-amber-700 dark:text-amber-300 font-semibold border border-amber-300 dark:border-amber-800";
+          callIcon = "phone-forwarded";
+        } else if (c.callStatus === "โทรแล้ว - นัดวันแล้ว") {
+          callPillClass = "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-800";
+          callIcon = "phone-call";
+        } else if (c.callStatus === "ติดต่อไม่ได้ - รอโทรซ้ำ") {
+          callPillClass = "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800";
+          callIcon = "phone-missed";
         }
 
-        card.innerHTML = `
-          <div class="flex items-start justify-between border-b border-rose-100 dark:border-slate-800 pb-3">
-            <div>
-              <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base flex items-center space-x-1.5">
-                <i data-lucide="map-pin" class="w-4 h-4 text-brand-pink shrink-0"></i>
-                <span>${branchName}</span>
-              </h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">รับครูประจำเป้าหมาย: <strong class="text-slate-800 dark:text-slate-200 font-mono">${totalTarget}</strong> อัตรา</p>
+        const typeBadge = c.type === "ครูประจำ" 
+          ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">ประจำ</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">พาร์ทไทม์</span>`;
+
+        tr.innerHTML = `
+          <td class="px-3 py-3 text-center">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectCandidate('${c.id}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
+          </td>
+          <td class="px-2 py-3 text-center">
+            <span class="font-mono text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">#${rowNumDisplay}</span>
+          </td>
+          <td class="px-4 py-3">
+            <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
+            <div class="text-xs text-brand-pink font-semibold flex items-center flex-wrap gap-1.5 mt-0.5">
+              ${c.nickname ? `<span>(${c.nickname})</span>` : ''} 
+              <span class="text-slate-500 dark:text-slate-400 font-normal">${c.phone || '-'}</span>
+              ${c.appliedDate ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono bg-rose-50/80 dark:bg-slate-800/80 px-1.5 py-0.2 rounded"><i data-lucide="calendar" class="w-2.5 h-2.5 inline mr-0.5 text-brand-pink"></i>สมัคร: ${formatThaiDate(c.appliedDate)}</span>` : ''}
             </div>
-            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-xl bg-rose-50 dark:bg-slate-800 text-brand-pink border border-rose-200 dark:border-slate-700">
-              ${progressPercent}%
+          </td>
+          <td class="px-3 py-3">
+            <div class="font-semibold text-slate-800 dark:text-slate-200">${c.subject || '-'}</div>
+          </td>
+          <td class="px-3 py-3">
+            <span class="inline-block max-w-[160px] truncate text-slate-600 dark:text-slate-300" title="${c.branch}">
+              ${c.branch}
             </span>
-          </div>
-
-          <div class="space-y-1">
-            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="bg-gradient-to-r from-rose-500 to-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
+          </td>
+          <td class="px-3 py-3">
+            ${typeBadge}
+          </td>
+          <td class="px-3 py-3 text-center">
+            <!-- Fast inline status dropdown (ช่อง X) -->
+            <select onchange="updateCandidateStatusInline('${c.id}', this.value)" class="text-xs rounded-xl px-2.5 py-1 border cursor-pointer ${statusBadgeClass} focus:outline-none">
+              <option value="รอสัมภาษณ์" ${c.status === 'รอสัมภาษณ์' ? 'selected' : ''}>รอสัมภาษณ์</option>
+              <option value="นัดสัมภาษณ์แล้ว" ${c.status === 'นัดสัมภาษณ์แล้ว' ? 'selected' : ''}>นัดสัมภาษณ์แล้ว</option>
+              <option value="ผ่าน" ${c.status === 'ผ่าน' ? 'selected' : ''}>ผ่าน</option>
+              <option value="แจ้งเข้างานแล้ว" ${c.status === 'แจ้งเข้างานแล้ว' ? 'selected' : ''}>แจ้งเข้างานแล้ว</option>
+              <option value="ไม่ผ่าน" ${c.status === 'ไม่ผ่าน' ? 'selected' : ''}>ไม่ผ่าน</option>
+              <option value="ยังไม่ระบุ" ${c.status === 'ยังไม่ระบุ' ? 'selected' : ''}>ยังไม่ระบุ</option>
+            </select>
+          </td>
+          <td class="px-3 py-3 text-center">
+            <!-- Quick Call Status Toggle Button -->
+            <div class="inline-flex flex-col items-center">
+              <button onclick="quickMarkCalled('${c.id}')" title="คลิกเพื่ออัปเดตผลการโทรวันนี้" class="px-2.5 py-1 rounded-xl text-[11px] flex items-center space-x-1 ${callPillClass} hover:opacity-90 transition">
+                <i data-lucide="${callIcon}" class="w-3 h-3"></i>
+                <span>${c.callStatus || 'ยังไม่ได้โทร'}</span>
+              </button>
+              ${c.lastCallDate ? `<span class="text-[10px] text-slate-400 mt-0.5">โทร: ${formatThaiDate(c.lastCallDate)}</span>` : ''}
             </div>
-            <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-              <span>บรรจุแล้ว: <strong class="text-emerald-600 dark:text-emerald-400">${passedFulltimeCount}</strong></span>
-              <span>รอสัมภาษณ์: <strong class="text-amber-500 dark:text-amber-400">${waitingInterviewCount}</strong></span>
-            </div>
-          </div>
-
-          <div class="space-y-1 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">ความต้องการครูแต่ละวิชา</div>
-            <div class="max-h-36 overflow-y-auto pr-1">
-              ${subjectRowsHtml}
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1">
-            <span>ครูพาร์ทไทม์สาขานี้:</span>
-            <span class="font-semibold text-brand-pink">${partTimeCandidates.length} คน (รับเรื่อยๆ)</span>
-          </div>
+          </td>
+          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
+            ${c.interviewDate ? `<span class="text-blue-600 dark:text-blue-300 font-semibold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formatThaiDate(c.interviewDate)}</span>` : '<span class="text-slate-400">-</span>'}
+          </td>
+          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
+            ${c.onboardDate ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold">${formatThaiDate(c.onboardDate)}</span>` : (c.announceDate ? `<span class="text-amber-600 dark:text-amber-400">${formatThaiDate(c.announceDate)}</span>` : '<span class="text-slate-400">-</span>')}
+          </td>
+          <td class="px-4 py-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="editCandidate('${c.id}')" title="แก้ไขข้อมูล" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="deleteCandidate('${c.id}')" title="ลบรายการ" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-600 transition">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
         `;
 
-        container.appendChild(card);
+        tbody.appendChild(tr);
       });
 
       if (window.lucide) lucide.createIcons();
     }
 
-    function renderParttimePool() {
-      const container = document.getElementById('parttimeBreakdownContainer');
-      container.innerHTML = '';
-
-      const parttimers = candidates.filter(c => c.type === 'พาร์ทไทม์');
-      document.getElementById('parttimeTotalBadge').textContent = parttimers.length;
-
-      const subjectCounts = {};
-      SUBJECT_LIST.forEach(s => subjectCounts[s] = 0);
-
-      parttimers.forEach(c => {
-        if (subjectCounts[c.subject] !== undefined) {
-          subjectCounts[c.subject]++;
-        } else {
-          subjectCounts["อื่นๆ"] = (subjectCounts["อื่นๆ"] || 0) + 1;
+    function formatThaiDate(isoDateStr) {
+      if (!isoDateStr) return "-";
+      try {
+        const cleanStr = String(isoDateStr).split('T')[0].split(' ')[0];
+        const parts = cleanStr.includes('-') ? cleanStr.split('-') : cleanStr.split('/');
+        if (parts.length === 3) {
+          let y, m, d;
+          if (parts[0].length === 4) { // YYYY-MM-DD
+            y = parseInt(parts[0]); m = parts[1]; d = parts[2];
+          } else { // DD/MM/YYYY
+            d = parts[0]; m = parts[1]; y = parseInt(parts[2]);
+          }
+          const thaiYear = y < 2500 ? y + 543 : y;
+          return `${d}/${m}/${thaiYear}`;
         }
+      } catch (e) {}
+      return isoDateStr;
+    }
+
+    function parseDateToIso(rawDate) {
+      if (!rawDate) return "";
+      try {
+        const str = String(rawDate).trim();
+        // Check if YYYY-MM-DD
+        if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
+          return str.split('T')[0].split(' ')[0];
+        }
+        // Check if DD/MM/YYYY or MM/DD/YYYY
+        if (str.includes('/')) {
+          const parts = str.split(' ')[0].split('/');
+          if (parts.length === 3) {
+            let day = parseInt(parts[0], 10);
+            let month = parseInt(parts[1], 10);
+            let year = parseInt(parts[2], 10);
+            if (year > 2500) year -= 543; // Convert Buddhist Era to CE
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          }
+        }
+      } catch (e) {}
+      return "";
+    }
+
+    function clearRowFilter() {
+      document.getElementById('rowFilterStart').value = '';
+      document.getElementById('rowFilterEnd').value = '';
+      applyFilters();
+      showToast("ล้างตัวกรองแถวเรียบร้อยแล้ว", "info");
+    }
+
+    function toggleImportRowInputs(show) {
+      const container = document.getElementById('importRowInputsContainer');
+      if (show) {
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+      } else {
+        container.classList.add('hidden');
+        container.classList.remove('flex');
+      }
+    }
+
+    function getFilteredCandidates() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const st = document.getElementById('filterStatus').value;
+      const br = document.getElementById('filterBranch').value;
+      const tp = document.getElementById('filterType').value;
+      const callSt = document.getElementById('filterCallStatus').value;
+
+      // Date range filtering
+      const dateType = document.getElementById('dateFilterType').value;
+      const startDate = document.getElementById('dateFilterStart').value;
+      const endDate = document.getElementById('dateFilterEnd').value;
+
+      // Row range filtering
+      const rowStartVal = parseInt(document.getElementById('rowFilterStart').value, 10);
+      const rowEndVal = parseInt(document.getElementById('rowFilterEnd').value, 10);
+
+      return candidates.filter((c, idx) => {
+        // Text query
+        const matchQ = !q || 
+          (c.name && c.name.toLowerCase().includes(q)) ||
+          (c.nickname && c.nickname.toLowerCase().includes(q)) ||
+          (c.phone && c.phone.includes(q)) ||
+          (c.subject && c.subject.toLowerCase().includes(q)) ||
+          (c.notes && c.notes.toLowerCase().includes(q));
+
+        // Status match (ช่อง X)
+        const matchSt = (st === 'ALL') || (c.status === st);
+
+        // Branch match
+        const matchBr = (br === 'ALL') || (c.branch === br);
+
+        // Job type match
+        const matchTp = (tp === 'ALL') || (c.type === tp);
+
+        // Call status match
+        const matchCall = (callSt === 'ALL') || (c.callStatus === callSt);
+
+        // Row range match
+        const candidateRowNum = c.rowNumber || (idx + 2);
+        let matchRow = true;
+        if (!isNaN(rowStartVal) && candidateRowNum < rowStartVal) matchRow = false;
+        if (!isNaN(rowEndVal) && candidateRowNum > rowEndVal) matchRow = false;
+
+        // Date Range logic (รองรับทั้งดูเจาะจงวันเดียว หรือดูแบบช่วงวันที่)
+        let matchDate = true;
+        if (startDate || endDate) {
+          const rawDateVal = c[dateType];
+          const targetDateVal = parseDateToIso(rawDateVal) || rawDateVal;
+          if (!targetDateVal) {
+            matchDate = false;
+          } else {
+            if (startDate && !endDate) {
+              // เลือกเฉพาะวันเดียว
+              if (targetDateVal !== startDate) matchDate = false;
+            } else {
+              if (startDate && targetDateVal < startDate) matchDate = false;
+              if (endDate && targetDateVal > endDate) matchDate = false;
+            }
+          }
+        }
+
+        return matchQ && matchSt && matchBr && matchTp && matchCall && matchRow && matchDate;
       });
-
-      SUBJECT_LIST.slice(0, 8).forEach(sub => {
-        const count = subjectCounts[sub] || 0;
-        const div = document.createElement('div');
-        div.className = "bg-rose-50/60 dark:bg-slate-900 border border-rose-100 dark:border-slate-800 p-3 rounded-xl text-center";
-        div.innerHTML = `
-          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">${sub}</div>
-          <div class="text-lg font-bold text-brand-pink mt-1">${count}</div>
-          <div class="text-[10px] text-slate-400">สมัครพาร์ทไทม์</div>
-        `;
-        container.appendChild(div);
-      });
     }
 
-    function renderScheduleBoard() {
-      const colInterview = document.getElementById('colInterviewCards');
-      const colAnnounce = document.getElementById('colAnnounceCards');
-      const colOnboard = document.getElementById('colOnboardCards');
-
-      colInterview.innerHTML = '';
-      colAnnounce.innerHTML = '';
-      colOnboard.innerHTML = '';
-
-      const interviewCandidates = candidates.filter(c => c.interviewDate && (c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว'));
-      const announceCandidates = candidates.filter(c => c.announceDate && (c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว'));
-      const onboardCandidates = candidates.filter(c => c.onboardDate && (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว'));
-
-      document.getElementById('colCountInterview').textContent = interviewCandidates.length;
-      document.getElementById('colCountAnnounce').textContent = announceCandidates.length;
-      document.getElementById('colCountOnboard').textContent = onboardCandidates.length;
-
-      if (interviewCandidates.length === 0) {
-        colInterview.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีคิวนัดสัมภาษณ์</p>`;
-      } else {
-        interviewCandidates.sort((a, b) => new Date(a.interviewDate) - new Date(b.interviewDate)).forEach(c => {
-          colInterview.appendChild(createScheduleMiniCard(c, c.interviewDate, 'blue', 'นัดสัมภาษณ์'));
-        });
-      }
-
-      if (announceCandidates.length === 0) {
-        colAnnounce.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการรอประกาศผล</p>`;
-      } else {
-        announceCandidates.sort((a, b) => new Date(a.announceDate) - new Date(b.announceDate)).forEach(c => {
-          colAnnounce.appendChild(createScheduleMiniCard(c, c.announceDate, 'amber', 'ประกาศผล'));
-        });
-      }
-
-      if (onboardCandidates.length === 0) {
-        colOnboard.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีกำหนดเริ่มงาน</p>`;
-      } else {
-        onboardCandidates.sort((a, b) => new Date(a.onboardDate) - new Date(b.onboardDate)).forEach(c => {
-          colOnboard.appendChild(createScheduleMiniCard(c, c.onboardDate, 'emerald', 'แจ้งเริ่มงาน'));
-        });
-      }
-
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function createScheduleMiniCard(c, dateVal, themeColor, labelText) {
-      const card = document.createElement('div');
-      card.className = `p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-${themeColor}-500 transition cursor-pointer shadow-sm`;
-      card.onclick = () => editCandidate(c.id);
-
-      card.innerHTML = `
-        <div class="flex items-center justify-between text-xs">
-          <span class="font-bold text-slate-900 dark:text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-${themeColor}-100 dark:bg-${themeColor}-950 text-${themeColor}-700 dark:text-${themeColor}-300">
-            ${labelText}
-          </span>
-        </div>
-        <div class="text-[11px] text-brand-pink font-semibold mt-1">${c.subject} • ${c.type}</div>
-        <div class="text-[11px] text-slate-500 truncate">${c.branch}</div>
-        <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-slate-300">
-          <span><i data-lucide="calendar" class="w-3 h-3 inline mr-1 text-slate-400"></i>${formatThaiDate(dateVal)}</span>
-          <span>${c.phone || '-'}</span>
-        </div>
-      `;
-      return card;
-    }
-
-    function openAddCandidateModal() {
-      currentEditingId = null;
-      document.getElementById('modalCandidateTitle').textContent = "เพิ่มข้อมูลผู้สมัครใหม่";
-      document.getElementById('candidateForm').reset();
-      document.getElementById('cId').value = "";
-      document.getElementById('cLastCallDate').value = getTodayString();
-      document.getElementById('candidateModal').classList.remove('hidden');
-    }
-
-    function closeCandidateModal() {
-      document.getElementById('candidateModal').classList.add('hidden');
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterStatus').value = 'ALL';
+      document.getElementById('filterBranch').value = 'ALL';
+      document.getElementById('filterType').value = 'ALL';
+      document.getElementById('filterCallStatus').value = 'ALL';
+      document.getElementById('dateFilterStart').value = '';
+      document.getElementById('dateFilterEnd').value = '';
+      document.getElementById('rowFilterStart').value = '';
+      document.getElementById('rowFilterEnd').value = '';
+      renderCandidatesTable();
+      showToast("ล้างตัวกรองทั้งหมดแล้ว", "info");
     }
 
     function editCandidate(id) {
@@ -1993,9 +1927,10 @@
       document.getElementById('cStatus').value = c.status || "รอสัมภาษณ์";
       document.getElementById('cCallStatus').value = c.callStatus || "ยังไม่ได้โทร";
       document.getElementById('cLastCallDate').value = c.lastCallDate || "";
-      document.getElementById('cInterviewDate').value = c.interviewDate || "";
-      document.getElementById('cAnnounceDate').value = c.announceDate || "";
-      document.getElementById('cOnboardDate').value = c.onboardDate || "";
+      document.getElementById('cAppliedDate').value = parseDateToIso(c.appliedDate) || "";
+      document.getElementById('cInterviewDate').value = parseDateToIso(c.interviewDate) || "";
+      document.getElementById('cAnnounceDate').value = parseDateToIso(c.announceDate) || "";
+      document.getElementById('cOnboardDate').value = parseDateToIso(c.onboardDate) || "";
       document.getElementById('cNotes').value = c.notes || "";
 
       document.getElementById('candidateModal').classList.remove('hidden');
@@ -2004,8 +1939,11 @@
     function saveCandidate(e) {
       e.preventDefault();
 
+      const existingItem = currentEditingId ? candidates.find(i => i.id === currentEditingId) : null;
       const candidateObj = {
         id: currentEditingId || 'c-' + Date.now(),
+        rowNumber: existingItem?.rowNumber || (candidates.length + 2),
+        appliedDate: document.getElementById('cAppliedDate').value || getTodayString(),
         name: document.getElementById('cName').value.trim(),
         nickname: document.getElementById('cNickname').value.trim(),
         phone: document.getElementById('cPhone').value.trim(),
@@ -2113,16 +2051,30 @@
 
           const headers = rawRows[0];
           let statusColIndex = 23; // Column X index
+          let timestampColIndex = 0; // Timestamp / Applied date column
 
           headers.forEach((h, idx) => {
-            if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || h.toLowerCase().includes('status'))) {
-              statusColIndex = idx;
+            if (h && typeof h === 'string') {
+              const hLow = h.toLowerCase();
+              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status')) {
+                statusColIndex = idx;
+              }
+              if (h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
+                timestampColIndex = idx;
+              }
             }
           });
 
+          // Check Custom Row Range selection
+          const importMode = document.querySelector('input[name="importRowMode"]:checked')?.value || 'all';
+          const fromRow = importMode === 'custom' ? Math.max(1, parseInt(document.getElementById('importRowFrom').value, 10) - 1 || 1) : 1;
+          const toRow = importMode === 'custom' && document.getElementById('importRowTo').value 
+            ? Math.min(rawRows.length - 1, parseInt(document.getElementById('importRowTo').value, 10) - 1) 
+            : rawRows.length - 1;
+
           pendingImportCandidates = [];
 
-          for (let i = 1; i < rawRows.length; i++) {
+          for (let i = fromRow; i <= toRow; i++) {
             const row = rawRows[i];
             if (!row || row.length === 0) continue;
 
@@ -2133,6 +2085,8 @@
             const subject = detectSubject(row.join(' '));
             const branch = detectBranch(row.join(' '));
             const statusRaw = row[statusColIndex] || row[23] || "";
+            const rawTimestamp = row[timestampColIndex] || row[0] || "";
+            const parsedAppliedDate = parseDateToIso(rawTimestamp) || getTodayString();
             
             let status = "รอสัมภาษณ์";
             if (statusRaw) {
@@ -2147,6 +2101,8 @@
               tempId: 'temp-' + i,
               selected: true,
               id: 'imp-' + Date.now() + '-' + i,
+              rowNumber: i + 1,
+              appliedDate: parsedAppliedDate,
               name: String(name).trim(),
               nickname: row[2] ? String(row[2]).trim() : "",
               phone: String(phone).trim(),
@@ -2160,12 +2116,12 @@
               interviewDate: "",
               announceDate: "",
               onboardDate: "",
-              notes: "นำเข้าจากไฟล์: " + file.name
+              notes: `นำเข้าจากแถวที่ ${i + 1} (${file.name})`
             });
           }
 
           if (pendingImportCandidates.length === 0) {
-            showToast("ไม่พบรายชื่อผู้สมัครที่ถูกต้องในไฟล์นี้", "error");
+            showToast("ไม่พบรายชื่อผู้สมัครที่ถูกต้องในช่วงแถวที่เลือก", "error");
             return;
           }
 
@@ -2615,10 +2571,17 @@
 
           const headers = rawRows[0];
           let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น (Index 23 = คอลัมน์ที่ 24)
+          let timestampColIndex = 0; // คอลัมน์ประทับเวลา
 
           headers.forEach((h, idx) => {
-            if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || h.toLowerCase().includes('status'))) {
-              statusColIndex = idx;
+            if (h && typeof h === 'string') {
+              const hLow = h.toLowerCase();
+              if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status')) {
+                statusColIndex = idx;
+              }
+              if (h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp')) {
+                timestampColIndex = idx;
+              }
             }
           });
 
@@ -2635,6 +2598,8 @@
             const subject = detectSubject(rowText);
             const branch = detectBranch(rowText);
             const statusRaw = row[statusColIndex] || row[23] || "";
+            const rawTimestamp = row[timestampColIndex] || row[0] || "";
+            const parsedAppliedDate = parseDateToIso(rawTimestamp) || getTodayString();
 
             let status = "รอสัมภาษณ์";
             if (statusRaw) {
@@ -2647,6 +2612,8 @@
 
             parsedList.push({
               id: 'gs-' + i,
+              rowNumber: i + 1,
+              appliedDate: parsedAppliedDate,
               name: String(name).trim(),
               nickname: row[2] ? String(row[2]).trim() : "",
               phone: String(phone).trim(),
