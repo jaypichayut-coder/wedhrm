@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="th" class="h-full bg-slate-900">
+<html lang="th" class="h-full light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LNC+ | HR Recruitment & Talent Acquisition System</title>
+  <title>LNC TUTOR | HR Recruitment & Talent Acquisition Portal</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -30,10 +30,12 @@
             brand: {
               black: '#0f172a',
               dark: '#1e293b',
-              pink: '#e11d48',       /* LNC+ signature magenta/pink */
+              pink: '#e11d48',       /* LNC signature vibrant pink */
               pinkHover: '#be123c',
               pinkLight: '#ffe4e6',
+              pinkSoft: '#fff1f2',
               accent: '#f43f5e',
+              purpleSoft: '#f5f3ff',
             }
           }
         }
@@ -48,108 +50,125 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #0f172a;
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #cbd5e1;
       border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #e11d48;
     }
     .badge-glow {
-      box-shadow: 0 0 12px rgba(225, 29, 72, 0.35);
+      box-shadow: 0 0 14px rgba(225, 29, 72, 0.3);
     }
-    .status-badge {
-      transition: all 0.2s ease-in-out;
+    /* Soft aesthetic gradient background inspired by LNC Tutor */
+    .lnc-bg-light {
+      background: radial-gradient(circle at 10% 20%, rgba(255, 228, 230, 0.6) 0%, rgba(255, 255, 255, 0.8) 40%, rgba(245, 243, 255, 0.6) 85%);
+      background-attachment: fixed;
+    }
+    .lnc-bg-dark {
+      background: radial-gradient(circle at 15% 15%, #1e1b4b 0%, #0f172a 45%, #090d16 100%);
+      background-attachment: fixed;
     }
   </style>
 </head>
-<body class="h-full text-slate-100 flex flex-col font-sans antialiased overflow-x-hidden">
+<body class="h-full text-slate-800 dark:text-slate-100 flex flex-col font-sans antialiased overflow-x-hidden lnc-bg-light transition-colors duration-200" id="bodyRoot">
 
-  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+  <header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-rose-100 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
-        <!-- Logo & Title -->
-        <div class="flex items-center space-x-4">
-          <div class="flex items-center bg-white px-3 py-1.5 rounded-lg shadow-sm">
+        <!-- Logo & Title matching user screenshot -->
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <div class="flex items-center bg-white p-2 rounded-2xl shadow-sm border border-rose-100 dark:border-slate-700">
             <!-- Custom SVG matching LNC+ Brand Logo -->
-            <svg class="h-7 w-auto" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- L shape -->
+            <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20 20 V85 H50 V73 H32 V20 H20 Z" fill="#0f172a"/>
-              <!-- N shape with signature magenta angled slash -->
               <path d="M50 85 V45 H60 V85 H50 Z" fill="#0f172a"/>
               <path d="M53 45 L88 85 H98 L63 45 H53 Z" fill="#e11d48"/>
               <path d="M90 85 V45 H100 V85 H90 Z" fill="#0f172a"/>
-              <!-- Pink + Symbol -->
               <path d="M106 63 H124 V67 H106 Z" fill="#e11d48"/>
               <path d="M113 56 V74 H117 V56 Z" fill="#e11d48"/>
-              <!-- C shape -->
               <path d="M165 43 C150 43 138 54 138 69 C138 84 150 95 165 95 C176 95 183 88 186 82 L176 77 C174 81 170 85 165 85 C156 85 149 78 149 69 C149 60 156 53 165 53 C170 53 174 57 176 61 L186 56 C183 50 176 43 165 43 Z" fill="#0f172a"/>
             </svg>
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <span class="font-bold text-lg text-white tracking-wide">LNC+ RECRUITMENT ATS</span>
-              <span class="bg-rose-950 text-rose-300 text-xs px-2 py-0.5 rounded font-medium border border-rose-800">HR Executive</span>
+              <span class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">LNC TUTOR</span>
+              <span class="bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-300 text-xs px-2.5 py-0.5 rounded-full font-semibold border border-rose-200 dark:border-rose-800">Recruitment</span>
             </div>
-            <p class="text-xs text-slate-400 hidden sm:block">ระบบบริหารการสรรหาครูประจำ 6 สาขา & ครูพาร์ทไทม์</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">ระบบตรวจสอบสถานะการสมัครติวเตอร์ / ผู้สอนพิเศษ • สาขา & พาร์ทไทม์</p>
           </div>
         </div>
 
         <!-- Global Action Controls -->
         <div class="flex items-center space-x-2 sm:space-x-3">
+          
+          <!-- Light/Dark Mode Switcher -->
+          <button onclick="toggleDarkMode()" id="themeToggleBtn" title="สลับโหมดมืด / โหมดสว่าง" class="p-2 sm:px-3 sm:py-1.5 rounded-xl text-xs font-medium bg-rose-50 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-rose-200 dark:border-slate-700 flex items-center space-x-1.5 transition">
+            <span id="themeIconContainer"><i data-lucide="moon" class="w-4 h-4 text-slate-600 dark:text-amber-400"></i></span>
+            <span id="themeLabel" class="hidden md:inline">โหมดมืด</span>
+          </button>
+
           <!-- Cloudflare Worker status indicator -->
-          <button onclick="openWorkerModal()" title="ตั้งค่าเชื่อมต่อ Cloudflare Worker API" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-750 text-slate-300 border border-slate-700 transition">
-            <span id="workerStatusDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
-            <span id="workerStatusText" class="hidden sm:inline">โหมด Local / Demo</span>
+          <button onclick="openWorkerModal()" title="ตั้งค่าเชื่อมต่อ Cloudflare Worker API" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition shadow-sm">
+            <span id="workerStatusDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span id="workerStatusText" class="hidden sm:inline">Worker Local</span>
             <i data-lucide="cloud" class="w-3.5 h-3.5 text-slate-400"></i>
           </button>
 
-          <!-- Quick Actions -->
-          <button onclick="openAddCandidateModal()" class="flex items-center space-x-1 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-brand-pink hover:bg-brand-pinkHover text-white shadow-md shadow-rose-900/30 transition">
+          <!-- Quick Add Candidate -->
+          <button onclick="openAddCandidateModal()" class="flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-brand-pink hover:bg-brand-pinkHover text-white shadow-md shadow-rose-500/25 transition">
             <i data-lucide="user-plus" class="w-4 h-4"></i>
             <span>เพิ่มผู้สมัคร</span>
           </button>
 
-          <!-- CSV Dropdown / Actions -->
-          <button onclick="openCsvModal()" class="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-            <i data-lucide="file-up" class="w-4 h-4 text-rose-400"></i>
-            <span class="hidden md:inline">นำเข้า CSV</span>
+          <!-- CSV Import/Export -->
+          <button onclick="openCsvModal()" title="นำเข้าไฟล์ CSV หรือ Sheets" class="p-2 sm:px-3 sm:py-2 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition shadow-sm">
+            <i data-lucide="file-up" class="w-4 h-4 text-rose-500"></i>
+            <span class="hidden lg:inline ml-1">นำเข้า CSV</span>
           </button>
 
-          <button onclick="exportCandidatesToCsv()" class="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-            <i data-lucide="download" class="w-4 h-4 text-emerald-400"></i>
-            <span class="hidden md:inline">ส่งออก</span>
+          <button onclick="exportCandidatesToCsv()" title="ส่งออกเป็นไฟล์ Excel" class="p-2 sm:px-3 sm:py-2 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition shadow-sm">
+            <i data-lucide="download" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+            <span class="hidden lg:inline ml-1">ส่งออก</span>
           </button>
         </div>
 
       </div>
     </div>
 
-    <div class="bg-slate-900 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white/60 dark:bg-slate-900/60 border-t border-rose-100 dark:border-slate-800 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto flex space-x-2 sm:space-x-4 overflow-x-auto py-2 text-xs sm:text-sm">
-        <button onclick="switchTab('candidates')" id="tabBtn-candidates" class="nav-tab px-3.5 py-2 rounded-lg font-medium flex items-center space-x-2 text-white bg-slate-800 border-b-2 border-brand-pink">
+        <button onclick="switchTab('candidates')" id="tabBtn-candidates" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-rose-700 dark:text-white bg-rose-100/70 dark:bg-slate-800 border-b-2 border-brand-pink transition">
           <i data-lucide="users" class="w-4 h-4 text-brand-pink"></i>
           <span>ทะเบียนผู้สมัคร (สถานะช่อง X)</span>
-          <span id="badgeTotalCandidates" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-rose-900/80 text-rose-200">0</span>
+          <span id="badgeTotalCandidates" class="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-rose-500 text-white font-bold">0</span>
         </button>
-        <button onclick="switchTab('branches')" id="tabBtn-branches" class="nav-tab px-3.5 py-2 rounded-lg font-medium flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-850">
-          <i data-lucide="git-branch" class="w-4 h-4 text-amber-400"></i>
-          <span>แผนอัตรากำลัง 6 สาขา & วิชา</span>
+        <button onclick="switchTab('callcenter')" id="tabBtn-callcenter" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="phone-call" class="w-4 h-4 text-amber-500"></i>
+          <span>ติดตามการโทร & รอนัดสัมภาษณ์</span>
+          <span id="badgePendingCall" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-300 font-semibold">0</span>
         </button>
-        <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="nav-tab px-3.5 py-2 rounded-lg font-medium flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-850">
-          <i data-lucide="calendar" class="w-4 h-4 text-blue-400"></i>
-          <span>นัดสัมภาษณ์ & วันแจ้งเข้างาน</span>
+        <button onclick="switchTab('branches')" id="tabBtn-branches" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="git-branch" class="w-4 h-4 text-emerald-500"></i>
+          <span>แผนอัตรากำลัง 6 สาขา & พาร์ทไทม์</span>
         </button>
-        <button onclick="switchTab('analytics')" id="tabBtn-analytics" class="nav-tab px-3.5 py-2 rounded-lg font-medium flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-850">
-          <i data-lucide="bar-chart-3" class="w-4 h-4 text-purple-400"></i>
-          <span>แดชบอร์ดสรุปสถิติ</span>
+        <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="calendar" class="w-4 h-4 text-blue-500"></i>
+          <span>ปฏิทินสัมภาษณ์ & วันแจ้งเข้างาน</span>
         </button>
-        <button onclick="switchTab('worker')" id="tabBtn-worker" class="nav-tab px-3.5 py-2 rounded-lg font-medium flex items-center space-x-2 text-slate-400 hover:text-slate-200 hover:bg-slate-850">
-          <i data-lucide="code" class="w-4 h-4 text-emerald-400"></i>
-          <span>คู่มือ Cloudflare Worker & GitHub</span>
+        <button onclick="switchTab('analytics')" id="tabBtn-analytics" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="bar-chart-3" class="w-4 h-4 text-purple-500"></i>
+          <span>สถิติสรรหา</span>
+        </button>
+        <button onclick="switchTab('worker')" id="tabBtn-worker" class="nav-tab px-3.5 py-2 rounded-xl font-medium flex items-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-rose-50/50 dark:hover:bg-slate-850 transition">
+          <i data-lucide="cloud-cog" class="w-4 h-4 text-slate-500"></i>
+          <span>Cloudflare Worker & GitHub</span>
         </button>
       </div>
     </div>
@@ -157,85 +176,99 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- KPI Summary Ribbon -->
+    <div class="text-center py-4 sm:py-6 space-y-2">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-semibold shadow-md shadow-rose-500/20">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        <span>LNC Status Verification System</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2">
+        <span>เช็กผลการสมัครเป็นติวเตอร์ LNC</span>
+        <span class="text-2xl">✏️</span>
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+        ค้นหารายชื่อ จัดการสถานะผลการคัดเลือก <strong class="text-brand-pink font-semibold">คอลัมน์ช่อง X</strong> ตรวจสอบประวัติการโทร และวางแผนอัตรากำลัง 6 สาขา
+      </p>
+    </div>
+
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-      <!-- Total -->
-      <div class="bg-slate-800/80 border border-slate-700/70 p-4 rounded-xl shadow">
+      <!-- Total Candidates -->
+      <div class="bg-white/80 dark:bg-slate-850 backdrop-blur border border-rose-100 dark:border-slate-800 p-4 rounded-2xl shadow-sm hover:shadow-md transition">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-slate-400 font-medium">ผู้สมัครทั้งหมด</span>
-          <span class="p-1.5 bg-slate-700/50 rounded-lg text-slate-300"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i></span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">ผู้สมัครทั้งหมด</span>
+          <span class="p-2 bg-rose-50 dark:bg-slate-750 rounded-xl text-rose-500 dark:text-slate-300"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2 flex items-baseline justify-between">
-          <span id="kpiTotal" class="text-2xl font-bold text-white">0</span>
+          <span id="kpiTotal" class="text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
           <span class="text-xs text-slate-400">คน</span>
         </div>
       </div>
 
       <!-- Passed (ผ่าน) -->
-      <div class="bg-slate-800/80 border border-emerald-900/50 p-4 rounded-xl shadow relative overflow-hidden">
-        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-emerald-500/5 rounded-full blur-xl"></div>
+      <div class="bg-white/80 dark:bg-slate-850 backdrop-blur border border-emerald-200 dark:border-emerald-900/60 p-4 rounded-2xl shadow-sm hover:shadow-md transition relative overflow-hidden">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-emerald-400 font-medium">ผ่านสัมภาษณ์ (ช่อง X)</span>
-          <span class="p-1.5 bg-emerald-950/60 rounded-lg text-emerald-400 border border-emerald-800"><i data-lucide="check-circle" class="w-4 h-4"></i></span>
+          <span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">ผ่านสัมภาษณ์ (ช่อง X)</span>
+          <span class="p-2 bg-emerald-50 dark:bg-emerald-950/60 rounded-xl text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"><i data-lucide="check-circle" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2 flex items-baseline justify-between">
-          <span id="kpiPassed" class="text-2xl font-bold text-emerald-400">0</span>
-          <span class="text-xs text-emerald-300/70">พร้อมบรรจุ</span>
+          <span id="kpiPassed" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">0</span>
+          <span class="text-xs text-emerald-600/80 dark:text-emerald-300/70">พร้อมบรรจุ</span>
         </div>
       </div>
 
       <!-- Waiting (รอสัมภาษณ์) -->
-      <div class="bg-slate-800/80 border border-amber-900/50 p-4 rounded-xl shadow relative overflow-hidden">
+      <div class="bg-white/80 dark:bg-slate-850 backdrop-blur border border-amber-200 dark:border-amber-900/60 p-4 rounded-2xl shadow-sm hover:shadow-md transition">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-amber-400 font-medium">รอสัมภาษณ์ (ช่อง X)</span>
-          <span class="p-1.5 bg-amber-950/60 rounded-lg text-amber-400 border border-amber-800"><i data-lucide="clock" class="w-4 h-4"></i></span>
+          <span class="text-xs text-amber-600 dark:text-amber-400 font-medium">รอสัมภาษณ์ (ช่อง X)</span>
+          <span class="p-2 bg-amber-50 dark:bg-amber-950/60 rounded-xl text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800"><i data-lucide="clock" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2 flex items-baseline justify-between">
-          <span id="kpiWaiting" class="text-2xl font-bold text-amber-300">0</span>
-          <span class="text-xs text-amber-400/70">รอคัดกรอง</span>
+          <span id="kpiWaiting" class="text-2xl font-extrabold text-amber-500 dark:text-amber-300">0</span>
+          <span class="text-xs text-amber-600/80 dark:text-amber-400/70">รอคัดกรอง</span>
         </div>
       </div>
 
-      <!-- Scheduled / Onboarding Due -->
-      <div class="bg-slate-800/80 border border-blue-900/50 p-4 rounded-xl shadow relative overflow-hidden">
+      <!-- Called Today & Awaiting Interview -->
+      <div class="bg-gradient-to-br from-amber-500/10 via-white/80 to-amber-500/5 dark:from-amber-950/40 dark:to-slate-850 backdrop-blur border border-amber-300 dark:border-amber-700/60 p-4 rounded-2xl shadow-sm hover:shadow-md transition">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-blue-400 font-medium">นัดแล้ว / รอนัด</span>
-          <span class="p-1.5 bg-blue-950/60 rounded-lg text-blue-400 border border-blue-800"><i data-lucide="calendar-clock" class="w-4 h-4"></i></span>
+          <span class="text-xs text-amber-700 dark:text-amber-300 font-semibold">โทรแล้ว รอนัดสัมภาษณ์</span>
+          <span class="p-2 bg-amber-100 dark:bg-amber-900/60 rounded-xl text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700"><i data-lucide="phone-forwarded" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2 flex items-baseline justify-between">
-          <span id="kpiScheduled" class="text-2xl font-bold text-blue-300">0</span>
-          <span class="text-xs text-blue-400/70">คน</span>
+          <span id="kpiCalledWaiting" class="text-2xl font-extrabold text-amber-600 dark:text-amber-300">0</span>
+          <span class="text-xs text-amber-600/90 dark:text-amber-300/80 font-medium">ติดตามวันนี้</span>
         </div>
       </div>
 
-      <!-- Part-time Pool Notice -->
-      <div class="col-span-2 sm:col-span-2 lg:col-span-1 bg-gradient-to-br from-rose-950/70 to-slate-900 border border-brand-pink/40 p-4 rounded-xl shadow relative">
+      <!-- Part-time continuous recruitment -->
+      <div class="col-span-2 sm:col-span-2 lg:col-span-1 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-950/70 dark:to-slate-900 border border-rose-200 dark:border-brand-pink/40 p-4 rounded-2xl shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="text-xs text-rose-300 font-medium">พาร์ทไทม์ (รับเรื่อยๆ)</span>
-          <span class="p-1.5 bg-rose-900/40 rounded-lg text-rose-300 border border-rose-700/50"><i data-lucide="refresh-cw" class="w-4 h-4"></i></span>
+          <span class="text-xs text-rose-600 dark:text-rose-300 font-medium">พาร์ทไทม์ (รับเรื่อยๆ)</span>
+          <span class="p-2 bg-white dark:bg-rose-900/40 rounded-xl text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-700/50"><i data-lucide="refresh-cw" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2 flex items-baseline justify-between">
-          <span id="kpiParttime" class="text-2xl font-bold text-rose-400">0</span>
-          <span class="text-[11px] text-rose-200/80 bg-rose-900/60 px-1.5 py-0.5 rounded">Ongoing</span>
+          <span id="kpiParttime" class="text-2xl font-extrabold text-brand-pink">0</span>
+          <span class="text-[11px] text-rose-600 dark:text-rose-200 font-medium bg-rose-100 dark:bg-rose-900/70 px-2 py-0.5 rounded-full">Ongoing</span>
         </div>
       </div>
     </div>
 
     <section id="view-candidates" class="space-y-4">
-      <!-- Search & Multi-Filter Bar -->
-      <div class="bg-slate-850 p-4 rounded-xl border border-slate-800 space-y-3">
+      
+      <!-- Multi-Filter & Search Bar -->
+      <div class="bg-white/80 dark:bg-slate-850 p-4 sm:p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm space-y-4">
+        
+        <!-- Search row (matching screenshot aesthetic) -->
         <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-          
-          <!-- Text Search -->
+          <!-- Text Search input -->
           <div class="relative flex-1">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="ค้นหาชื่อ, ชื่อเล่น, เบอร์โทร, วิชาที่สอน, หรือโน้ต..." class="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-pink">
+            <i data-lucide="search" class="w-4 h-4 text-rose-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="ค้นหาชื่อ-นามสกุล, ชื่อเล่น, เบอร์โทร, หรือวิชาที่สอน..." class="w-full pl-11 pr-4 py-2.5 bg-rose-50/50 dark:bg-slate-900 border border-rose-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-pink focus:ring-2 focus:ring-rose-400/20 transition">
           </div>
 
-          <!-- Filter Group -->
+          <!-- Filter Dropdowns -->
           <div class="flex flex-wrap items-center gap-2">
             <!-- Filter Status (ช่อง X) -->
-            <select id="filterStatus" onchange="applyFilters()" class="bg-slate-900 border border-slate-700 text-xs sm:text-sm rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-pink">
+            <select id="filterStatus" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-pink">
               <option value="ALL">สถานะช่อง X: ทั้งหมด</option>
               <option value="ผ่าน">ผ่านสัมภาษณ์</option>
               <option value="รอสัมภาษณ์">รอสัมภาษณ์</option>
@@ -246,7 +279,7 @@
             </select>
 
             <!-- Filter Branch -->
-            <select id="filterBranch" onchange="applyFilters()" class="bg-slate-900 border border-slate-700 text-xs sm:text-sm rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-pink max-w-[200px]">
+            <select id="filterBranch" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-pink max-w-[200px]">
               <option value="ALL">สาขา: ทุกสาขา</option>
               <option value="สาขาข้างเซ็นทรัล พระราม 2">สาขาข้างเซ็นทรัล พระราม 2</option>
               <option value="สาขาเดอะไบร์ท พระราม 2">สาขาเดอะไบร์ท พระราม 2</option>
@@ -257,82 +290,197 @@
               <option value="ไม่ระบุ/ออนไลน์">ไม่ระบุ / อื่นๆ</option>
             </select>
 
+            <!-- Filter Call Status -->
+            <select id="filterCallStatus" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-pink">
+              <option value="ALL">สถานะการโทร: ทั้งหมด</option>
+              <option value="โทรแล้ว - รอนัดสัมภาษณ์">📞 โทรแล้ว - รอนัดสัมภาษณ์</option>
+              <option value="โทรแล้ว - นัดวันแล้ว">✅ โทรแล้ว - นัดวันแล้ว</option>
+              <option value="ติดต่อไม่ได้ - รอโทรซ้ำ">⏳ ติดต่อไม่ได้ - รอโทรซ้ำ</option>
+              <option value="ยังไม่ได้โทร">⚪ ยังไม่ได้โทร</option>
+            </select>
+
             <!-- Filter Job Type -->
-            <select id="filterType" onchange="applyFilters()" class="bg-slate-900 border border-slate-700 text-xs sm:text-sm rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-pink">
+            <select id="filterType" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-pink">
               <option value="ALL">ประเภท: ทั้งหมด</option>
               <option value="ครูประจำ">ครูประจำ</option>
               <option value="พาร์ทไทม์">พาร์ทไทม์ (รับเรื่อยๆ)</option>
             </select>
 
-            <!-- Quick Reset Button -->
-            <button onclick="resetFilters()" title="ล้างตัวกรอง" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition">
+            <!-- Reset Filters -->
+            <button onclick="resetFilters()" title="ล้างตัวกรอง" class="p-2.5 bg-rose-50 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 rounded-xl text-slate-600 dark:text-slate-400 hover:text-rose-600 transition">
               <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
             </button>
           </div>
-
         </div>
 
-        <!-- Secondary Pipeline Fast Filter Tags -->
-        <div class="flex flex-wrap items-center gap-1.5 pt-1 text-xs border-t border-slate-800/80">
-          <span class="text-slate-400 mr-1 font-medium">มุมมองด่วน:</span>
-          <button onclick="quickFilter('ALL')" class="quick-pill px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">ทั้งหมด</button>
-          <button onclick="quickFilter('INTERVIEW_THIS_WEEK')" class="quick-pill px-2.5 py-1 rounded-md bg-blue-950/60 text-blue-300 border border-blue-900 hover:bg-blue-900">📅 สัมภาษณ์สัปดาห์นี้</button>
-          <button onclick="quickFilter('AWAITING_ANNOUNCE')" class="quick-pill px-2.5 py-1 rounded-md bg-amber-950/60 text-amber-300 border border-amber-900 hover:bg-amber-900">⏳ รอประกาศผล</button>
-          <button onclick="quickFilter('READY_ONBOARD')" class="quick-pill px-2.5 py-1 rounded-md bg-emerald-950/60 text-emerald-300 border border-emerald-900 hover:bg-emerald-900">🎉 แจ้งเข้างานเร็วๆ นี้</button>
-          <button onclick="quickFilter('PARTTIME_ONLY')" class="quick-pill px-2.5 py-1 rounded-md bg-rose-950/60 text-rose-300 border border-rose-900 hover:bg-rose-900">พาร์ทไทม์ทั้งหมด</button>
+        <!-- Date Selection Filter Section (เพิ่มวันที่ในการเลือกดูข้อมูลทั้งหมด) -->
+        <div class="pt-3 border-t border-rose-100 dark:border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1">
+              <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-brand-pink"></i>
+              <span>กรองตามวันที่:</span>
+            </span>
+
+            <!-- Select Date Type to match -->
+            <select id="dateFilterType" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 font-medium">
+              <option value="interviewDate">วันที่นัดสัมภาษณ์</option>
+              <option value="lastCallDate">วันที่โทรติดต่อ</option>
+              <option value="announceDate">วันที่ประกาศผล</option>
+              <option value="onboardDate">วันที่แจ้งเข้างาน</option>
+            </select>
+
+            <!-- Date Range Inputs -->
+            <div class="flex items-center space-x-1.5">
+              <input type="date" id="dateFilterStart" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-200">
+              <span class="text-slate-400">ถึง</span>
+              <input type="date" id="dateFilterEnd" onchange="applyFilters()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-200">
+            </div>
+
+            <!-- Date Quick Presets -->
+            <button onclick="setDateFilterPreset('today')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">วันนี้</button>
+            <button onclick="setDateFilterPreset('week')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">7 วันนี้</button>
+            <button onclick="setDateFilterPreset('month')" class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-slate-800 text-rose-600 dark:text-rose-300 font-medium hover:bg-rose-100 transition">เดือนนี้</button>
+            <button onclick="setDateFilterPreset('clear')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-white transition">ล้างวันที่</button>
+          </div>
+
+          <!-- Quick Pipeline Tabs -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button onclick="quickFilter('CALLED_WAITING_TODAY')" class="px-3 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-semibold border border-amber-300 dark:border-amber-800 hover:bg-amber-200 transition flex items-center space-x-1">
+              <i data-lucide="phone" class="w-3 h-3"></i>
+              <span>โทรแล้วรอนัดสัม</span>
+            </button>
+            <button onclick="quickFilter('AWAITING_CALL')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+              ยังไม่ได้โทร
+            </button>
+            <button onclick="quickFilter('INTERVIEW_UPCOMING')" class="px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:bg-blue-100 transition">
+              📅 สัมภาษณ์เร็วๆ นี้
+            </button>
+            <button onclick="quickFilter('READY_ONBOARD')" class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 transition">
+              🎉 แจ้งเข้างาน
+            </button>
+          </div>
         </div>
+
       </div>
 
-      <div class="bg-slate-850 rounded-xl border border-slate-800 overflow-hidden shadow-xl">
+      <div class="bg-white/85 dark:bg-slate-850 rounded-2xl border border-rose-100 dark:border-slate-800 overflow-hidden shadow-sm transition">
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs sm:text-sm text-slate-200">
-            <thead class="bg-slate-900/90 text-slate-400 uppercase text-[11px] tracking-wider border-b border-slate-800">
+          <table class="w-full text-left text-xs sm:text-sm text-slate-700 dark:text-slate-200">
+            <thead class="bg-rose-50/70 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 uppercase text-[11px] tracking-wider border-b border-rose-100 dark:border-slate-800">
               <tr>
-                <th scope="col" class="px-4 py-3.5 font-semibold">ชื่อ - นามสกุล / ชื่อเล่น</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">ตำแหน่ง & วิชา</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">สาขาที่สมัคร</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">ประเภทงาน</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold text-center">สถานะ (ช่อง X)</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">วันที่สัมภาษณ์</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">ประกาศผล</th>
-                <th scope="col" class="px-3 py-3.5 font-semibold">แจ้งเริ่มงาน</th>
-                <th scope="col" class="px-4 py-3.5 font-semibold text-right">การจัดการ</th>
+                <th scope="col" class="px-4 py-3.5 font-bold">ชื่อ-นามสกุล / ชื่อเล่น</th>
+                <th scope="col" class="px-3 py-3.5 font-bold">ตำแหน่ง & วิชา</th>
+                <th scope="col" class="px-3 py-3.5 font-bold">สาขาที่สมัคร</th>
+                <th scope="col" class="px-3 py-3.5 font-bold">ประเภทงาน</th>
+                <th scope="col" class="px-3 py-3.5 font-bold text-center">สถานะ (ช่อง X)</th>
+                <th scope="col" class="px-3 py-3.5 font-bold text-center">โทรติดตาม & ผลการโทร</th>
+                <th scope="col" class="px-3 py-3.5 font-bold">วันสัมภาษณ์</th>
+                <th scope="col" class="px-3 py-3.5 font-bold">ประกาศผล / เข้างาน</th>
+                <th scope="col" class="px-4 py-3.5 font-bold text-right">การจัดการ</th>
               </tr>
             </thead>
-            <tbody id="candidateTableBody" class="divide-y divide-slate-800/80 bg-slate-850">
+            <tbody id="candidateTableBody" class="divide-y divide-rose-100 dark:divide-slate-800/80">
               <!-- Dynamically Populated Rows -->
             </tbody>
           </table>
         </div>
 
-        <!-- Table Footer / Pagination / Row Count -->
-        <div class="px-4 py-3 bg-slate-900/60 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+        <!-- Table Footer / Count summary -->
+        <div class="px-4 py-3 bg-rose-50/40 dark:bg-slate-900/60 border-t border-rose-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-2">
           <div>
-            แสดงผล <span id="showingCount" class="font-medium text-white">0</span> จากทั้งหมด <span id="totalFilterCount" class="font-medium text-white">0</span> รายการ
+            แสดงผล <span id="showingCount" class="font-bold text-slate-900 dark:text-white">0</span> จากทั้งหมด <span id="totalFilterCount" class="font-bold text-slate-900 dark:text-white">0</span> รายการ
           </div>
-          <div class="flex items-center space-x-2">
-            <span class="text-[11px] text-slate-500">เคล็ดลับ: คลิกที่สถานะในตารางเพื่อเปลี่ยนแบบทันใจ</span>
+          <div class="flex items-center space-x-2 text-[11px]">
+            <span class="text-rose-500 dark:text-rose-400 font-medium">💡 คลิกที่สถานะช่อง X หรือคลิกปุ่มโทรเพื่ออัปเดตผลการโทรวันนี้ได้ทันที</span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="view-callcenter" class="hidden space-y-5">
+      <div class="bg-white/80 dark:bg-slate-850 p-5 rounded-2xl border border-amber-200 dark:border-amber-900/40 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="p-2 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-xl"><i data-lucide="phone-call" class="w-5 h-5"></i></span>
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white">ระบบบันทึกการโทร & รอนัดสัมภาษณ์ (Daily Call & Follow-up Tracker)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">บันทึกว่าวันนี้ครูคนไหนโทรติดต่อแล้ว และใครกำลังรอคอนเฟิร์มวันเวลานัดสัมภาษณ์</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="openQuickCallModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
+            <i data-lucide="phone-outgoing" class="w-4 h-4"></i>
+            <span>บันทึกการโทรใหม่วันนี้</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Call Log Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Box 1: โทรแล้ว รอนัดสัมภาษณ์ (Waiting for Interview confirmation) -->
+        <div class="bg-white/90 dark:bg-slate-850 p-4 rounded-2xl border border-amber-200 dark:border-amber-900/60 shadow-sm space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-amber-100 dark:border-slate-800">
+            <span class="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <span>โทรแล้ว - รอนัดสัมภาษณ์</span>
+            </span>
+            <span id="countCallWaiting" class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300">0</span>
+          </div>
+          <div id="callWaitingList" class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Box 2: โทรแล้ว นัดวันเรียบร้อย (Interview Confirmed) -->
+        <div class="bg-white/90 dark:bg-slate-850 p-4 rounded-2xl border border-blue-200 dark:border-blue-900/60 shadow-sm space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-blue-100 dark:border-slate-800">
+            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+              <span>โทรแล้ว - นัดวันได้แล้ว</span>
+            </span>
+            <span id="countCallConfirmed" class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">0</span>
+          </div>
+          <div id="callConfirmedList" class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Box 3: ยังไม่ได้โทร / รอโทรซ้ำ -->
+        <div class="bg-white/90 dark:bg-slate-850 p-4 rounded-2xl border border-rose-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-rose-100 dark:border-slate-800">
+            <span class="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+              <span>ยังไม่ได้โทร / รอโทรซ้ำ</span>
+            </span>
+            <span id="countCallPending" class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">0</span>
+          </div>
+          <div id="callPendingList" class="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
       </div>
     </section>
 
     <section id="view-branches" class="hidden space-y-6">
       
       <!-- Top Overview Banner: Fixed 6 Branches vs Part-time continuous recruitment -->
-      <div class="bg-gradient-to-r from-slate-850 via-slate-850 to-slate-800 border border-slate-700 p-5 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="bg-gradient-to-r from-rose-50 via-white to-pink-50 dark:from-slate-850 dark:via-slate-850 dark:to-slate-800 border border-rose-200 dark:border-slate-700 p-5 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
         <div>
           <div class="flex items-center space-x-2">
             <span class="w-3 h-3 rounded-full bg-brand-pink"></span>
-            <h2 class="text-lg font-bold text-white">โครงสร้างอัตรากำลังครูประจำ 6 สาขา & ครูพาร์ทไทม์</h2>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">โครงสร้างอัตรากำลังครูประจำ 6 สาขา & ครูพาร์ทไทม์</h2>
           </div>
-          <p class="text-xs text-slate-400 mt-1">กำหนดโควตาที่ต้องการรับครูแต่ละวิชา เปรียบเทียบกับจำนวนที่ผ่านการสัมภาษณ์และเริ่มงานจริง</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">กำหนดโควตาที่ต้องการรับครูแต่ละวิชา เปรียบเทียบกับจำนวนที่ผ่านการสัมภาษณ์และเริ่มงานจริง</p>
         </div>
         <div class="flex items-center gap-3">
-          <div class="bg-rose-950/80 border border-brand-pink/50 px-3.5 py-2 rounded-lg text-xs text-rose-200">
-            <span class="font-semibold text-rose-300">ครูพาร์ทไทม์:</span> เปิดรับเรื่อยๆ ทุกวิชา (Ongoing Openings)
+          <div class="bg-rose-100 dark:bg-rose-950/80 border border-brand-pink/40 px-3.5 py-2 rounded-xl text-xs text-rose-700 dark:text-rose-200">
+            <span class="font-bold text-brand-pink">ครูพาร์ทไทม์:</span> เปิดรับเรื่อยๆ ทุกวิชา (Ongoing Openings)
           </div>
-          <button onclick="openQuotaConfigModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 rounded-lg text-xs font-medium flex items-center space-x-1.5 transition">
+          <button onclick="openQuotaConfigModal()" class="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-sm">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-brand-pink"></i>
             <span>ปรับโควตาสาขา</span>
           </button>
@@ -345,16 +493,16 @@
       </div>
 
       <!-- Part-time Continuous Pool Section -->
-      <div class="bg-slate-850 border border-rose-900/40 rounded-xl p-5 space-y-4">
+      <div class="bg-white/90 dark:bg-slate-850 border border-rose-200 dark:border-rose-900/40 rounded-2xl p-5 space-y-4 shadow-sm">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center space-x-2.5">
-            <span class="p-2 rounded-lg bg-rose-950 text-brand-pink border border-rose-800"><i data-lucide="infinity" class="w-5 h-5"></i></span>
+            <span class="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-brand-pink border border-rose-200 dark:border-rose-800"><i data-lucide="infinity" class="w-5 h-5"></i></span>
             <div>
-              <h3 class="font-bold text-white text-base">ระบบรับสมัครครูพาร์ทไทม์ (Part-time Continuous Pool)</h3>
-              <p class="text-xs text-slate-400">กลุ่มนี้ไม่มีเพดานโควตาจำกัด สามารถรับสัมภาษณ์และเติมบุคลากรสำรองได้ต่อเนื่องทุกสาขา</p>
+              <h3 class="font-bold text-slate-900 dark:text-white text-base">ระบบรับสมัครครูพาร์ทไทม์ (Part-time Continuous Pool)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">กลุ่มนี้ไม่มีเพดานโควตาจำกัด สามารถรับสัมภาษณ์และเติมบุคลากรสำรองได้ต่อเนื่องทุกสาขา</p>
             </div>
           </div>
-          <div class="text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">
+          <div class="text-xs bg-rose-50 dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium">
             ผู้สมัครพาร์ทไทม์ในระบบ: <span id="parttimeTotalBadge" class="font-bold text-brand-pink">0</span> คน
           </div>
         </div>
@@ -366,61 +514,55 @@
     </section>
 
     <section id="view-schedule" class="hidden space-y-6">
-      <div class="bg-slate-850 p-5 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="bg-white/80 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
         <div>
-          <h2 class="text-lg font-bold text-white flex items-center space-x-2">
-            <i data-lucide="calendar-range" class="w-5 h-5 text-blue-400"></i>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+            <i data-lucide="calendar-range" class="w-5 h-5 text-blue-500"></i>
             <span>ไทม์ไลน์การสัมภาษณ์ & วันแจ้งเข้างาน (Schedule Tracker)</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-1">ติดตามวันนัดสัมภาษณ์ วันที่ต้องแจ้งผล และกำหนดการเริ่มงานของผู้ผ่านการคัดเลือก</p>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button onclick="filterScheduleView('ALL')" class="schedule-tab-btn active-schedule-tab px-3 py-1.5 text-xs rounded-lg bg-slate-750 text-white font-medium">ทั้งหมด</button>
-          <button onclick="filterScheduleView('UPCOMING_INTERVIEWS')" class="schedule-tab-btn px-3 py-1.5 text-xs rounded-lg bg-slate-900 text-slate-400 hover:text-white">คิวนัดสัมภาษณ์</button>
-          <button onclick="filterScheduleView('ANNOUNCE_DUE')" class="schedule-tab-btn px-3 py-1.5 text-xs rounded-lg bg-slate-900 text-slate-400 hover:text-white">รอบประกาศผล</button>
-          <button onclick="filterScheduleView('ONBOARDING_DUE')" class="schedule-tab-btn px-3 py-1.5 text-xs rounded-lg bg-slate-900 text-slate-400 hover:text-white">นัดเริ่มงาน</button>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ติดตามวันนัดสัมภาษณ์ วันที่ต้องแจ้งผล และกำหนดการเริ่มงานของผู้ผ่านการคัดเลือก</p>
         </div>
       </div>
 
       <!-- Schedule 3 Columns Board -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- Column 1: นัดสัมภาษณ์ (Interviews Scheduled) -->
-        <div class="bg-slate-850 rounded-xl border border-slate-850 p-4 space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <!-- Column 1: นัดสัมภาษณ์ -->
+        <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-blue-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-              <h3 class="font-semibold text-sm text-slate-200">นัดสัมภาษณ์ (Interview Scheduled)</h3>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200">นัดสัมภาษณ์ (Interview Scheduled)</h3>
             </div>
-            <span id="colCountInterview" class="text-xs bg-blue-950 text-blue-300 px-2 py-0.5 rounded font-mono font-semibold">0</span>
+            <span id="colCountInterview" class="text-xs bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
           <div id="colInterviewCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
             <!-- Cards populated by JS -->
           </div>
         </div>
 
-        <!-- Column 2: รอประกาศผล (Result Announcement Pending) -->
-        <div class="bg-slate-850 rounded-xl border border-slate-850 p-4 space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <!-- Column 2: รอประกาศผล -->
+        <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-amber-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-              <h3 class="font-semibold text-sm text-slate-200">กำหนดแจ้งผลสัมภาษณ์</h3>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200">กำหนดแจ้งผลสัมภาษณ์</h3>
             </div>
-            <span id="colCountAnnounce" class="text-xs bg-amber-950 text-amber-300 px-2 py-0.5 rounded font-mono font-semibold">0</span>
+            <span id="colCountAnnounce" class="text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
           <div id="colAnnounceCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
             <!-- Cards populated by JS -->
           </div>
         </div>
 
-        <!-- Column 3: วันแจ้งเข้างาน / เริ่มงาน (Onboarding Date) -->
-        <div class="bg-slate-850 rounded-xl border border-slate-850 p-4 space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <!-- Column 3: วันแจ้งเข้างาน / เริ่มงาน -->
+        <div class="bg-white/90 dark:bg-slate-850 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 space-y-3 shadow-sm">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <h3 class="font-semibold text-sm text-slate-200">แจ้งเข้างาน / บรรจุเริ่มสอน</h3>
+              <h3 class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200">แจ้งเข้างาน / บรรจุเริ่มสอน</h3>
             </div>
-            <span id="colCountOnboard" class="text-xs bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-mono font-semibold">0</span>
+            <span id="colCountOnboard" class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded font-mono font-bold">0</span>
           </div>
           <div id="colOnboardCards" class="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
             <!-- Cards populated by JS -->
@@ -433,8 +575,8 @@
     <section id="view-analytics" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Chart 1: Status Distribution (ช่อง X) -->
-        <div class="bg-slate-850 p-5 rounded-xl border border-slate-800">
-          <h3 class="font-semibold text-sm text-white mb-4 flex items-center space-x-2">
+        <div class="bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
             <i data-lucide="pie-chart" class="w-4 h-4 text-brand-pink"></i>
             <span>สัดส่วนสถานะการคัดเลือก (ช่อง X Breakdown)</span>
           </h3>
@@ -443,10 +585,10 @@
           </div>
         </div>
 
-        <!-- Chart 2: Branch Applicants Distribution -->
-        <div class="bg-slate-850 p-5 rounded-xl border border-slate-800">
-          <h3 class="font-semibold text-sm text-white mb-4 flex items-center space-x-2">
-            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i>
+        <!-- Chart 2: Branch Distribution -->
+        <div class="bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i>
             <span>จำนวนผู้สมัครแยกตาม 6 สาขา</span>
           </h3>
           <div class="h-64 flex items-center justify-center">
@@ -455,9 +597,9 @@
         </div>
 
         <!-- Chart 3: Subject Demand vs Passed -->
-        <div class="col-span-1 lg:col-span-2 bg-slate-850 p-5 rounded-xl border border-slate-800">
-          <h3 class="font-semibold text-sm text-white mb-4 flex items-center space-x-2">
-            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+        <div class="col-span-1 lg:col-span-2 bg-white/90 dark:bg-slate-850 p-5 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center space-x-2">
+            <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
             <span>สถิติจำนวนผู้สมัครและผู้ผ่านการคัดเลือกแยกตามรายวิชา</span>
           </h3>
           <div class="h-72">
@@ -468,145 +610,88 @@
     </section>
 
     <section id="view-worker" class="hidden space-y-6">
-      <div class="bg-slate-850 p-6 rounded-xl border border-slate-800 space-y-6">
-        
-        <div class="border-b border-slate-800 pb-4">
-          <h2 class="text-xl font-bold text-white flex items-center space-x-2.5">
-            <i data-lucide="cloud-cog" class="w-6 h-6 text-amber-400"></i>
+      <div class="bg-white/90 dark:bg-slate-850 p-6 rounded-2xl border border-rose-100 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
+            <i data-lucide="cloud-cog" class="w-6 h-6 text-brand-pink"></i>
             <span>สถาปัตยกรรมการเชื่อมต่อ GitHub Pages + Cloudflare Workers</span>
           </h2>
-          <p class="text-sm text-slate-400 mt-1">
-            หน้านี้สรุปวิธีนำไฟล์ HTML นี้ไปรันผ่าน GitHub Repository และรัน Backend เบาๆ ผ่าน Cloudflare Workers
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            นำไฟล์ <code class="text-brand-pink font-mono">index.html</code> นี้ไปรันผ่าน GitHub Pages และเชื่อมต่อกับ Cloudflare Workers ที่มีฟังก์ชันสไตล์ Apps Script
           </p>
         </div>
 
-        <!-- Architecture Flow -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-          <div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
-            <span class="inline-block p-3 rounded-full bg-slate-800 text-blue-400 mb-2 font-bold">1</span>
-            <h4 class="font-semibold text-sm text-white">GitHub Repository / Pages</h4>
-            <p class="text-xs text-slate-400 mt-1">อัปโหลดไฟล์ <code class="text-rose-400 font-mono">index.html</code> นี้ขึ้น GitHub และเปิดใช้งาน GitHub Pages เพื่อให้ทีม HR เข้าใช้งานได้ทุกที่ตลอดเวลา</p>
+          <div class="p-4 bg-rose-50/50 dark:bg-slate-900 rounded-2xl border border-rose-100 dark:border-slate-800">
+            <span class="inline-block p-3 rounded-full bg-rose-100 dark:bg-slate-800 text-brand-pink mb-2 font-bold">1</span>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">GitHub Repository / Pages</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">อัปโหลดไฟล์ HTML ไปไว้ที่ Repo แล้วเปิด GitHub Pages เข้าใช้งานได้ทันที</p>
           </div>
-          <div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
-            <span class="inline-block p-3 rounded-full bg-slate-800 text-amber-400 mb-2 font-bold">2</span>
-            <h4 class="font-semibold text-sm text-white">Cloudflare Worker (API / Database)</h4>
-            <p class="text-xs text-slate-400 mt-1">ทำหน้าที่เป็น REST API Proxy รับส่งข้อมูลสถานะผู้สมัคร (JSON / D1 / KV / Google Sheets Sync) ด้วย latency ต่ำและไม่มีค่าใช้จ่ายเซิร์ฟเวอร์</p>
+          <div class="p-4 bg-amber-50/50 dark:bg-slate-900 rounded-2xl border border-amber-100 dark:border-slate-800">
+            <span class="inline-block p-3 rounded-full bg-amber-100 dark:bg-slate-800 text-amber-600 mb-2 font-bold">2</span>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Cloudflare Worker (API)</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">รับ-ส่งข้อมูลสถานะช่อง X ผ่าน API แบบ doGet/doPost พร้อมเก็บข้อมูลใน KV Store</p>
           </div>
-          <div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
-            <span class="inline-block p-3 rounded-full bg-slate-800 text-emerald-400 mb-2 font-bold">3</span>
-            <h4 class="font-semibold text-sm text-white">Client Data Sync</h4>
-            <p class="text-xs text-slate-400 mt-1">ระบบเว็บเชื่อมต่ออัตโนมัติ มีโหมด Standalone ออฟไลน์พร้อมรองรับการนำเข้าไฟล์ CSV เดิมจากแบบฟอร์มสมัครงาน</p>
+          <div class="p-4 bg-emerald-50/50 dark:bg-slate-900 rounded-2xl border border-emerald-100 dark:border-slate-800">
+            <span class="inline-block p-3 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 mb-2 font-bold">3</span>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white">Live Data Sync</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ข้อมูลการโทรและสถานะสัมภาษณ์จะถูกซิงก์อัปเดตแบบเรียลไทม์</p>
           </div>
         </div>
-
-        <!-- Worker Code Snippet Box -->
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-300">ตัวอย่างโค้ด Cloudflare Worker (<code class="text-rose-400">worker.js</code>)</span>
-            <button onclick="copyWorkerCode()" class="text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 flex items-center space-x-1">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span id="copyBtnText">คัดลอกโค้ด</span>
-            </button>
-          </div>
-          <pre id="workerCodeBlock" class="p-4 bg-slate-950 rounded-lg text-xs font-mono text-emerald-400 overflow-x-auto border border-slate-800 leading-relaxed max-h-96">
-/**
- * LNC+ Recruitment Cloudflare Worker API
- * รองรับการอ่าน/บันทึกสถานะผู้สมัคร (ผ่าน / รอสัมภาษณ์) และข้อมูลสาขา
- */
-export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    
-    // ตั้งค่า CORS headers เพื่อให้ GitHub Pages เรียกใช้งานได้
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    };
-
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
-    }
-
-    // Endpoint: GET /api/candidates
-    if (url.pathname === '/api/candidates' && request.method === 'GET') {
-      // สามารถดึงจาก Cloudflare KV หรือ D1 Database
-      // ตัวอย่างการดึงจาก KV: const data = await env.LNC_RECRUIT_KV.get('candidates');
-      return new Response(JSON.stringify({ status: 'ok', data: [] }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Endpoint: POST /api/candidates (บันทึกหรืออัปเดตสถานะช่อง X)
-    if (url.pathname === '/api/candidates' && request.method === 'POST') {
-      const payload = await request.json();
-      // ตัวอย่าง: await env.LNC_RECRUIT_KV.put('candidates', JSON.stringify(payload));
-      return new Response(JSON.stringify({ status: 'saved', count: payload.length }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    return new Response(JSON.stringify({ message: "LNC+ Recruitment Worker API Active" }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-    });
-  }
-};</pre>
-        </div>
-
       </div>
     </section>
 
   </main>
 
-  <div id="candidateModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150">
+  <div id="candidateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150">
       
       <!-- Modal Header -->
-      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-850">
+      <div class="px-6 py-4 border-b border-rose-100 dark:border-slate-800 flex items-center justify-between bg-rose-50/50 dark:bg-slate-850">
         <div class="flex items-center space-x-2">
           <span class="w-3 h-3 rounded-full bg-brand-pink"></span>
-          <h3 id="modalCandidateTitle" class="text-base font-bold text-white">เพิ่มข้อมูลผู้สมัครใหม่</h3>
+          <h3 id="modalCandidateTitle" class="text-base font-bold text-slate-900 dark:text-white">เพิ่มข้อมูลผู้สมัครใหม่</h3>
         </div>
-        <button onclick="closeCandidateModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+        <button onclick="closeCandidateModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- Modal Body -->
+      <!-- Modal Body Form -->
       <form id="candidateForm" onsubmit="saveCandidate(event)" class="p-6 space-y-4 overflow-y-auto flex-1 text-xs sm:text-sm">
         <input type="hidden" id="cId">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- Full Name -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">ชื่อ - นามสกุล <span class="text-rose-500">*</span></label>
-            <input type="text" id="cName" required placeholder="เช่น นายสมคิด เรียนดี" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อ - นามสกุล <span class="text-rose-500">*</span></label>
+            <input type="text" id="cName" required placeholder="เช่น นายสมคิด เรียนดี" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
           <!-- Nickname -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">ชื่อเล่น</label>
-            <input type="text" id="cNickname" placeholder="เช่น ครูคิด" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ชื่อเล่น</label>
+            <input type="text" id="cNickname" placeholder="เช่น ครูคิด" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- Phone -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">เบอร์โทรศัพท์ <span class="text-rose-500">*</span></label>
-            <input type="tel" id="cPhone" required placeholder="08x-xxx-xxxx" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">เบอร์โทรศัพท์ <span class="text-rose-500">*</span></label>
+            <input type="tel" id="cPhone" required placeholder="08x-xxx-xxxx" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
-          <!-- Line ID / Email -->
+          <!-- Contact / Line ID -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">LINE ID หรือ อีเมล</label>
-            <input type="text" id="cContact" placeholder="Line ID หรือ อีเมล" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">LINE ID หรือ อีเมล</label>
+            <input type="text" id="cContact" placeholder="Line ID หรือ อีเมล" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- Position / Subject -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">วิชาที่ต้องการสอน <span class="text-rose-500">*</span></label>
-            <select id="cSubject" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">วิชาที่ต้องการสอน <span class="text-rose-500">*</span></label>
+            <select id="cSubject" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
               <option value="คณิตศาสตร์">คณิตศาสตร์</option>
               <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
               <option value="ฟิสิกส์">ฟิสิกส์</option>
@@ -624,8 +709,8 @@ export default {
 
           <!-- Employment Type -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">ประเภทการจ้าง <span class="text-rose-500">*</span></label>
-            <select id="cType" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ประเภทการจ้าง <span class="text-rose-500">*</span></label>
+            <select id="cType" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
               <option value="ครูประจำ">ครูประจำ (บรรจุตามโควตาสาขา)</option>
               <option value="พาร์ทไทม์">พาร์ทไทม์ (รับเรื่อยๆ ไม่จำกัด)</option>
             </select>
@@ -635,8 +720,8 @@ export default {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- Branch -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">สาขาที่สมัคร / ปฏิบัติงาน <span class="text-rose-500">*</span></label>
-            <select id="cBranch" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">สาขาที่สมัคร / ปฏิบัติงาน <span class="text-rose-500">*</span></label>
+            <select id="cBranch" required class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
               <option value="สาขาข้างเซ็นทรัล พระราม 2">สาขาข้างเซ็นทรัล พระราม 2</option>
               <option value="สาขาเดอะไบร์ท พระราม 2">สาขาเดอะไบร์ท พระราม 2</option>
               <option value="สาขาแลนด์มาร์ค มหาชัย">สาขาแลนด์มาร์ค มหาชัย</option>
@@ -647,10 +732,10 @@ export default {
             </select>
           </div>
 
-          <!-- STATUS (ช่อง X) -->
+          <!-- Status ช่อง X -->
           <div>
-            <label class="block text-slate-300 font-medium mb-1">สถานะผลการคัดเลือก (อิงช่อง X) <span class="text-rose-500">*</span></label>
-            <select id="cStatus" required class="w-full px-3 py-2 bg-slate-800 border border-rose-500/50 rounded-lg text-rose-300 font-semibold focus:outline-none focus:border-brand-pink">
+            <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">สถานะผลการคัดเลือก (อิงช่อง X) <span class="text-rose-500">*</span></label>
+            <select id="cStatus" required class="w-full px-3.5 py-2 bg-rose-50 dark:bg-slate-800 border border-rose-300 dark:border-rose-500/50 rounded-xl text-rose-600 dark:text-rose-300 font-semibold focus:outline-none focus:border-brand-pink">
               <option value="รอสัมภาษณ์">รอสัมภาษณ์</option>
               <option value="นัดสัมภาษณ์แล้ว">นัดสัมภาษณ์แล้ว</option>
               <option value="ผ่าน">ผ่าน (ผ่านสัมภาษณ์/รับเข้าทำงาน)</option>
@@ -661,53 +746,64 @@ export default {
           </div>
         </div>
 
-        <div class="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800 space-y-3">
-          <span class="text-xs font-semibold text-brand-pink uppercase tracking-wider block">ไทม์ไลน์การคัดเลือก & แจ้งเริ่มงาน</span>
+        <!-- Daily Call Status & Follow-up Section -->
+        <div class="bg-amber-50/70 dark:bg-amber-950/30 p-4 rounded-2xl border border-amber-200 dark:border-amber-800/60 space-y-3">
+          <div class="flex items-center space-x-2 text-xs font-bold text-amber-700 dark:text-amber-400">
+            <i data-lucide="phone-call" class="w-4 h-4"></i>
+            <span>ระบบติดตามการโทร & วันนัดสัมภาษณ์</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">สถานะการโทรล่าสุด</label>
+              <select id="cCallStatus" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs font-medium focus:outline-none">
+                <option value="ยังไม่ได้โทร">⚪ ยังไม่ได้โทร</option>
+                <option value="โทรแล้ว - รอนัดสัมภาษณ์">📞 โทรแล้ว - รอนัดสัมภาษณ์</option>
+                <option value="โทรแล้ว - นัดวันแล้ว">✅ โทรแล้ว - นัดวันแล้ว</option>
+                <option value="ติดต่อไม่ได้ - รอโทรซ้ำ">⏳ ติดต่อไม่ได้ - รอโทรซ้ำ</option>
+                <option value="ไม่สะดวก/สละสิทธิ์">❌ ไม่สะดวก / สละสิทธิ์</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่โทรติดต่อล่าสุด</label>
+              <input type="date" id="cLastCallDate" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Dates Section -->
+        <div class="bg-slate-50 dark:bg-slate-950/70 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+          <span class="text-xs font-bold text-brand-pink uppercase tracking-wider block">ไทม์ไลน์การคัดเลือก & แจ้งเริ่มงาน</span>
           
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <!-- Interview Date -->
             <div>
-              <label class="block text-slate-400 text-xs mb-1">วันที่นัดสัมภาษณ์</label>
-              <input type="date" id="cInterviewDate" class="w-full px-2.5 py-1.5 bg-slate-850 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่นัดสัมภาษณ์</label>
+              <input type="date" id="cInterviewDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
             </div>
-
-            <!-- Result Announcement Date -->
             <div>
-              <label class="block text-slate-400 text-xs mb-1">วันที่ประกาศผล</label>
-              <input type="date" id="cAnnounceDate" class="w-full px-2.5 py-1.5 bg-slate-850 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่ประกาศผล</label>
+              <input type="date" id="cAnnounceDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
             </div>
-
-            <!-- Onboarding Date -->
             <div>
-              <label class="block text-slate-400 text-xs mb-1">วันที่แจ้งเข้างาน / เริ่มงาน</label>
-              <input type="date" id="cOnboardDate" class="w-full px-2.5 py-1.5 bg-slate-850 border border-slate-700 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
+              <label class="block text-slate-600 dark:text-slate-400 text-xs mb-1">วันที่แจ้งเข้างาน / เริ่มงาน</label>
+              <input type="date" id="cOnboardDate" class="w-full px-2.5 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-brand-pink">
             </div>
           </div>
         </div>
 
-        <!-- Notes & Portfolio -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-slate-300 font-medium mb-1">ลิงก์ประวัติ / CV / Portfolio</label>
-            <input type="url" id="cPortfolio" placeholder="https://..." class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
-          </div>
-          <div>
-            <label class="block text-slate-300 font-medium mb-1">เกรดเฉลี่ย / คะแนนประเมิน</label>
-            <input type="text" id="cScore" placeholder="เช่น GPA 3.65 / A+" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
-          </div>
-        </div>
-
+        <!-- Notes -->
         <div>
-          <label class="block text-slate-300 font-medium mb-1">บันทึกเพิ่มเติมจากฝ่ายบุคคล (HR Notes)</label>
-          <textarea id="cNotes" rows="2" placeholder="เช่น สะดวกเริ่มสอนเสาร์-อาทิตย์, มีประสบการณ์ติวสอบแข่งขัน..." class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink"></textarea>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">บันทึกเพิ่มเติมจากฝ่ายบุคคล (HR Notes / บันทึกการโทร)</label>
+          <textarea id="cNotes" rows="2" placeholder="เช่น สะดวกเริ่มสอนเสาร์-อาทิตย์, โทรคุยแล้วจะแจ้งวันสัมภาษณ์พรุ่งนี้..." class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:border-brand-pink"></textarea>
         </div>
 
         <!-- Modal Footer -->
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-end space-x-3">
-          <button type="button" onclick="closeCandidateModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-medium transition">
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-3">
+          <button type="button" onclick="closeCandidateModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-medium transition">
             ยกเลิก
           </button>
-          <button type="submit" class="px-5 py-2 rounded-lg bg-brand-pink hover:bg-brand-pinkHover text-white text-xs sm:text-sm font-medium shadow-md transition flex items-center space-x-1.5">
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-pink hover:bg-brand-pinkHover text-white text-xs sm:text-sm font-semibold shadow-md shadow-rose-500/25 transition flex items-center space-x-1.5">
             <i data-lucide="check" class="w-4 h-4"></i>
             <span>บันทึกข้อมูล</span>
           </button>
@@ -717,89 +813,128 @@ export default {
     </div>
   </div>
 
-  <div id="csvModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+  <div id="quickCallModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2">
-          <i data-lucide="file-spreadsheet" class="w-5 h-5 text-brand-pink"></i>
-          <h3 class="text-base font-bold text-white">นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV</h3>
+          <span class="p-1.5 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-lg"><i data-lucide="phone-outgoing" class="w-4 h-4"></i></span>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">อัปเดตผลการโทรวันนี้</h3>
         </div>
-        <button onclick="closeCsvModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeQuickCallModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
 
-      <p class="text-xs text-slate-300">
-        ระบบจะอ่านข้อมูลไฟล์สมัครงานของ LNC Plus โดยอัตโนมัติ และจะทำการตรวจจับข้อมูลใน <strong>ช่อง X (สถานะ ผ่าน / รอสัมภาษณ์)</strong> เพื่ออัปเดตลงในระบบ
-      </p>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">เลือกผู้สมัครที่โทรติดต่อ</label>
+          <select id="quickCallCandidateSelect" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-medium">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
 
-      <!-- Drag & Drop Zone -->
-      <div id="dropZone" onclick="document.getElementById('csvFileInput').click()" class="border-2 border-dashed border-slate-700 hover:border-brand-pink rounded-xl p-8 text-center cursor-pointer bg-slate-950/50 hover:bg-slate-900 transition">
-        <input type="file" id="csvFileInput" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(event)" class="hidden">
-        <i data-lucide="upload-cloud" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
-        <p class="text-sm font-medium text-slate-200">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์ CSV / Excel มาวางที่นี่</p>
-        <p class="text-xs text-slate-500 mt-1">รองรับไฟล์สมัครงาน LNC Plus ทุกช่วงเดือน (April, Mar, Form Responses)</p>
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">ผลการโทรวันนี้</label>
+          <select id="quickCallStatusSelect" class="w-full px-3 py-2 bg-amber-50 dark:bg-slate-800 border border-amber-300 dark:border-amber-700 rounded-xl text-amber-800 dark:text-amber-300 font-semibold">
+            <option value="โทรแล้ว - รอนัดสัมภาษณ์">📞 โทรแล้ว - รอนัดสัมภาษณ์</option>
+            <option value="โทรแล้ว - นัดวันแล้ว">✅ โทรแล้ว - นัดวันแล้ว</option>
+            <option value="ติดต่อไม่ได้ - รอโทรซ้ำ">⏳ ติดต่อไม่ได้ - รอโทรซ้ำ</option>
+            <option value="ไม่สะดวก/สละสิทธิ์">❌ ไม่สะดวก / สละสิทธิ์</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">บันทึกข้อความสรุปการโทร</label>
+          <input type="text" id="quickCallNoteInput" placeholder="เช่น ติดต่อได้ รอน้องเช็กตารางสอน ม.เกษตร" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200">
+        </div>
       </div>
 
-      <div id="csvPreviewInfo" class="hidden p-3 bg-slate-800 rounded-lg text-xs text-slate-300 space-y-1">
-        <!-- Preview detail populated by JS -->
-      </div>
-
-      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
-        <button onclick="closeCsvModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-xs">ปิด</button>
+      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeQuickCallModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-medium">ยกเลิก</button>
+        <button onclick="submitQuickCallLog()" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm">บันทึกผลการโทร</button>
       </div>
     </div>
   </div>
 
-  <div id="quotaModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+  <!-- CSV Modal -->
+  <div id="csvModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2">
-          <i data-lucide="settings" class="w-5 h-5 text-amber-400"></i>
-          <h3 class="text-base font-bold text-white">ปรับโควตารับครูประจำ 6 สาขา & วิชา</h3>
+          <i data-lucide="file-spreadsheet" class="w-5 h-5 text-brand-pink"></i>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">นำเข้าข้อมูลจาก Google Form / ไฟล์ CSV</h3>
+        </div>
+        <button onclick="closeCsvModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-600 dark:text-slate-300">
+        ระบบจะอ่านข้อมูลไฟล์สมัครงานของ LNC Plus โดยอัตโนมัติ และจะทำการตรวจจับข้อมูลใน <strong>ช่อง X (สถานะ ผ่าน / รอสัมภาษณ์)</strong> เพื่ออัปเดตลงในระบบ
+      </p>
+
+      <div id="dropZone" onclick="document.getElementById('csvFileInput').click()" class="border-2 border-dashed border-rose-200 dark:border-slate-700 hover:border-brand-pink rounded-2xl p-8 text-center cursor-pointer bg-rose-50/40 dark:bg-slate-950/50 hover:bg-rose-50 transition">
+        <input type="file" id="csvFileInput" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(event)" class="hidden">
+        <i data-lucide="upload-cloud" class="w-10 h-10 text-rose-400 mx-auto mb-2"></i>
+        <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์ CSV / Excel มาวางที่นี่</p>
+        <p class="text-xs text-slate-400 mt-1">รองรับไฟล์สมัครงาน LNC Plus ทุกช่วงเดือน (April, Mar, Form Responses)</p>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeCsvModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branch Quota Modal -->
+  <div id="quotaModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="settings" class="w-5 h-5 text-amber-500"></i>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">ปรับโควตารับครูประจำ 6 สาขา & วิชา</h3>
         </div>
         <button onclick="closeQuotaModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <p class="text-xs text-slate-400">
-        กำหนดจำนวนอัตราที่ต้องการรับครูประจำแต่ละสาขา (เฉพาะครูประจำ เนื่องจากพาร์ทไทม์จะรับเรื่อยๆ ตามชั่วโมงสอน)
+      <p class="text-xs text-slate-500 dark:text-slate-400">
+        กำหนดจำนวนอัตราที่ต้องการรับครูประจำแต่ละสาขา (เฉพาะครูประจำ เนื่องจากพาร์ทไทม์จะรับเรื่อยๆ ไม่จำกัด)
       </p>
 
       <div id="quotaSettingsList" class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs">
         <!-- Dynamically rendered per branch -->
       </div>
 
-      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-800">
-        <button onclick="closeQuotaModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-xs">ยกเลิก</button>
-        <button onclick="saveBranchQuotas()" class="px-5 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-lg text-xs font-medium">บันทึกโควตา</button>
+      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeQuotaModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs">ยกเลิก</button>
+        <button onclick="saveBranchQuotas()" class="px-5 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-xl text-xs font-semibold">บันทึกโควตา</button>
       </div>
     </div>
   </div>
 
-  <div id="workerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+  <!-- Cloudflare Worker Modal -->
+  <div id="workerModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2">
           <i data-lucide="cloud-lightning" class="w-5 h-5 text-brand-pink"></i>
-          <h3 class="text-base font-bold text-white">ตั้งค่า Cloudflare Worker API</h3>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">ตั้งค่า Cloudflare Worker API</h3>
         </div>
         <button onclick="closeWorkerModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
       <div class="space-y-3 text-xs">
         <div>
-          <label class="block text-slate-300 font-medium mb-1">Cloudflare Worker URL</label>
-          <input type="url" id="workerApiUrlInput" placeholder="https://lnc-recruit-api.yourname.workers.dev" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:outline-none focus:border-brand-pink">
-          <p class="text-[11px] text-slate-500 mt-1">ปล่อยว่างเพื่อใช้งานโหมดออฟไลน์ / ทดสอบบน GitHub Pages ได้ทันที</p>
+          <label class="block text-slate-700 dark:text-slate-300 font-medium mb-1">Cloudflare Worker URL</label>
+          <input type="url" id="workerApiUrlInput" placeholder="https://lnc-recruit-api.yourname.workers.dev" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 focus:outline-none focus:border-brand-pink">
+          <p class="text-[11px] text-slate-400 mt-1">ปล่อยว่างเพื่อใช้งานโหมด Local Standalone ได้ทันที</p>
         </div>
 
-        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 flex items-center justify-between">
-          <span class="text-slate-300">สถานะการเชื่อมต่อ:</span>
-          <span id="workerConnectionBadge" class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">ยังไม่ได้เชื่อมต่อ</span>
+        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <span class="text-slate-600 dark:text-slate-300">สถานะการเชื่อมต่อ:</span>
+          <span id="workerConnectionBadge" class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">ยังไม่ได้เชื่อมต่อ</span>
         </div>
       </div>
 
-      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-800">
-        <button onclick="testWorkerConnection()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium">ทดสอบ Ping API</button>
-        <button onclick="saveWorkerConfig()" class="px-4 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-lg text-xs font-medium">บันทึกค่า</button>
+      <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="testWorkerConnection()" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold">ทดสอบ Ping API</button>
+        <button onclick="saveWorkerConfig()" class="px-4 py-2 bg-brand-pink hover:bg-brand-pinkHover text-white rounded-xl text-xs font-semibold">บันทึกค่า</button>
       </div>
     </div>
   </div>
@@ -811,9 +946,9 @@ export default {
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
     // =========================================================================
-    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; // <-- ใส่ลิงก์ Cloudflare Worker ของคุณที่บรรทัดนี้
+    const DEFAULT_WORKER_URL = ""; 
 
     // --- 1. CORE DATA STORE & INITIALIZATION ---
     const SIX_BRANCHES = [
@@ -840,7 +975,7 @@ export default {
       "อื่นๆ"
     ];
 
-    // Branch Quota Configurations (Target per subject for Full-time staff)
+    // Branch Quotas for Full-time staff
     let branchQuotas = {
       "สาขาข้างเซ็นทรัล พระราม 2": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ฟิสิกส์": 1, "เคมี": 1, "ชีววิทยา": 1, "Coding/หุ่นยนต์": 1 },
       "สาขาเดอะไบร์ท พระราม 2": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ภาษาไทย": 1, "สังคมศึกษา": 1 },
@@ -850,7 +985,13 @@ export default {
       "สาขา Happitat บางนา": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ปฐมวัย/เตรียมประถม": 2 }
     };
 
-    // Preloaded Candidate Sample Data (Modelled after uploaded LNC Plus CSV sheets)
+    // Helper: get today in YYYY-MM-DD
+    function getTodayString() {
+      const d = new Date();
+      return d.toISOString().split('T')[0];
+    }
+
+    // Preloaded Candidate Sample Data (includes call status and dates)
     let candidates = [
       {
         id: "c-101",
@@ -861,12 +1002,12 @@ export default {
         subject: "คณิตศาสตร์",
         type: "ครูประจำ",
         branch: "สาขาข้างเซ็นทรัล พระราม 2",
-        status: "ผ่าน", // อิงช่อง X
+        status: "ผ่าน", // ช่อง X
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: getTodayString(),
         interviewDate: "2026-08-25",
         announceDate: "2026-08-28",
         onboardDate: "2026-09-08",
-        portfolio: "https://example.com/jan-cv",
-        score: "เกียรตินิยมอันดับ 1 มศว",
         notes: "สอนสดสนุก มีประสบการณ์ติวสอบเข้า ม.1"
       },
       {
@@ -878,13 +1019,13 @@ export default {
         subject: "ฟิสิกส์",
         type: "ครูประจำ",
         branch: "สาขาเดอะวอล์ค ราชพฤกษ์",
-        status: "รอสัมภาษณ์", // อิงช่อง X
+        status: "รอสัมภาษณ์", // ช่อง X
+        callStatus: "โทรแล้ว - รอนัดสัมภาษณ์",
+        lastCallDate: getTodayString(),
         interviewDate: "2026-09-06",
         announceDate: "2026-09-10",
         onboardDate: "2026-09-15",
-        portfolio: "",
-        score: "จุฬาลงกรณ์มหาวิทยาลัย",
-        notes: "รอคอนเฟิร์มเวลาสัมภาษณ์ช่วงบ่าย"
+        notes: "โทรแล้ว รอนัดวันสัมภาษณ์ช่วงบ่าย"
       },
       {
         id: "c-103",
@@ -896,11 +1037,11 @@ export default {
         type: "พาร์ทไทม์",
         branch: "สาขาเดอะไบร์ท พระราม 2",
         status: "ผ่าน",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: "2026-08-19",
         interviewDate: "2026-08-20",
         announceDate: "2026-08-22",
         onboardDate: "2026-09-05",
-        portfolio: "",
-        score: "TOEIC 920",
         notes: "สอนพาร์ทไทม์ช่วงวันเสาร์-อาทิตย์"
       },
       {
@@ -913,11 +1054,11 @@ export default {
         type: "ครูประจำ",
         branch: "สาขาแลนด์มาร์ค มหาชัย",
         status: "แจ้งเข้างานแล้ว",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: "2026-08-10",
         interviewDate: "2026-08-15",
         announceDate: "2026-08-18",
         onboardDate: "2026-09-01",
-        portfolio: "",
-        score: "ม.มหิดล",
         notes: "เริ่มปฏิบัติงานประจำสาขามหาชัยแล้ว"
       },
       {
@@ -930,11 +1071,11 @@ export default {
         type: "ครูประจำ",
         branch: "สาขา Meta Mall เชียงใหม่",
         status: "นัดสัมภาษณ์แล้ว",
+        callStatus: "โทรแล้ว - นัดวันแล้ว",
+        lastCallDate: getTodayString(),
         interviewDate: "2026-09-05",
         announceDate: "2026-09-09",
         onboardDate: "2026-09-18",
-        portfolio: "",
-        score: "มช. วิศวะคอมพิวเตอร์",
         notes: "นัดสัมภาษณ์ออนไลน์ผ่าน Google Meet"
       },
       {
@@ -947,23 +1088,42 @@ export default {
         type: "พาร์ทไทม์",
         branch: "สาขา Happitat บางนา",
         status: "รอสัมภาษณ์",
+        callStatus: "โทรแล้ว - รอนัดสัมภาษณ์",
+        lastCallDate: getTodayString(),
         interviewDate: "",
         announceDate: "",
         onboardDate: "",
-        portfolio: "",
-        score: "ม.เกษตรศาสตร์",
-        notes: "กลุ่มพาร์ทไทม์ รอจัดตารางสัมภาษณ์รอบถัดไป"
+        notes: "กลุ่มพาร์ทไทม์ โทรคุยแล้ว น้องกำลังดูตารางว่างเพื่อรอนัดสัมภาษณ์"
+      },
+      {
+        id: "c-107",
+        name: "ชุติรัตน์ ประเสริฐสุข",
+        nickname: "ครูนุ่น",
+        phone: "082-991-3456",
+        contact: "Line: noon_lnc",
+        subject: "ชีววิทยา",
+        type: "ครูประจำ",
+        branch: "สาขาข้างเซ็นทรัล พระราม 2",
+        status: "รอสัมภาษณ์",
+        callStatus: "ยังไม่ได้โทร",
+        lastCallDate: "",
+        interviewDate: "",
+        announceDate: "",
+        onboardDate: "",
+        notes: "เพิ่งส่งใบสมัคร รอ HR โทรติดต่อ"
       }
     ];
 
     let currentEditingId = null;
     let chartInstances = {};
-    // ดึงค่าจาก DEFAULT_WORKER_URL หรือจากที่เคยบันทึกไว้ใน Browser
     let workerApiUrl = DEFAULT_WORKER_URL;
 
     // --- 2. INITIALIZATION ON WINDOW LOAD ---
     window.addEventListener('DOMContentLoaded', async () => {
-      // Load saved data from memory or localStorage if available
+      // 2.1 Load Theme
+      initTheme();
+
+      // 2.2 Load persisted candidates & quotas
       try {
         const savedData = localStorage.getItem('lnc_recruitment_candidates');
         if (savedData) candidates = JSON.parse(savedData);
@@ -979,26 +1139,60 @@ export default {
         }
 
         if (workerApiUrl) {
-          updateWorkerStatusUI(true, "เชื่อมต่อ Worker แล้ว");
-          // ดึงข้อมูลล่าสุดจาก Cloudflare Worker ทันทีเมื่อเปิดหน้าเว็บ
+          updateWorkerStatusUI(true, "Worker Connected");
           await fetchCandidatesFromWorker();
         }
       } catch (e) {
         console.warn("Storage sync notice:", e);
       }
 
-      // Initialize UI Views
+      // 2.3 Render All Views
       renderCandidatesTable();
+      renderCallCenterBoard();
       renderBranchCards();
       renderParttimePool();
       renderScheduleBoard();
       updateKPICounters();
 
-      // Initialize Lucide Icons
       if (window.lucide) lucide.createIcons();
     });
 
-    // Save helpers
+    // Theme Switcher Logic (Light <-> Dark)
+    function initTheme() {
+      const savedTheme = localStorage.getItem('lnc_theme') || 'light';
+      applyTheme(savedTheme);
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.contains('dark');
+      applyTheme(isDark ? 'light' : 'dark');
+    }
+
+    function applyTheme(theme) {
+      const body = document.getElementById('bodyRoot');
+      const iconContainer = document.getElementById('themeIconContainer');
+      const label = document.getElementById('themeLabel');
+
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        body.classList.add('lnc-bg-dark');
+        body.classList.remove('lnc-bg-light');
+        iconContainer.innerHTML = `<i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>`;
+        label.textContent = "โหมดสว่าง";
+        localStorage.setItem('lnc_theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        body.classList.add('lnc-bg-light');
+        body.classList.remove('lnc-bg-dark');
+        iconContainer.innerHTML = `<i data-lucide="moon" class="w-4 h-4 text-slate-600"></i>`;
+        label.textContent = "โหมดมืด";
+        localStorage.setItem('lnc_theme', 'light');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
     function persistDataLocally() {
       try {
         localStorage.setItem('lnc_recruitment_candidates', JSON.stringify(candidates));
@@ -1006,15 +1200,14 @@ export default {
       } catch (e) {}
     }
 
-    // --- 3. TOAST NOTIFICATIONS (No alert/confirm) ---
     function showToast(message, type = 'success') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
       
       const colors = {
-        success: 'bg-emerald-950 border-emerald-700 text-emerald-200',
-        error: 'bg-rose-950 border-rose-700 text-rose-200',
-        info: 'bg-slate-900 border-slate-700 text-slate-200'
+        success: 'bg-emerald-900 border-emerald-700 text-emerald-100',
+        error: 'bg-rose-900 border-rose-700 text-rose-100',
+        info: 'bg-slate-900 border-slate-700 text-slate-100'
       };
 
       const icons = {
@@ -1023,7 +1216,7 @@ export default {
         info: '<i data-lucide="info" class="w-4 h-4 text-blue-400"></i>'
       };
 
-      toast.className = `flex items-center space-x-2 px-4 py-3 rounded-xl border shadow-2xl text-xs sm:text-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${colors[type] || colors.info}`;
+      toast.className = `flex items-center space-x-2 px-4 py-3 rounded-2xl border shadow-xl text-xs sm:text-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${colors[type] || colors.info}`;
       toast.innerHTML = `
         <span>${icons[type] || icons.info}</span>
         <span class="font-medium">${message}</span>
@@ -1032,49 +1225,41 @@ export default {
       container.appendChild(toast);
       if (window.lucide) lucide.createIcons();
 
-      // Animate in
       setTimeout(() => {
         toast.classList.remove('translate-y-2', 'opacity-0');
       }, 20);
 
-      // Auto dismiss
       setTimeout(() => {
         toast.classList.add('opacity-0', 'translate-x-4');
         setTimeout(() => toast.remove(), 300);
       }, 3500);
     }
 
-    // --- 4. NAVIGATION TABS ---
     function switchTab(tabKey) {
-      const tabs = ['candidates', 'branches', 'schedule', 'analytics', 'worker'];
+      const tabs = ['candidates', 'callcenter', 'branches', 'schedule', 'analytics', 'worker'];
       
       tabs.forEach(t => {
         const viewEl = document.getElementById(`view-${t}`);
         const btnEl = document.getElementById(`tabBtn-${t}`);
         if (t === tabKey) {
           viewEl.classList.remove('hidden');
-          btnEl.classList.add('text-white', 'bg-slate-800', 'border-b-2', 'border-brand-pink');
-          btnEl.classList.remove('text-slate-400');
+          btnEl.classList.add('text-rose-700', 'dark:text-white', 'bg-rose-100/70', 'dark:bg-slate-800', 'border-b-2', 'border-brand-pink');
+          btnEl.classList.remove('text-slate-600', 'dark:text-slate-400');
         } else {
           viewEl.classList.add('hidden');
-          btnEl.classList.remove('text-white', 'bg-slate-800', 'border-b-2', 'border-brand-pink');
-          btnEl.classList.add('text-slate-400');
+          btnEl.classList.remove('text-rose-700', 'dark:text-white', 'bg-rose-100/70', 'dark:bg-slate-800', 'border-b-2', 'border-brand-pink');
+          btnEl.classList.add('text-slate-600', 'dark:text-slate-400');
         }
       });
 
-      if (tabKey === 'analytics') {
-        renderAnalyticsCharts();
-      } else if (tabKey === 'branches') {
-        renderBranchCards();
-        renderParttimePool();
-      } else if (tabKey === 'schedule') {
-        renderScheduleBoard();
-      }
+      if (tabKey === 'analytics') renderAnalyticsCharts();
+      else if (tabKey === 'callcenter') renderCallCenterBoard();
+      else if (tabKey === 'branches') { renderBranchCards(); renderParttimePool(); }
+      else if (tabKey === 'schedule') renderScheduleBoard();
 
       if (window.lucide) lucide.createIcons();
     }
 
-    // --- 5. CANDIDATES TABLE & STATUS LOGIC (ช่อง X) ---
     function renderCandidatesTable(filteredList = null) {
       const list = filteredList || getFilteredCandidates();
       const tbody = document.getElementById('candidateTableBody');
@@ -1087,8 +1272,8 @@ export default {
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" class="px-4 py-8 text-center text-slate-500 text-xs">
-              <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-slate-600"></i>
+            <td colspan="9" class="px-4 py-10 text-center text-slate-400 text-xs">
+              <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-rose-300 dark:text-slate-600"></i>
               ไม่พบข้อมูลผู้สมัครที่ตรงกับเงื่อนไขการค้นหา
             </td>
           </tr>
@@ -1099,32 +1284,47 @@ export default {
 
       list.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-800/50 transition border-b border-slate-800/60";
+        tr.className = "hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60";
 
         // Status Badge Styling based on Column X
-        let statusBadgeClass = "bg-slate-800 text-slate-300 border-slate-700";
-        if (c.status === "ผ่าน") statusBadgeClass = "bg-emerald-950/80 text-emerald-300 border-emerald-700/80 font-bold badge-glow";
-        else if (c.status === "รอสัมภาษณ์") statusBadgeClass = "bg-amber-950/80 text-amber-300 border-amber-700/80 font-semibold";
-        else if (c.status === "นัดสัมภาษณ์แล้ว") statusBadgeClass = "bg-blue-950/80 text-blue-300 border-blue-700/80";
-        else if (c.status === "แจ้งเข้างานแล้ว") statusBadgeClass = "bg-purple-950/80 text-purple-300 border-purple-700/80 font-bold";
-        else if (c.status === "ไม่ผ่าน") statusBadgeClass = "bg-rose-950/80 text-rose-300 border-rose-800";
+        let statusBadgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
+        if (c.status === "ผ่าน") statusBadgeClass = "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/80 font-bold badge-glow";
+        else if (c.status === "รอสัมภาษณ์") statusBadgeClass = "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700/80 font-semibold";
+        else if (c.status === "นัดสัมภาษณ์แล้ว") statusBadgeClass = "bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700/80";
+        else if (c.status === "แจ้งเข้างานแล้ว") statusBadgeClass = "bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700/80 font-bold";
+        else if (c.status === "ไม่ผ่าน") statusBadgeClass = "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800";
 
-        // Employment badge
+        // Call Status Pill Styling
+        let callPillClass = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
+        let callIcon = "phone";
+        if (c.callStatus === "โทรแล้ว - รอนัดสัมภาษณ์") {
+          callPillClass = "bg-amber-100 dark:bg-amber-950/90 text-amber-700 dark:text-amber-300 font-semibold border border-amber-300 dark:border-amber-800";
+          callIcon = "phone-forwarded";
+        } else if (c.callStatus === "โทรแล้ว - นัดวันแล้ว") {
+          callPillClass = "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-800";
+          callIcon = "phone-call";
+        } else if (c.callStatus === "ติดต่อไม่ได้ - รอโทรซ้ำ") {
+          callPillClass = "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800";
+          callIcon = "phone-missed";
+        }
+
         const typeBadge = c.type === "ครูประจำ" 
-          ? `<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-blue-950 text-blue-300 border border-blue-800">ประจำ</span>`
-          : `<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-rose-950 text-rose-300 border border-rose-800">พาร์ทไทม์ (รับเรื่อยๆ)</span>`;
+          ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">ประจำ</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">พาร์ทไทม์</span>`;
 
         tr.innerHTML = `
           <td class="px-4 py-3">
-            <div class="font-semibold text-slate-100">${c.name}</div>
-            <div class="text-xs text-brand-pink font-medium">${c.nickname ? `(${c.nickname})` : ''} <span class="text-slate-400 font-normal ml-1">${c.phone || '-'}</span></div>
+            <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
+            <div class="text-xs text-brand-pink font-semibold">
+              ${c.nickname ? `(${c.nickname})` : ''} 
+              <span class="text-slate-500 dark:text-slate-400 font-normal ml-1">${c.phone || '-'}</span>
+            </div>
           </td>
           <td class="px-3 py-3">
-            <div class="font-medium text-slate-200">${c.subject || '-'}</div>
-            <div class="text-[11px] text-slate-400">${c.score || ''}</div>
+            <div class="font-semibold text-slate-800 dark:text-slate-200">${c.subject || '-'}</div>
           </td>
           <td class="px-3 py-3">
-            <span class="inline-block max-w-[170px] truncate text-slate-300" title="${c.branch}">
+            <span class="inline-block max-w-[160px] truncate text-slate-600 dark:text-slate-300" title="${c.branch}">
               ${c.branch}
             </span>
           </td>
@@ -1132,8 +1332,8 @@ export default {
             ${typeBadge}
           </td>
           <td class="px-3 py-3 text-center">
-            <!-- Fast inline status dropdown -->
-            <select onchange="updateCandidateStatusInline('${c.id}', this.value)" class="text-xs rounded-lg px-2.5 py-1 border cursor-pointer ${statusBadgeClass} focus:outline-none">
+            <!-- Fast inline status dropdown (ช่อง X) -->
+            <select onchange="updateCandidateStatusInline('${c.id}', this.value)" class="text-xs rounded-xl px-2.5 py-1 border cursor-pointer ${statusBadgeClass} focus:outline-none">
               <option value="รอสัมภาษณ์" ${c.status === 'รอสัมภาษณ์' ? 'selected' : ''}>รอสัมภาษณ์</option>
               <option value="นัดสัมภาษณ์แล้ว" ${c.status === 'นัดสัมภาษณ์แล้ว' ? 'selected' : ''}>นัดสัมภาษณ์แล้ว</option>
               <option value="ผ่าน" ${c.status === 'ผ่าน' ? 'selected' : ''}>ผ่าน</option>
@@ -1142,20 +1342,27 @@ export default {
               <option value="ยังไม่ระบุ" ${c.status === 'ยังไม่ระบุ' ? 'selected' : ''}>ยังไม่ระบุ</option>
             </select>
           </td>
-          <td class="px-3 py-3 font-mono text-xs text-slate-300">
-            ${c.interviewDate ? `<span class="text-blue-300"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formatThaiDate(c.interviewDate)}</span>` : '<span class="text-slate-600">-</span>'}
+          <td class="px-3 py-3 text-center">
+            <!-- Quick Call Status Toggle Button -->
+            <div class="inline-flex flex-col items-center">
+              <button onclick="quickMarkCalled('${c.id}')" title="คลิกเพื่ออัปเดตผลการโทรวันนี้" class="px-2.5 py-1 rounded-xl text-[11px] flex items-center space-x-1 ${callPillClass} hover:opacity-90 transition">
+                <i data-lucide="${callIcon}" class="w-3 h-3"></i>
+                <span>${c.callStatus || 'ยังไม่ได้โทร'}</span>
+              </button>
+              ${c.lastCallDate ? `<span class="text-[10px] text-slate-400 mt-0.5">โทร: ${formatThaiDate(c.lastCallDate)}</span>` : ''}
+            </div>
           </td>
-          <td class="px-3 py-3 font-mono text-xs text-slate-300">
-            ${c.announceDate ? `<span class="text-amber-300">${formatThaiDate(c.announceDate)}</span>` : '<span class="text-slate-600">-</span>'}
+          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
+            ${c.interviewDate ? `<span class="text-blue-600 dark:text-blue-300 font-semibold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formatThaiDate(c.interviewDate)}</span>` : '<span class="text-slate-400">-</span>'}
           </td>
-          <td class="px-3 py-3 font-mono text-xs text-slate-300">
-            ${c.onboardDate ? `<span class="text-emerald-300 font-semibold">${formatThaiDate(c.onboardDate)}</span>` : '<span class="text-slate-600">-</span>'}
+          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
+            ${c.onboardDate ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold">${formatThaiDate(c.onboardDate)}</span>` : (c.announceDate ? `<span class="text-amber-600 dark:text-amber-400">${formatThaiDate(c.announceDate)}</span>` : '<span class="text-slate-400">-</span>')}
           </td>
           <td class="px-4 py-3 text-right space-x-1 whitespace-nowrap">
-            <button onclick="editCandidate('${c.id}')" title="แก้ไขข้อมูล" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition">
+            <button onclick="editCandidate('${c.id}')" title="แก้ไขข้อมูล" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
               <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             </button>
-            <button onclick="deleteCandidate('${c.id}')" title="ลบรายการ" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 transition">
+            <button onclick="deleteCandidate('${c.id}')" title="ลบรายการ" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-600 transition">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </td>
@@ -1167,28 +1374,32 @@ export default {
       if (window.lucide) lucide.createIcons();
     }
 
-    // Helper: Format date string to Thai display
     function formatThaiDate(isoDateStr) {
       if (!isoDateStr) return "-";
       try {
         const parts = isoDateStr.split('-');
         if (parts.length === 3) {
-          const year = parseInt(parts[0]) + 543; // Thai Buddhist Era
+          const year = parseInt(parts[0]) + 543;
           return `${parts[2]}/${parts[1]}/${year}`;
         }
       } catch (e) {}
       return isoDateStr;
     }
 
-    // Filter Logic
     function getFilteredCandidates() {
       const q = document.getElementById('searchInput').value.trim().toLowerCase();
       const st = document.getElementById('filterStatus').value;
       const br = document.getElementById('filterBranch').value;
       const tp = document.getElementById('filterType').value;
+      const callSt = document.getElementById('filterCallStatus').value;
+
+      // Date range filtering
+      const dateType = document.getElementById('dateFilterType').value;
+      const startDate = document.getElementById('dateFilterStart').value;
+      const endDate = document.getElementById('dateFilterEnd').value;
 
       return candidates.filter(c => {
-        // Query match
+        // Text query
         const matchQ = !q || 
           (c.name && c.name.toLowerCase().includes(q)) ||
           (c.nickname && c.nickname.toLowerCase().includes(q)) ||
@@ -1196,7 +1407,7 @@ export default {
           (c.subject && c.subject.toLowerCase().includes(q)) ||
           (c.notes && c.notes.toLowerCase().includes(q));
 
-        // Status match
+        // Status match (ช่อง X)
         const matchSt = (st === 'ALL') || (c.status === st);
 
         // Branch match
@@ -1205,7 +1416,22 @@ export default {
         // Job type match
         const matchTp = (tp === 'ALL') || (c.type === tp);
 
-        return matchQ && matchSt && matchBr && matchTp;
+        // Call status match
+        const matchCall = (callSt === 'ALL') || (c.callStatus === callSt);
+
+        // Date Range logic
+        let matchDate = true;
+        if (startDate || endDate) {
+          const targetDateVal = c[dateType];
+          if (!targetDateVal) {
+            matchDate = false;
+          } else {
+            if (startDate && targetDateVal < startDate) matchDate = false;
+            if (endDate && targetDateVal > endDate) matchDate = false;
+          }
+        }
+
+        return matchQ && matchSt && matchBr && matchTp && matchCall && matchDate;
       });
     }
 
@@ -1218,35 +1444,129 @@ export default {
       document.getElementById('filterStatus').value = 'ALL';
       document.getElementById('filterBranch').value = 'ALL';
       document.getElementById('filterType').value = 'ALL';
+      document.getElementById('filterCallStatus').value = 'ALL';
+      document.getElementById('dateFilterStart').value = '';
+      document.getElementById('dateFilterEnd').value = '';
       renderCandidatesTable();
       showToast("ล้างตัวกรองทั้งหมดแล้ว", "info");
     }
 
+    function setDateFilterPreset(preset) {
+      const today = getTodayString();
+      const startEl = document.getElementById('dateFilterStart');
+      const endEl = document.getElementById('dateFilterEnd');
+
+      if (preset === 'today') {
+        startEl.value = today;
+        endEl.value = today;
+        showToast("เลือกกรองข้อมูลวันที่: วันนี้", "info");
+      } else if (preset === 'week') {
+        const d = new Date();
+        d.setDate(d.getDate() - 7);
+        startEl.value = d.toISOString().split('T')[0];
+        endEl.value = today;
+        showToast("เลือกกรองข้อมูล 7 วันที่ผ่านมา", "info");
+      } else if (preset === 'month') {
+        const d = new Date();
+        startEl.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
+        endEl.value = today;
+        showToast("เลือกกรองข้อมูลเดือนนี้", "info");
+      } else if (preset === 'clear') {
+        startEl.value = '';
+        endEl.value = '';
+        showToast("ล้างตัวกรองวันที่แล้ว", "info");
+      }
+      applyFilters();
+    }
+
     function quickFilter(type) {
-      const now = new Date();
+      const today = getTodayString();
       let results = [];
 
-      if (type === 'ALL') {
-        resetFilters();
-        return;
-      } else if (type === 'INTERVIEW_THIS_WEEK') {
+      if (type === 'CALLED_WAITING_TODAY') {
+        results = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์');
+        showToast("แสดงรายชื่อครูที่โทรแล้วและรอนัดสัมภาษณ์", "info");
+      } else if (type === 'AWAITING_CALL') {
+        results = candidates.filter(c => !c.callStatus || c.callStatus === 'ยังไม่ได้โทร' || c.callStatus === 'ติดต่อไม่ได้ - รอโทรซ้ำ');
+        showToast("แสดงรายชื่อที่ยังไม่ได้โทรติดต่อ", "info");
+      } else if (type === 'INTERVIEW_UPCOMING') {
         results = candidates.filter(c => c.interviewDate && c.interviewDate !== '');
-        showToast("แสดงรายชื่อที่มีนัดสัมภาษณ์", "info");
-      } else if (type === 'AWAITING_ANNOUNCE') {
-        results = candidates.filter(c => c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว');
-        showToast("แสดงผู้สมัครที่รอแจ้งผล", "info");
+        showToast("แสดงคิวนัดสัมภาษณ์", "info");
       } else if (type === 'READY_ONBOARD') {
         results = candidates.filter(c => (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว') && c.onboardDate);
-        showToast("แสดงรายชื่อพร้อมแจ้งเข้างาน", "info");
-      } else if (type === 'PARTTIME_ONLY') {
-        results = candidates.filter(c => c.type === 'พาร์ทไทม์');
-        showToast("แสดงผู้สมัครพาร์ทไทม์ทั้งหมด", "info");
+        showToast("แสดงผู้สมัครที่พร้อมเริ่มงาน", "info");
       }
 
       renderCandidatesTable(results);
     }
 
-    // Inline status update
+    function quickMarkCalled(id) {
+      const c = candidates.find(item => item.id === id);
+      if (!c) return;
+
+      // Cycle status: ยังไม่ได้โทร -> โทรแล้ว - รอนัดสัมภาษณ์ -> โทรแล้ว - นัดวันแล้ว -> ติดต่อไม่ได้ - รอโทรซ้ำ
+      const states = [
+        "โทรแล้ว - รอนัดสัมภาษณ์",
+        "โทรแล้ว - นัดวันแล้ว",
+        "ติดต่อไม่ได้ - รอโทรซ้ำ",
+        "ยังไม่ได้โทร"
+      ];
+
+      let currentIndex = states.indexOf(c.callStatus);
+      let nextIndex = (currentIndex + 1) % states.length;
+      c.callStatus = states[nextIndex];
+      c.lastCallDate = getTodayString();
+
+      persistDataLocally();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      updateKPICounters();
+      showToast(`อัปเดตผลการโทร ${c.name}: "${c.callStatus}" วันนี้แล้ว`);
+      syncToCloudflareWorker();
+    }
+
+    function openQuickCallModal() {
+      const select = document.getElementById('quickCallCandidateSelect');
+      select.innerHTML = '';
+
+      candidates.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.name} (${c.nickname || 'ไม่มีชื่อเล่น'}) - ${c.subject} [${c.branch}]`;
+        select.appendChild(opt);
+      });
+
+      document.getElementById('quickCallNoteInput').value = "";
+      document.getElementById('quickCallModal').classList.remove('hidden');
+    }
+
+    function closeQuickCallModal() {
+      document.getElementById('quickCallModal').classList.add('hidden');
+    }
+
+    function submitQuickCallLog() {
+      const id = document.getElementById('quickCallCandidateSelect').value;
+      const status = document.getElementById('quickCallStatusSelect').value;
+      const note = document.getElementById('quickCallNoteInput').value.trim();
+
+      const item = candidates.find(c => c.id === id);
+      if (item) {
+        item.callStatus = status;
+        item.lastCallDate = getTodayString();
+        if (note) {
+          item.notes = (item.notes ? item.notes + " | " : "") + `[โทร ${formatThaiDate(item.lastCallDate)}]: ${note}`;
+        }
+
+        persistDataLocally();
+        closeQuickCallModal();
+        renderCandidatesTable();
+        renderCallCenterBoard();
+        updateKPICounters();
+        showToast(`บันทึกผลการโทรของ ${item.name} เป็น "${status}" แล้ว`, "success");
+        syncToCloudflareWorker();
+      }
+    }
+
     function updateCandidateStatusInline(id, newStatus) {
       const item = candidates.find(c => c.id === id);
       if (item) {
@@ -1254,60 +1574,111 @@ export default {
         persistDataLocally();
         updateKPICounters();
         showToast(`อัปเดตสถานะของ ${item.name} เป็น "${newStatus}" แล้ว`);
-        // If connected to worker, push in background
         syncToCloudflareWorker();
       }
     }
 
-    // --- 6. BRANCH HEADCOUNT & SUBJECT MATRIX VIEW ---
+    function renderCallCenterBoard() {
+      const listWaiting = document.getElementById('callWaitingList');
+      const listConfirmed = document.getElementById('callConfirmedList');
+      const listPending = document.getElementById('callPendingList');
+
+      listWaiting.innerHTML = '';
+      listConfirmed.innerHTML = '';
+      listPending.innerHTML = '';
+
+      const waitingItems = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์');
+      const confirmedItems = candidates.filter(c => c.callStatus === 'โทรแล้ว - นัดวันแล้ว');
+      const pendingItems = candidates.filter(c => !c.callStatus || c.callStatus === 'ยังไม่ได้โทร' || c.callStatus === 'ติดต่อไม่ได้ - รอโทรซ้ำ');
+
+      document.getElementById('countCallWaiting').textContent = waitingItems.length;
+      document.getElementById('countCallConfirmed').textContent = confirmedItems.length;
+      document.getElementById('countCallPending').textContent = pendingItems.length;
+      document.getElementById('badgePendingCall').textContent = waitingItems.length;
+
+      // Populate Waiting
+      if (waitingItems.length === 0) {
+        listWaiting.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการค้างรอนัดสัมภาษณ์</p>`;
+      } else {
+        waitingItems.forEach(c => listWaiting.appendChild(createCallCard(c, 'amber')));
+      }
+
+      // Populate Confirmed
+      if (confirmedItems.length === 0) {
+        listConfirmed.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการนัดเรียบร้อย</p>`;
+      } else {
+        confirmedItems.forEach(c => listConfirmed.appendChild(createCallCard(c, 'blue')));
+      }
+
+      // Populate Pending
+      if (pendingItems.length === 0) {
+        listPending.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">โทรติดตามครบทุกคนแล้ว</p>`;
+      } else {
+        pendingItems.forEach(c => listPending.appendChild(createCallCard(c, 'slate')));
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function createCallCard(c, colorScheme) {
+      const div = document.createElement('div');
+      div.className = `p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-${colorScheme}-200 dark:border-slate-800 hover:border-brand-pink transition cursor-pointer`;
+      div.onclick = () => editCandidate(c.id);
+
+      div.innerHTML = `
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-slate-900 dark:text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
+          <span class="text-[10px] text-brand-pink font-semibold">${c.subject}</span>
+        </div>
+        <div class="text-[11px] text-slate-500 truncate mt-0.5">${c.branch}</div>
+        <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+          <span><i data-lucide="phone" class="w-3 h-3 inline mr-1"></i>${c.phone || '-'}</span>
+          <span>${c.lastCallDate ? `โทรเมื่อ: ${formatThaiDate(c.lastCallDate)}` : 'ยังไม่ระบุวันโทร'}</span>
+        </div>
+      `;
+      return div;
+    }
+
     function renderBranchCards() {
       const container = document.getElementById('branchCardsContainer');
       container.innerHTML = '';
 
       SIX_BRANCHES.forEach(branchName => {
         const quotas = branchQuotas[branchName] || {};
-        
-        // Candidates who applied for this branch
         const branchCandidates = candidates.filter(c => c.branch === branchName);
         const fullTimeCandidates = branchCandidates.filter(c => c.type === "ครูประจำ");
         const partTimeCandidates = branchCandidates.filter(c => c.type === "พาร์ทไทม์");
 
-        // Calculate totals
         let totalTarget = 0;
         Object.values(quotas).forEach(v => totalTarget += Number(v));
 
         const passedFulltimeCount = fullTimeCandidates.filter(c => c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว').length;
         const waitingInterviewCount = fullTimeCandidates.filter(c => c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว').length;
-
-        // Progress percentage
         const progressPercent = totalTarget > 0 ? Math.min(100, Math.round((passedFulltimeCount / totalTarget) * 100)) : 0;
 
         const card = document.createElement('div');
-        card.className = "bg-slate-850 rounded-xl border border-slate-800 p-5 space-y-4 hover:border-slate-700 transition shadow-lg";
+        card.className = "bg-white/90 dark:bg-slate-850 rounded-2xl border border-rose-100 dark:border-slate-800 p-5 space-y-4 shadow-sm hover:shadow-md transition";
 
-        // Generate Subject quota pill rows
         let subjectRowsHtml = '';
         const subjectsInQuota = Object.keys(quotas);
 
         if (subjectsInQuota.length === 0) {
-          subjectRowsHtml = `<p class="text-xs text-slate-500 italic">ยังไม่ได้กำหนดโควตารายวิชา</p>`;
+          subjectRowsHtml = `<p class="text-xs text-slate-400 italic">ยังไม่ได้กำหนดโควตารายวิชา</p>`;
         } else {
           subjectRowsHtml = subjectsInQuota.map(sub => {
             const target = quotas[sub] || 0;
-            // Count passed for this subject
             const passed = fullTimeCandidates.filter(c => c.subject === sub && (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว')).length;
-            const waiting = fullTimeCandidates.filter(c => c.subject === sub && (c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว')).length;
             const remaining = Math.max(0, target - passed);
 
-            let statusColor = "text-amber-400";
-            if (passed >= target) statusColor = "text-emerald-400";
+            let statusColor = "text-amber-500 dark:text-amber-400";
+            if (passed >= target) statusColor = "text-emerald-600 dark:text-emerald-400";
 
             return `
-              <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/80">
-                <span class="font-medium text-slate-200">${sub}</span>
+              <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 dark:border-slate-800">
+                <span class="font-medium text-slate-700 dark:text-slate-200">${sub}</span>
                 <div class="flex items-center space-x-2">
                   <span class="font-mono ${statusColor}">${passed} / ${target} อัตรา</span>
-                  ${remaining > 0 ? `<span class="px-1.5 py-0.2 rounded text-[10px] bg-rose-950 text-rose-300">ขาด ${remaining}</span>` : `<span class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-950 text-emerald-300">ครบ</span>`}
+                  ${remaining > 0 ? `<span class="px-2 py-0.2 rounded-full text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-semibold">ขาด ${remaining}</span>` : `<span class="px-2 py-0.2 rounded-full text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-semibold">ครบ</span>`}
                 </div>
               </div>
             `;
@@ -1315,43 +1686,39 @@ export default {
         }
 
         card.innerHTML = `
-          <!-- Card Header -->
-          <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+          <div class="flex items-start justify-between border-b border-rose-100 dark:border-slate-800 pb-3">
             <div>
-              <h3 class="font-bold text-white text-sm sm:text-base flex items-center space-x-1.5">
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base flex items-center space-x-1.5">
                 <i data-lucide="map-pin" class="w-4 h-4 text-brand-pink shrink-0"></i>
                 <span>${branchName}</span>
               </h3>
-              <p class="text-[11px] text-slate-400 mt-0.5">รับครูประจำเป้าหมาย: <strong class="text-slate-200 font-mono">${totalTarget}</strong> อัตรา</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">รับครูประจำเป้าหมาย: <strong class="text-slate-800 dark:text-slate-200 font-mono">${totalTarget}</strong> อัตรา</p>
             </div>
-            <span class="text-xs font-mono font-bold px-2 py-1 rounded bg-slate-800 text-brand-pink border border-slate-700">
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-xl bg-rose-50 dark:bg-slate-800 text-brand-pink border border-rose-200 dark:border-slate-700">
               ${progressPercent}%
             </span>
           </div>
 
-          <!-- Progress Bar -->
           <div class="space-y-1">
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
               <div class="bg-gradient-to-r from-rose-500 to-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
             </div>
-            <div class="flex justify-between text-[11px] text-slate-400">
-              <span>บรรจุแล้ว: <strong class="text-emerald-400">${passedFulltimeCount}</strong></span>
-              <span>รอสัมภาษณ์: <strong class="text-amber-400">${waitingInterviewCount}</strong></span>
+            <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+              <span>บรรจุแล้ว: <strong class="text-emerald-600 dark:text-emerald-400">${passedFulltimeCount}</strong></span>
+              <span>รอสัมภาษณ์: <strong class="text-amber-500 dark:text-amber-400">${waitingInterviewCount}</strong></span>
             </div>
           </div>
 
-          <!-- Subject Quota Breakdown -->
-          <div class="space-y-1 bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-            <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">ความต้องการครูแต่ละวิชา</div>
-            <div class="max-h-40 overflow-y-auto pr-1">
+          <div class="space-y-1 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">ความต้องการครูแต่ละวิชา</div>
+            <div class="max-h-36 overflow-y-auto pr-1">
               ${subjectRowsHtml}
             </div>
           </div>
 
-          <!-- Branch Part-time Note -->
-          <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+          <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1">
             <span>ครูพาร์ทไทม์สาขานี้:</span>
-            <span class="font-medium text-rose-300">${partTimeCandidates.length} คน (รับเรื่อยๆ)</span>
+            <span class="font-semibold text-brand-pink">${partTimeCandidates.length} คน (รับเรื่อยๆ)</span>
           </div>
         `;
 
@@ -1361,7 +1728,6 @@ export default {
       if (window.lucide) lucide.createIcons();
     }
 
-    // Render Part-time Continuous Pool Breakdown
     function renderParttimePool() {
       const container = document.getElementById('parttimeBreakdownContainer');
       container.innerHTML = '';
@@ -1369,7 +1735,6 @@ export default {
       const parttimers = candidates.filter(c => c.type === 'พาร์ทไทม์');
       document.getElementById('parttimeTotalBadge').textContent = parttimers.length;
 
-      // Group by subject
       const subjectCounts = {};
       SUBJECT_LIST.forEach(s => subjectCounts[s] = 0);
 
@@ -1384,18 +1749,17 @@ export default {
       SUBJECT_LIST.slice(0, 8).forEach(sub => {
         const count = subjectCounts[sub] || 0;
         const div = document.createElement('div');
-        div.className = "bg-slate-900 border border-slate-800 p-3 rounded-lg text-center";
+        div.className = "bg-rose-50/60 dark:bg-slate-900 border border-rose-100 dark:border-slate-800 p-3 rounded-xl text-center";
         div.innerHTML = `
-          <div class="text-xs text-slate-400">${sub}</div>
-          <div class="text-lg font-bold text-rose-400 mt-1">${count}</div>
-          <div class="text-[10px] text-slate-500">สมัครพาร์ทไทม์</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">${sub}</div>
+          <div class="text-lg font-bold text-brand-pink mt-1">${count}</div>
+          <div class="text-[10px] text-slate-400">สมัครพาร์ทไทม์</div>
         `;
         container.appendChild(div);
       });
     }
 
-    // --- 7. SCHEDULE & TIMELINE BOARD ---
-    function renderScheduleBoard(filterMode = 'ALL') {
+    function renderScheduleBoard() {
       const colInterview = document.getElementById('colInterviewCards');
       const colAnnounce = document.getElementById('colAnnounceCards');
       const colOnboard = document.getElementById('colOnboardCards');
@@ -1404,38 +1768,32 @@ export default {
       colAnnounce.innerHTML = '';
       colOnboard.innerHTML = '';
 
-      // Candidates with interview dates
       const interviewCandidates = candidates.filter(c => c.interviewDate && (c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว'));
-      // Candidates with announce dates
       const announceCandidates = candidates.filter(c => c.announceDate && (c.status === 'รอสัมภาษณ์' || c.status === 'นัดสัมภาษณ์แล้ว'));
-      // Candidates with onboarding dates
       const onboardCandidates = candidates.filter(c => c.onboardDate && (c.status === 'ผ่าน' || c.status === 'แจ้งเข้างานแล้ว'));
 
       document.getElementById('colCountInterview').textContent = interviewCandidates.length;
       document.getElementById('colCountAnnounce').textContent = announceCandidates.length;
       document.getElementById('colCountOnboard').textContent = onboardCandidates.length;
 
-      // Populate Interview Column
       if (interviewCandidates.length === 0) {
-        colInterview.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">ไม่มีคิวนัดสัมภาษณ์</p>`;
+        colInterview.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีคิวนัดสัมภาษณ์</p>`;
       } else {
         interviewCandidates.sort((a, b) => new Date(a.interviewDate) - new Date(b.interviewDate)).forEach(c => {
           colInterview.appendChild(createScheduleMiniCard(c, c.interviewDate, 'blue', 'นัดสัมภาษณ์'));
         });
       }
 
-      // Populate Announce Column
       if (announceCandidates.length === 0) {
-        colAnnounce.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">ไม่มีรายการรอประกาศผล</p>`;
+        colAnnounce.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีรายการรอประกาศผล</p>`;
       } else {
         announceCandidates.sort((a, b) => new Date(a.announceDate) - new Date(b.announceDate)).forEach(c => {
           colAnnounce.appendChild(createScheduleMiniCard(c, c.announceDate, 'amber', 'ประกาศผล'));
         });
       }
 
-      // Populate Onboarding Column
       if (onboardCandidates.length === 0) {
-        colOnboard.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">ไม่มีกำหนดเริ่มงาน</p>`;
+        colOnboard.innerHTML = `<p class="text-xs text-slate-400 py-6 text-center">ไม่มีกำหนดเริ่มงาน</p>`;
       } else {
         onboardCandidates.sort((a, b) => new Date(a.onboardDate) - new Date(b.onboardDate)).forEach(c => {
           colOnboard.appendChild(createScheduleMiniCard(c, c.onboardDate, 'emerald', 'แจ้งเริ่มงาน'));
@@ -1447,44 +1805,32 @@ export default {
 
     function createScheduleMiniCard(c, dateVal, themeColor, labelText) {
       const card = document.createElement('div');
-      card.className = `p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-${themeColor}-600 transition cursor-pointer`;
+      card.className = `p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-${themeColor}-500 transition cursor-pointer shadow-sm`;
       card.onclick = () => editCandidate(c.id);
 
       card.innerHTML = `
         <div class="flex items-center justify-between text-xs">
-          <span class="font-bold text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
-          <span class="px-1.5 py-0.5 rounded text-[10px] bg-${themeColor}-950 text-${themeColor}-300 border border-${themeColor}-800">
+          <span class="font-bold text-slate-900 dark:text-white">${c.name} ${c.nickname ? `(${c.nickname})` : ''}</span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-${themeColor}-100 dark:bg-${themeColor}-950 text-${themeColor}-700 dark:text-${themeColor}-300">
             ${labelText}
           </span>
         </div>
-        <div class="text-[11px] text-brand-pink mt-1">${c.subject} • ${c.type}</div>
-        <div class="text-[11px] text-slate-400 truncate">${c.branch}</div>
-        <div class="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-300">
-          <span><i data-lucide="clock" class="w-3 h-3 inline mr-1 text-slate-400"></i>${formatThaiDate(dateVal)}</span>
-          <span class="text-slate-400">${c.phone}</span>
+        <div class="text-[11px] text-brand-pink font-semibold mt-1">${c.subject} • ${c.type}</div>
+        <div class="text-[11px] text-slate-500 truncate">${c.branch}</div>
+        <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-slate-300">
+          <span><i data-lucide="calendar" class="w-3 h-3 inline mr-1 text-slate-400"></i>${formatThaiDate(dateVal)}</span>
+          <span>${c.phone || '-'}</span>
         </div>
       `;
       return card;
     }
 
-    function filterScheduleView(type) {
-      // Toggle button styles
-      document.querySelectorAll('.schedule-tab-btn').forEach(b => {
-        b.classList.remove('bg-slate-750', 'text-white');
-        b.classList.add('bg-slate-900', 'text-slate-400');
-      });
-      event.target.classList.add('bg-slate-750', 'text-white');
-      event.target.classList.remove('bg-slate-900', 'text-slate-400');
-
-      renderScheduleBoard(type);
-    }
-
-    // --- 8. CANDIDATE CRUD ACTIONS ---
     function openAddCandidateModal() {
       currentEditingId = null;
       document.getElementById('modalCandidateTitle').textContent = "เพิ่มข้อมูลผู้สมัครใหม่";
       document.getElementById('candidateForm').reset();
       document.getElementById('cId').value = "";
+      document.getElementById('cLastCallDate').value = getTodayString();
       document.getElementById('candidateModal').classList.remove('hidden');
     }
 
@@ -1507,11 +1853,11 @@ export default {
       document.getElementById('cType').value = c.type || "ครูประจำ";
       document.getElementById('cBranch').value = c.branch || "สาขาข้างเซ็นทรัล พระราม 2";
       document.getElementById('cStatus').value = c.status || "รอสัมภาษณ์";
+      document.getElementById('cCallStatus').value = c.callStatus || "ยังไม่ได้โทร";
+      document.getElementById('cLastCallDate').value = c.lastCallDate || "";
       document.getElementById('cInterviewDate').value = c.interviewDate || "";
       document.getElementById('cAnnounceDate').value = c.announceDate || "";
       document.getElementById('cOnboardDate').value = c.onboardDate || "";
-      document.getElementById('cPortfolio').value = c.portfolio || "";
-      document.getElementById('cScore').value = c.score || "";
       document.getElementById('cNotes').value = c.notes || "";
 
       document.getElementById('candidateModal').classList.remove('hidden');
@@ -1529,12 +1875,12 @@ export default {
         subject: document.getElementById('cSubject').value,
         type: document.getElementById('cType').value,
         branch: document.getElementById('cBranch').value,
-        status: document.getElementById('cStatus').value, // ช่อง X
+        status: document.getElementById('cStatus').value,
+        callStatus: document.getElementById('cCallStatus').value,
+        lastCallDate: document.getElementById('cLastCallDate').value,
         interviewDate: document.getElementById('cInterviewDate').value,
         announceDate: document.getElementById('cAnnounceDate').value,
         onboardDate: document.getElementById('cOnboardDate').value,
-        portfolio: document.getElementById('cPortfolio').value.trim(),
-        score: document.getElementById('cScore').value.trim(),
         notes: document.getElementById('cNotes').value.trim()
       };
 
@@ -1550,6 +1896,7 @@ export default {
       persistDataLocally();
       closeCandidateModal();
       renderCandidatesTable();
+      renderCallCenterBoard();
       renderBranchCards();
       renderParttimePool();
       renderScheduleBoard();
@@ -1561,21 +1908,17 @@ export default {
       const c = candidates.find(item => item.id === id);
       if (!c) return;
 
-      // Custom soft modal confirmation via simple confirmation state
-      const confirmed = window.confirm ? confirm(`คุณต้องการลบข้อมูลของ ${c.name} หรือไม่?`) : true;
-      if (confirmed) {
-        candidates = candidates.filter(item => item.id !== id);
-        persistDataLocally();
-        renderCandidatesTable();
-        renderBranchCards();
-        renderScheduleBoard();
-        updateKPICounters();
-        showToast(`ลบข้อมูล ${c.name} แล้ว`, "info");
-        syncToCloudflareWorker();
-      }
+      candidates = candidates.filter(item => item.id !== id);
+      persistDataLocally();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderScheduleBoard();
+      updateKPICounters();
+      showToast(`ลบข้อมูล ${c.name} แล้ว`, "info");
+      syncToCloudflareWorker();
     }
 
-    // --- 9. KPI COUNTERS UPDATE ---
     function updateKPICounters() {
       document.getElementById('kpiTotal').textContent = candidates.length;
       
@@ -1585,14 +1928,13 @@ export default {
       const waiting = candidates.filter(c => c.status === 'รอสัมภาษณ์').length;
       document.getElementById('kpiWaiting').textContent = waiting;
 
-      const scheduled = candidates.filter(c => c.status === 'นัดสัมภาษณ์แล้ว' || c.interviewDate !== '').length;
-      document.getElementById('kpiScheduled').textContent = scheduled;
+      const calledWaiting = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์').length;
+      document.getElementById('kpiCalledWaiting').textContent = calledWaiting;
 
       const parttime = candidates.filter(c => c.type === 'พาร์ทไทม์').length;
       document.getElementById('kpiParttime').textContent = parttime;
     }
 
-    // --- 10. CSV IMPORT / EXPORT ENGINE ---
     function openCsvModal() {
       document.getElementById('csvModal').classList.remove('hidden');
     }
@@ -1600,7 +1942,6 @@ export default {
     function closeCsvModal() {
       document.getElementById('csvModal').classList.add('hidden');
       document.getElementById('csvFileInput').value = "";
-      document.getElementById('csvPreviewInfo').classList.add('hidden');
     }
 
     function handleFileSelect(e) {
@@ -1614,9 +1955,8 @@ export default {
           const workbook = XLSX.read(data, { type: 'array' });
           const firstSheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[firstSheetName];
-          
-          // Convert sheet to json array of arrays (header: 1)
           const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
           if (rawRows.length < 2) {
             showToast("ไฟล์ไม่มีแถวข้อมูลที่เพียงพอ", "error");
             return;
@@ -1624,27 +1964,24 @@ export default {
 
           const headers = rawRows[0];
           let importedCount = 0;
+          let statusColIndex = 23; // Column X index
 
-          // Find column index for Status (ช่อง X หรือ คอลัมน์ที่ 24 (index 23) หรือหัวตารางชื่อ 'สถานะ')
-          let statusColIndex = 23; // Default column X
           headers.forEach((h, idx) => {
             if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์'))) {
               statusColIndex = idx;
             }
           });
 
-          // Parse data rows
           for (let i = 1; i < rawRows.length; i++) {
             const row = rawRows[i];
             if (!row || row.length === 0) continue;
 
-            const name = row[1] || row[2] || `ผู้สมัครนำเข้า #${i}`;
+            const name = row[1] || row[2] || `ผู้สมัคร #${i}`;
             const phone = row[3] || row[4] || "";
             const subject = detectSubject(row.join(' '));
             const branch = detectBranch(row.join(' '));
             const statusRaw = row[statusColIndex] || row[23] || "";
             
-            // Normalize Status (ช่อง X)
             let status = "รอสัมภาษณ์";
             if (statusRaw) {
               const sStr = String(statusRaw).trim();
@@ -1663,12 +2000,12 @@ export default {
               subject: subject,
               type: row.join(' ').includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
               branch: branch,
-              status: status, // mapped from Column X
+              status: status,
+              callStatus: "ยังไม่ได้โทร",
+              lastCallDate: "",
               interviewDate: "",
               announceDate: "",
               onboardDate: "",
-              portfolio: "",
-              score: "",
               notes: "นำเข้าจากไฟล์: " + file.name
             });
             importedCount++;
@@ -1676,6 +2013,7 @@ export default {
 
           persistDataLocally();
           renderCandidatesTable();
+          renderCallCenterBoard();
           renderBranchCards();
           renderParttimePool();
           updateKPICounters();
@@ -1714,7 +2052,7 @@ export default {
       }
 
       const rows = [
-        ["รหัส", "ชื่อ-นามสกุล", "ชื่อเล่น", "เบอร์โทร", "ช่องทางติดต่อ", "วิชา", "ประเภทงาน", "สาขา", "สถานะ (ช่อง X)", "วันที่สัมภาษณ์", "วันที่ประกาศผล", "วันที่แจ้งเข้างาน", "คะแนน/เกียรตินิยม", "โน้ต HR"]
+        ["รหัส", "ชื่อ-นามสกุล", "ชื่อเล่น", "เบอร์โทร", "ช่องทางติดต่อ", "วิชา", "ประเภทงาน", "สาขา", "สถานะ (ช่อง X)", "ผลการโทร", "วันที่โทรล่าสุด", "วันที่สัมภาษณ์", "วันที่ประกาศผล", "วันที่แจ้งเข้างาน", "โน้ต HR"]
       ];
 
       candidates.forEach(c => {
@@ -1728,10 +2066,11 @@ export default {
           c.type,
           c.branch,
           c.status,
+          c.callStatus,
+          c.lastCallDate,
           c.interviewDate,
           c.announceDate,
           c.onboardDate,
-          c.score,
           c.notes
         ]);
       });
@@ -1739,11 +2078,10 @@ export default {
       const ws = XLSX.utils.aoa_to_sheet(rows);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "LNC_Recruitment");
-      XLSX.writeFile(wb, `LNC_Recruitment_Candidates_${new Date().toISOString().split('T')[0]}.xlsx`);
+      XLSX.writeFile(wb, `LNC_Recruitment_${new Date().toISOString().split('T')[0]}.xlsx`);
       showToast("ส่งออกข้อมูลเป็นไฟล์ Excel เรียบร้อยแล้ว", "success");
     }
 
-    // --- 11. BRANCH QUOTA CONFIGURATION MODAL ---
     function openQuotaConfigModal() {
       const container = document.getElementById('quotaSettingsList');
       container.innerHTML = '';
@@ -1751,20 +2089,20 @@ export default {
       SIX_BRANCHES.forEach(branch => {
         const quotas = branchQuotas[branch] || {};
         const branchBox = document.createElement('div');
-        branchBox.className = "p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2";
+        branchBox.className = "p-3.5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2";
         
         let inputsHtml = SUBJECT_LIST.slice(0, 6).map(sub => {
           const val = quotas[sub] || 0;
           return `
             <div class="flex items-center justify-between py-1">
-              <span class="text-slate-300">${sub}</span>
-              <input type="number" min="0" max="20" data-branch="${branch}" data-subject="${sub}" value="${val}" class="quota-input w-16 px-2 py-1 bg-slate-850 border border-slate-700 rounded text-center text-white focus:outline-none focus:border-brand-pink font-mono text-xs">
+              <span class="text-slate-700 dark:text-slate-300">${sub}</span>
+              <input type="number" min="0" max="20" data-branch="${branch}" data-subject="${sub}" value="${val}" class="quota-input w-16 px-2 py-1 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 rounded-lg text-center text-slate-800 dark:text-white font-mono text-xs focus:outline-none focus:border-brand-pink">
             </div>
           `;
         }).join('');
 
         branchBox.innerHTML = `
-          <div class="font-bold text-white text-xs text-brand-pink flex items-center space-x-1">
+          <div class="font-bold text-xs text-brand-pink flex items-center space-x-1">
             <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
             <span>${branch}</span>
           </div>
@@ -1800,7 +2138,6 @@ export default {
       showToast("บันทึกโควตารับครูประจำเรียบร้อยแล้ว", "success");
     }
 
-    // --- 12. CLOUDFLARE WORKERS SYNC ENGINE ---
     function openWorkerModal() {
       document.getElementById('workerApiUrlInput').value = workerApiUrl;
       document.getElementById('workerModal').classList.remove('hidden');
@@ -1814,27 +2151,27 @@ export default {
       workerApiUrl = document.getElementById('workerApiUrlInput').value.trim();
       localStorage.setItem('lnc_worker_url', workerApiUrl);
       if (workerApiUrl) {
-        updateWorkerStatusUI(true, "เชื่อมต่อ Cloudflare Worker");
+        updateWorkerStatusUI(true, "Worker Connected");
         showToast("บันทึก Worker URL เรียบร้อยแล้ว", "success");
         fetchCandidatesFromWorker();
       } else {
-        updateWorkerStatusUI(false, "โหมด Local / Demo");
+        updateWorkerStatusUI(false, "Worker Local");
         showToast("เปลี่ยนเป็นโหมด Local Standalone", "info");
       }
       closeWorkerModal();
     }
 
-    // ดึงข้อมูลผู้สมัครจาก Cloudflare Worker มาอัปเดตลงตาราง
     async function fetchCandidatesFromWorker() {
       if (!workerApiUrl) return;
       try {
-        const res = await fetch(workerApiUrl + '/api/candidates', { method: 'GET' });
+        const res = await fetch(workerApiUrl + '/api/candidates?action=getCandidates', { method: 'GET' });
         if (res.ok) {
           const result = await res.json();
           if (result && Array.isArray(result.data) && result.data.length > 0) {
             candidates = result.data;
             persistDataLocally();
             renderCandidatesTable();
+            renderCallCenterBoard();
             renderBranchCards();
             renderParttimePool();
             renderScheduleBoard();
@@ -1852,39 +2189,39 @@ export default {
       const badge = document.getElementById('workerConnectionBadge');
       if (!url) {
         badge.textContent = "กรุณาระบุ URL ก่อนทดสอบ";
-        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-950 text-rose-300";
+        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300";
         return;
       }
 
       badge.textContent = "กำลังทดสอบ...";
-      badge.className = "px-2 py-0.5 rounded text-xs bg-amber-950 text-amber-300";
+      badge.className = "px-2 py-0.5 rounded text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300";
 
       try {
-        const res = await fetch(url + '/api/candidates', { method: 'GET' });
+        const res = await fetch(url + '?action=ping', { method: 'GET' });
         if (res.ok) {
           badge.textContent = "เชื่อมต่อสำเร็จ (200 OK)";
-          badge.className = "px-2 py-0.5 rounded text-xs bg-emerald-950 text-emerald-300";
+          badge.className = "px-2 py-0.5 rounded text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300";
           showToast("เชื่อมต่อ Cloudflare Worker สำเร็จ!", "success");
         } else {
-          badge.textContent = `Worker ตอบกลับด้วยรหัส ${res.status}`;
-          badge.className = "px-2 py-0.5 rounded text-xs bg-amber-950 text-amber-300";
+          badge.textContent = `รหัส ${res.status}`;
+          badge.className = "px-2 py-0.5 rounded text-xs bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300";
         }
       } catch (err) {
-        badge.textContent = "เชื่อมต่อไม่ได้ (CORS หรือ Network Error)";
-        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-950 text-rose-300";
+        badge.textContent = "เชื่อมต่อไม่ได้ (CORS/Network Error)";
+        badge.className = "px-2 py-0.5 rounded text-xs bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300";
       }
     }
 
     async function syncToCloudflareWorker() {
       if (!workerApiUrl) return;
       try {
-        await fetch(workerApiUrl + '/api/candidates', {
+        await fetch(workerApiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(candidates)
+          body: JSON.stringify({ action: 'saveCandidates', candidates: candidates })
         });
       } catch (e) {
-        console.warn("Background Worker Sync note:", e);
+        console.warn("Worker Sync note:", e);
       }
     }
 
@@ -1892,38 +2229,20 @@ export default {
       const dot = document.getElementById('workerStatusDot');
       const label = document.getElementById('workerStatusText');
       if (connected) {
-        dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
         label.textContent = text;
       } else {
-        dot.className = "w-2 h-2 rounded-full bg-amber-400";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
         label.textContent = text;
       }
     }
 
-    function copyWorkerCode() {
-      const code = document.getElementById('workerCodeBlock').innerText;
-      
-      // Fallback safe copy
-      const textArea = document.createElement("textarea");
-      textArea.value = code;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        document.getElementById('copyBtnText').textContent = "คัดลอกแล้ว!";
-        setTimeout(() => {
-          document.getElementById('copyBtnText').textContent = "คัดลอกโค้ด";
-        }, 2000);
-        showToast("คัดลอกโค้ด Cloudflare Worker ไปยัง Clipboard แล้ว", "success");
-      } catch (err) {
-        showToast("ไม่สามารถคัดลอกได้", "error");
-      }
-      document.body.removeChild(textArea);
-    }
-
-    // --- 13. RECRUITMENT ANALYTICS CHARTS ---
     function renderAnalyticsCharts() {
       if (typeof Chart === 'undefined') return;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#cbd5e1' : '#475569';
+      const gridColor = isDark ? '#334155' : '#f1f5f9';
 
       // 1. Status Chart
       const statusCounts = { "ผ่าน": 0, "รอสัมภาษณ์": 0, "นัดสัมภาษณ์แล้ว": 0, "แจ้งเข้างานแล้ว": 0, "ไม่ผ่าน": 0 };
@@ -1947,14 +2266,14 @@ export default {
             ],
             backgroundColor: ['#10b981', '#f59e0b', '#3b82f6', '#a855f7', '#f43f5e'],
             borderWidth: 2,
-            borderColor: '#1e293b'
+            borderColor: isDark ? '#1e293b' : '#ffffff'
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { family: 'Prompt', size: 11 } } }
+            legend: { position: 'bottom', labels: { color: textColor, font: { family: 'Prompt', size: 11 } } }
           }
         }
       });
@@ -1976,15 +2295,15 @@ export default {
             label: 'ผู้สมัครทั้งหมด',
             data: SIX_BRANCHES.map(b => branchCounts[b] || 0),
             backgroundColor: '#e11d48',
-            borderRadius: 6
+            borderRadius: 8
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
-            x: { ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 10 } }, grid: { display: false } }
+            y: { ticks: { color: textColor }, grid: { color: gridColor } },
+            x: { ticks: { color: textColor, font: { family: 'Prompt', size: 10 } }, grid: { display: false } }
           },
           plugins: {
             legend: { display: false }
@@ -2004,19 +2323,19 @@ export default {
         data: {
           labels: topSubjects,
           datasets: [
-            { label: 'สมัครทั้งหมด', data: subApplied, backgroundColor: '#475569', borderRadius: 4 },
-            { label: 'ผ่านการคัดเลือก', data: subPassed, backgroundColor: '#10b981', borderRadius: 4 }
+            { label: 'สมัครทั้งหมด', data: subApplied, backgroundColor: isDark ? '#475569' : '#cbd5e1', borderRadius: 6 },
+            { label: 'ผ่านการคัดเลือก', data: subPassed, backgroundColor: '#10b981', borderRadius: 6 }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
-            x: { ticks: { color: '#94a3b8', font: { family: 'Prompt' } }, grid: { display: false } }
+            y: { ticks: { color: textColor }, grid: { color: gridColor } },
+            x: { ticks: { color: textColor, font: { family: 'Prompt' } }, grid: { display: false } }
           },
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { family: 'Prompt' } } }
+            legend: { labels: { color: textColor, font: { family: 'Prompt' } } }
           }
         }
       });
