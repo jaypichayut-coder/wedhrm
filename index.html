@@ -1079,12 +1079,13 @@
     // =========================================================================
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // =========================================================================
-    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
+    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev"; 
 
-    // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
-    // อัปเดตเป็น ID ล่าสุดตามที่คุณระบุ: 1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ
+    // 📊 [ลิงก์ Google Sheets ID & Apps Script Web App URL]
     let GOOGLE_SHEET_ID = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
-    let GOOGLE_SHEET_TAB = "Sheet1";
+    let GOOGLE_SHEET_TAB = "";
+    let APPS_SCRIPT_URL = "";
+    const DEFAULT_API_TOKEN = "LNC_RECRUIT_SECURE_2026";
 
     // Helper: สกัดเอาเฉพาะ Sheet ID แม้ผู้ใช้จะวางลิงก์เต็ม
     function extractCleanSheetId(input) {
@@ -1123,7 +1124,7 @@
     // Branch Quotas for Full-time staff
     let branchQuotas = {
       "สาขาข้างเซ็นทรัล พระราม 2": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ฟิสิกส์": 1, "เคมี": 1, "ชีววิทยา": 1, "Coding/หุ่นยนต์": 1 },
-      "สาขาเดอะไบร์ท พระราม 2": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ภาษาไทย": 1, "ชีววิทยา": 1 },
+      "สาขาเดอะไบร์ท พระราม 2": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ภาษาไทย": 1, "สังคมศึกษา": 1 },
       "สาขาแลนด์มาร์ค มหาชัย": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "ศิลปะ": 1 },
       "สาขาเดอะวอล์ค ราชพฤกษ์": { "คณิตศาสตร์": 3, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 3, "ฟิสิกส์": 1, "ชีววิทยา": 1 },
       "สาขา Meta Mall เชียงใหม่": { "คณิตศาสตร์": 2, "วิทยาศาสตร์": 2, "ภาษาอังกฤษ": 2, "Coding/หุ่นยนต์": 1 },
@@ -1219,24 +1220,28 @@
         const savedQuotas = localStorage.getItem('lnc_branch_quotas');
         if (savedQuotas) branchQuotas = JSON.parse(savedQuotas);
 
+        // กำหนด Cloudflare Worker URL เริ่มต้น
         const savedWorker = localStorage.getItem('lnc_worker_url');
-        if (savedWorker) {
-          workerApiUrl = savedWorker;
-        } else if (DEFAULT_WORKER_URL) {
+        if (savedWorker && savedWorker.trim() !== '') {
+          workerApiUrl = savedWorker.trim();
+        } else {
           workerApiUrl = DEFAULT_WORKER_URL;
+          localStorage.setItem('lnc_worker_url', DEFAULT_WORKER_URL);
         }
 
-        // โหลดค่า Sheet ID ที่บันทึกไว้ในเบราว์เซอร์ (ถ้ามี)
+        // โหลดค่า Sheet ID และ Apps Script URL ที่บันทึกไว้ในเบราว์เซอร์
         const savedSheetId = localStorage.getItem('lnc_google_sheet_id');
         if (savedSheetId) GOOGLE_SHEET_ID = savedSheetId;
         const savedSheetTab = localStorage.getItem('lnc_google_sheet_tab');
         if (savedSheetTab) GOOGLE_SHEET_TAB = savedSheetTab;
+        const savedAppsScript = localStorage.getItem('lnc_apps_script_url');
+        if (savedAppsScript) APPS_SCRIPT_URL = savedAppsScript;
 
         if (workerApiUrl) {
-          updateWorkerStatusUI(true, "Worker Connected");
+          updateWorkerStatusUI(true, "Worker Live (wedhrm)");
           await fetchCandidatesFromWorker();
-        } else if (GOOGLE_SHEET_ID) {
-          // ดึงข้อมูลสดจาก Google Sheet อัตโนมัติทันทีที่เปิดหน้าเว็บ
+        } else if (APPS_SCRIPT_URL || GOOGLE_SHEET_ID) {
+          // ดึงข้อมูลสดอัตโนมัติทันทีที่เปิดหน้าเว็บ
           syncFromGoogleSheets(true);
         }
       } catch (e) {
@@ -1687,236 +1692,286 @@
         persistDataLocally();
         updateKPICounters();
         showToast(`อัปเดตสถานะของ ${item.name} เป็น "${newStatus}" แล้ว`);
+        
+        // ส่งข้อมูลกลับไปอัปเดตช่อง X ใน Google Sheet และ Worker ทันที
+        writeBackStatusToSheet(item);
         syncToCloudflareWorker();
       }
     }
 
-    function renderCallCenterBoard() {
-      const listWaiting = document.getElementById('callWaitingList');
-      const listConfirmed = document.getElementById('callConfirmedList');
-      const listPending = document.getElementById('callPendingList');
+    // ฟังก์ชันส่งค่าสถานะช่อง X กลับไปบันทึกใน Google Sheet จริง
+    async function writeBackStatusToSheet(candidate) {
+      if (!candidate) return;
 
-      listWaiting.innerHTML = '';
-      listConfirmed.innerHTML = '';
-      listPending.innerHTML = '';
-
-      const waitingItems = candidates.filter(c => c.callStatus === 'โทรแล้ว - รอนัดสัมภาษณ์');
-      const confirmedItems = candidates.filter(c => c.callStatus === 'โทรแล้ว - นัดวันแล้ว');
-      const pendingItems = candidates.filter(c => !c.callStatus || c.callStatus === 'ยังไม่ได้โทร' || c.callStatus === 'ติดต่อไม่ได้ - รอโทรซ้ำ');
-
-      document.getElementById('countCallWaiting').textContent = waitingItems.length;
-      document.getElementById('countCallConfirmed').textContent = confirmedItems.length;
-      document.getElementById('countCallPending').textContent = pendingItems.length;
-      list.forEach((c, idx) => {
-        const tr = document.createElement('tr');
-        const isChecked = selectedCandidateIds.has(c.id);
-        const rowNumDisplay = c.rowNumber || (idx + 2);
-        tr.className = `hover:bg-rose-50/40 dark:hover:bg-slate-800/50 transition border-b border-rose-100/70 dark:border-slate-800/60 ${isChecked ? 'bg-rose-50/60 dark:bg-rose-950/20' : ''}`;
-
-        // Status Badge Styling based on Column X
-        let statusBadgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
-        if (c.status === "ผ่าน") statusBadgeClass = "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/80 font-bold badge-glow";
-        else if (c.status === "รอสัมภาษณ์") statusBadgeClass = "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700/80 font-semibold";
-        else if (c.status === "นัดสัมภาษณ์แล้ว") statusBadgeClass = "bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700/80";
-        else if (c.status === "แจ้งเข้างานแล้ว") statusBadgeClass = "bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700/80 font-bold";
-        else if (c.status === "ไม่ผ่าน") statusBadgeClass = "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800";
-
-        // Call Status Pill Styling
-        let callPillClass = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
-        let callIcon = "phone";
-        if (c.callStatus === "โทรแล้ว - รอนัดสัมภาษณ์") {
-          callPillClass = "bg-amber-100 dark:bg-amber-950/90 text-amber-700 dark:text-amber-300 font-semibold border border-amber-300 dark:border-amber-800";
-          callIcon = "phone-forwarded";
-        } else if (c.callStatus === "โทรแล้ว - นัดวันแล้ว") {
-          callPillClass = "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-800";
-          callIcon = "phone-call";
-        } else if (c.callStatus === "ติดต่อไม่ได้ - รอโทรซ้ำ") {
-          callPillClass = "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800";
-          callIcon = "phone-missed";
+      // 1. ส่งผ่าน Google Apps Script โดยตรง (ถ้ามีต่อไว้)
+      if (APPS_SCRIPT_URL) {
+        try {
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // รองรับ Apps Script Web App POST redirection
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'updateStatusX',
+              token: DEFAULT_API_TOKEN,
+              rowNumber: candidate.rowNumber,
+              status: candidate.status,
+              callStatus: candidate.callStatus,
+              notes: candidate.notes
+            })
+          });
+          showToast(`☁️ อัปเดตช่อง X ใน Google Sheet แถวที่ ${candidate.rowNumber} แล้ว`, "success");
+        } catch (err) {
+          console.warn("Apps Script update notice:", err);
         }
-
-        const typeBadge = c.type === "ครูประจำ" 
-          ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">ประจำ</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">พาร์ทไทม์</span>`;
-
-        tr.innerHTML = `
-          <td class="px-3 py-3 text-center">
-            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectCandidate('${c.id}', this.checked)" class="w-4 h-4 rounded text-brand-pink focus:ring-rose-400 border-slate-300 cursor-pointer">
-          </td>
-          <td class="px-2 py-3 text-center">
-            <span class="font-mono text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">#${rowNumDisplay}</span>
-          </td>
-          <td class="px-4 py-3">
-            <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
-            <div class="text-xs text-brand-pink font-semibold flex items-center flex-wrap gap-1.5 mt-0.5">
-              ${c.nickname ? `<span>(${c.nickname})</span>` : ''} 
-              <span class="text-slate-500 dark:text-slate-400 font-normal">${c.phone || '-'}</span>
-              ${c.appliedDate ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono bg-rose-50/80 dark:bg-slate-800/80 px-1.5 py-0.2 rounded"><i data-lucide="calendar" class="w-2.5 h-2.5 inline mr-0.5 text-brand-pink"></i>สมัคร: ${formatThaiDate(c.appliedDate)}</span>` : ''}
-            </div>
-          </td>
-          <td class="px-3 py-3">
-            <div class="font-semibold text-slate-800 dark:text-slate-200">${c.subject || '-'}</div>
-          </td>
-          <td class="px-3 py-3">
-            <span class="inline-block max-w-[160px] truncate text-slate-600 dark:text-slate-300" title="${c.branch}">
-              ${c.branch}
-            </span>
-          </td>
-          <td class="px-3 py-3">
-            ${typeBadge}
-          </td>
-          <td class="px-3 py-3 text-center">
-            <!-- Fast inline status dropdown (ช่อง X) -->
-            <select onchange="updateCandidateStatusInline('${c.id}', this.value)" class="text-xs rounded-xl px-2.5 py-1 border cursor-pointer ${statusBadgeClass} focus:outline-none">
-              <option value="รอสัมภาษณ์" ${c.status === 'รอสัมภาษณ์' ? 'selected' : ''}>รอสัมภาษณ์</option>
-              <option value="นัดสัมภาษณ์แล้ว" ${c.status === 'นัดสัมภาษณ์แล้ว' ? 'selected' : ''}>นัดสัมภาษณ์แล้ว</option>
-              <option value="ผ่าน" ${c.status === 'ผ่าน' ? 'selected' : ''}>ผ่าน</option>
-              <option value="แจ้งเข้างานแล้ว" ${c.status === 'แจ้งเข้างานแล้ว' ? 'selected' : ''}>แจ้งเข้างานแล้ว</option>
-              <option value="ไม่ผ่าน" ${c.status === 'ไม่ผ่าน' ? 'selected' : ''}>ไม่ผ่าน</option>
-              <option value="ยังไม่ระบุ" ${c.status === 'ยังไม่ระบุ' ? 'selected' : ''}>ยังไม่ระบุ</option>
-            </select>
-          </td>
-          <td class="px-3 py-3 text-center">
-            <!-- Quick Call Status Toggle Button -->
-            <div class="inline-flex flex-col items-center">
-              <button onclick="quickMarkCalled('${c.id}')" title="คลิกเพื่ออัปเดตผลการโทรวันนี้" class="px-2.5 py-1 rounded-xl text-[11px] flex items-center space-x-1 ${callPillClass} hover:opacity-90 transition">
-                <i data-lucide="${callIcon}" class="w-3 h-3"></i>
-                <span>${c.callStatus || 'ยังไม่ได้โทร'}</span>
-              </button>
-              ${c.lastCallDate ? `<span class="text-[10px] text-slate-400 mt-0.5">โทร: ${formatThaiDate(c.lastCallDate)}</span>` : ''}
-            </div>
-          </td>
-          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
-            ${c.interviewDate ? `<span class="text-blue-600 dark:text-blue-300 font-semibold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formatThaiDate(c.interviewDate)}</span>` : '<span class="text-slate-400">-</span>'}
-          </td>
-          <td class="px-3 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">
-            ${c.onboardDate ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold">${formatThaiDate(c.onboardDate)}</span>` : (c.announceDate ? `<span class="text-amber-600 dark:text-amber-400">${formatThaiDate(c.announceDate)}</span>` : '<span class="text-slate-400">-</span>')}
-          </td>
-          <td class="px-4 py-3 text-right space-x-1 whitespace-nowrap">
-            <button onclick="editCandidate('${c.id}')" title="แก้ไขข้อมูล" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
-              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="deleteCandidate('${c.id}')" title="ลบรายการ" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-600 transition">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
-          </td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-
-      if (window.lucide) lucide.createIcons();
+      }
     }
+    // --- ฟังก์ชันดึงข้อมูลสดโดยตรงจาก Google Sheets (Live Data Sync with Multi-Tier Fallback) ---
+    async function syncFromGoogleSheets(silent = false) {
+      const icon = document.getElementById('syncSheetIcon');
+      if (icon) icon.classList.add('animate-spin');
+      if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดผ่าน Cloudflare Worker...", "info");
 
-    function formatThaiDate(isoDateStr) {
-      if (!isoDateStr) return "-";
+      const activeSheetId = extractCleanSheetId(GOOGLE_SHEET_ID);
+      let fetchedSuccess = false;
+      let lastErrorMessage = "";
+
       try {
-        const cleanStr = String(isoDateStr).split('T')[0].split(' ')[0];
-        const parts = cleanStr.includes('-') ? cleanStr.split('-') : cleanStr.split('/');
-        if (parts.length === 3) {
-          let y, m, d;
-          if (parts[0].length === 4) { // YYYY-MM-DD
-            y = parseInt(parts[0]); m = parts[1]; d = parts[2];
-          } else { // DD/MM/YYYY
-            d = parts[0]; m = parts[1]; y = parseInt(parts[2]);
-          }
-          const thaiYear = y < 2500 ? y + 543 : y;
-          return `${d}/${m}/${thaiYear}`;
-        }
-      } catch (e) {}
-      return isoDateStr;
-    }
-
-    // ฟังก์ชันแปลงวันที่คอลัมน์ A (Timestamp) จาก Google Sheets ให้เป็นมาตรฐาน ISO YYYY-MM-DD
-    function parseDateToIso(rawDate) {
-      if (!rawDate && rawDate !== 0) return "";
-      try {
-        // กรณีเป็นตัวเลข Excel serial number (เช่น 45420 หรือ 45420.5)
-        if (typeof rawDate === 'number' || (!isNaN(rawDate) && !String(rawDate).includes('/') && !String(rawDate).includes('-'))) {
-          const num = parseFloat(rawDate);
-          if (num > 20000 && num < 60000) {
-            const jsDate = new Date(Math.round((num - 25569) * 86400 * 1000));
-            const y = jsDate.getUTCFullYear();
-            const m = String(jsDate.getUTCMonth() + 1).padStart(2, '0');
-            const d = String(jsDate.getUTCDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-          }
-        }
-
-        const str = String(rawDate).trim();
-        if (!str) return "";
-
-        // รูปแบบ ISO เช่น 2026-08-20 หรือ 2026-08-20 14:30:00
-        if (/^\d{4}-\d{1,2}-\d{1,2}/.test(str)) {
-          const datePart = str.split('T')[0].split(' ')[0];
-          const [y, m, d] = datePart.split('-');
-          return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        }
-
-        // รูปแบบมีเครื่องหมายทับ เช่น 20/08/2026, 20/8/2569, หรือ 8/20/2026
-        if (str.includes('/')) {
-          const dateOnly = str.split(' ')[0];
-          const parts = dateOnly.split('/');
-          if (parts.length === 3) {
-            let p0 = parseInt(parts[0], 10);
-            let p1 = parseInt(parts[1], 10);
-            let year = parseInt(parts[2], 10);
-
-            // แปลง พ.ศ. เป็น ค.ศ.
-            if (year > 2400) year -= 543;
-
-            let day = p0;
-            let month = p1;
-
-            // ตรวจจับกรณีเดือนมาก่อนวัน (เช่น 8/25/2024 -> month 8, day 25)
-            if (p0 <= 12 && p1 > 12) {
-              month = p0;
-              day = p1;
+        // แผน 1: ดึงผ่าน Cloudflare Worker ที่เชื่อมต่อไว้ (wedhrm.jayppuza12.workers.dev)
+        if (workerApiUrl) {
+          try {
+            const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
+            const scriptParam = APPS_SCRIPT_URL ? `&scriptUrl=${encodeURIComponent(APPS_SCRIPT_URL)}` : '';
+            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${activeSheetId}${sheetTabParam}${scriptParam}`);
+            if (res.ok) {
+              const resData = await res.json();
+              if (resData.success && Array.isArray(resData.data) && resData.data.length > 0) {
+                candidates = resData.data;
+                fetchedSuccess = true;
+              }
             }
-
-            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          } catch (workerErr) {
+            console.warn("Worker proxy notice, trying next method:", workerErr);
+            lastErrorMessage = workerErr.message;
           }
         }
 
-        // ตรวจจับชื่อเดือนภาษาไทย เช่น 20 ส.ค. 2567 หรือ 20 สิงหาคม 2567
-        const thaiMonths = {
-          "ม.ค.": "01", "มกราคม": "01", "ก.พ.": "02", "กุมภาพันธ์": "02",
-          "มี.ค.": "03", "มีนาคม": "03", "เม.ย.": "04", "เมษายน": "04",
-          "พ.ค.": "05", "พฤษภาคม": "05", "มิ.ย.": "06", "มิถุนายน": "06",
-          "ก.ค.": "07", "กรกฎาคม": "07", "ส.ค.": "08", "สิงหาคม": "08",
-          "ก.ย.": "09", "กันยายน": "09", "ต.ค.": "10", "ตุลาคม": "10",
-          "พ.ย.": "11", "พฤศจิกายน": "11", "ธ.ค.": "12", "ธันวาคม": "12"
-        };
-        for (const [mName, mNum] of Object.entries(thaiMonths)) {
-          if (str.includes(mName)) {
-            const numMatches = str.match(/\d+/g);
-            if (numMatches && numMatches.length >= 2) {
-              const day = parseInt(numMatches[0], 10);
-              let year = parseInt(numMatches[numMatches.length - 1], 10);
-              if (year > 2400) year -= 543;
-              return `${year}-${mNum}-${String(day).padStart(2, '0')}`;
+        // แผน 2: ดึงผ่าน Google Apps Script Web App โดยตรง (ถ้ามีต่อไว้)
+        if (!fetchedSuccess && APPS_SCRIPT_URL) {
+          try {
+            const scriptUrl = new URL(APPS_SCRIPT_URL);
+            scriptUrl.searchParams.set('token', DEFAULT_API_TOKEN);
+            if (GOOGLE_SHEET_TAB) scriptUrl.searchParams.set('sheet', GOOGLE_SHEET_TAB);
+            
+            const scriptRes = await fetch(scriptUrl.toString());
+            if (scriptRes.ok) {
+              const scriptJson = await scriptRes.json();
+              if (scriptJson && scriptJson.success && Array.isArray(scriptJson.data) && scriptJson.data.length > 0) {
+                candidates = scriptJson.data;
+                fetchedSuccess = true;
+              }
+            }
+          } catch (scriptErr) {
+            console.warn("Apps Script fetch notice, trying next method:", scriptErr);
+            lastErrorMessage = scriptErr.message;
+          }
+        }
+
+        // แผน 3: ดึงตรงจาก Google Sheet ID (พร้อมระบบทะลวง CORS Proxy อัตโนมัติ)
+        if (!fetchedSuccess && activeSheetId) {
+          const sheetTabParam = GOOGLE_SHEET_TAB ? `&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB)}` : '';
+          const targetGvizUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/gviz/tq?tqx=out:csv${sheetTabParam}`;
+          const targetExportUrl = `https://docs.google.com/spreadsheets/d/${activeSheetId}/export?format=csv`;
+
+          // รายการ URL ที่จะลองเรียกตามลำดับ (ดึงตรง -> CORS Proxy 1 -> CORS Proxy 2)
+          const urlsToTry = [
+            targetGvizUrl,
+            `https://corsproxy.io/?${encodeURIComponent(targetGvizUrl)}`,
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(targetExportUrl)}`
+          ];
+
+          let csvText = null;
+
+          for (const url of urlsToTry) {
+            try {
+              const resp = await fetch(url);
+              if (resp.ok) {
+                const text = await resp.text();
+                // ตรวจสอบว่าไม่ใช่หน้า HTML Login ของ Google
+                if (text && !text.includes('<!DOCTYPE html>') && !text.includes('accounts.google.com')) {
+                  csvText = text;
+                  break;
+                }
+              }
+            } catch (tryErr) {
+              console.warn(`URL failed (${url}):`, tryErr);
             }
           }
+
+          if (csvText) {
+            const workbook = XLSX.read(csvText, { type: 'string' });
+            const firstSheet = workbook.SheetNames[0];
+            const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
+
+            if (rawRows && rawRows.length >= 2) {
+              const headers = rawRows[0];
+              let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น
+              let timestampColIndex = 0; // คอลัมน์ A (Timestamp)
+              let nameColIndex = 1;
+              let nicknameColIndex = 2;
+              let phoneColIndex = 3;
+              let contactColIndex = 4;
+
+              headers.forEach((h, idx) => {
+                if (h && typeof h === 'string') {
+                  const hLow = h.toLowerCase().trim();
+                  if (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || hLow.includes('status') || hLow.includes('ช่อง x')) {
+                    statusColIndex = idx;
+                  }
+                  if (idx === 0 || h.includes('ประทับเวลา') || h.includes('วันที่') || hLow.includes('timestamp') || hLow.includes('date')) {
+                    timestampColIndex = idx;
+                  }
+                  if (h.includes('ชื่อ-สกุล') || h.includes('ชื่อ - นามสกุล') || (h.includes('ชื่อ') && !h.includes('เล่น'))) {
+                    nameColIndex = idx;
+                  }
+                  if (h.includes('ชื่อเล่น')) nicknameColIndex = idx;
+                  if (h.includes('เบอร์') || h.includes('โทร') || hLow.includes('phone')) phoneColIndex = idx;
+                }
+              });
+
+              const parsedList = [];
+              for (let i = 1; i < rawRows.length; i++) {
+                const row = rawRows[i];
+                if (!row || row.length === 0) continue;
+
+                const name = row[nameColIndex] || row[1] || row[2] || `ผู้สมัคร #${i}`;
+                if (!name || String(name).trim() === '') continue;
+
+                const phone = row[phoneColIndex] || row[3] || row[4] || "";
+                const rowText = row.join(' ');
+                const subject = detectSubject(rowText);
+                const branch = detectBranch(rowText);
+                
+                const statusRaw = row[statusColIndex] || row[23] || "";
+                const rawTimestamp = row[timestampColIndex] !== undefined ? row[timestampColIndex] : (row[0] || "");
+                const parsedAppliedDate = parseDateToIso(rawTimestamp) || "";
+
+                let status = "รอสัมภาษณ์";
+                if (statusRaw) {
+                  const sStr = String(statusRaw).trim();
+                  if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
+                  else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
+                  else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
+                  else if (sStr.includes('แจ้งเข้า') || sStr.includes('เริ่มงาน')) status = "แจ้งเข้างานแล้ว";
+                }
+
+                parsedList.push({
+                  id: 'gs-' + i,
+                  rowNumber: i + 1,
+                  appliedDate: parsedAppliedDate,
+    // ฟังก์ชันส่งค่าสถานะช่อง X กลับไปบันทึกใน Google Sheet จริง
+    async function writeBackStatusToSheet(candidate) {
+      if (!candidate) return;
+
+      // 1. ส่งผ่าน Cloudflare Worker (wedhrm) ไปยัง KV & Backend
+      if (workerApiUrl) {
+        try {
+          await fetch(workerApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'updateStatusX',
+              id: candidate.id,
+              rowNumber: candidate.rowNumber,
+              status: candidate.status,
+              callStatus: candidate.callStatus,
+              lastCallDate: candidate.lastCallDate,
+              interviewDate: candidate.interviewDate,
+              announceDate: candidate.announceDate,
+              onboardDate: candidate.onboardDate,
+              notes: candidate.notes
+            })
+          });
+        } catch (workerErr) {
+          console.warn("Worker status update notice:", workerErr);
         }
-      } catch (e) {}
-      return "";
+      }
+
+      // 2. ส่งผ่าน Google Apps Script โดยตรง (ถ้ามีต่อไว้)
+      if (APPS_SCRIPT_URL) {
+        try {
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // รองรับ Apps Script Web App POST redirection
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'updateStatusX',
+              token: DEFAULT_API_TOKEN,
+              rowNumber: candidate.rowNumber,
+              status: candidate.status,
+              callStatus: candidate.callStatus,
+              notes: candidate.notes
+            })
+          });
+          showToast(`☁️ อัปเดตช่อง X ใน Google Sheet แถวที่ ${candidate.rowNumber} แล้ว`, "success");
+        } catch (err) {
+          console.warn("Apps Script update notice:", err);
+        }
+      }
     }
 
-    function clearRowFilter() {
-      document.getElementById('rowFilterStart').value = '';
-      document.getElementById('rowFilterEnd').value = '';
-      applyFilters();
-      showToast("ล้างตัวกรองแถวเรียบร้อยแล้ว", "info");
+    // --- Modal Configuration for Google Sheets & Apps Script ---
+    function openSheetConfigModal() {
+      document.getElementById('sheetUrlOrIdInput').value = GOOGLE_SHEET_ID;
+      document.getElementById('sheetTabNameInput').value = GOOGLE_SHEET_TAB || "";
+      document.getElementById('appsScriptUrlInput').value = APPS_SCRIPT_URL || "";
+      document.getElementById('sheetConfigModal').classList.remove('hidden');
     }
 
-    function toggleImportRowInputs(show) {
-      const container = document.getElementById('importRowInputsContainer');
-      if (show) {
-        container.classList.remove('hidden');
-        container.classList.add('flex');
+    function closeSheetConfigModal() {
+      document.getElementById('sheetConfigModal').classList.add('hidden');
+    }
+
+    function resetDefaultSheetId() {
+      document.getElementById('sheetUrlOrIdInput').value = "1EBrZg3biu8o7Ha9Ooi6Ne2dpE1ZxLO1M61gdp49f_uQ";
+      document.getElementById('sheetTabNameInput').value = "";
+      document.getElementById('appsScriptUrlInput').value = "";
+    }
+
+    async function testAndSaveSheetConnection() {
+      const inputVal = document.getElementById('sheetUrlOrIdInput').value.trim();
+      const tabVal = document.getElementById('sheetTabNameInput').value.trim();
+      const appsScriptVal = document.getElementById('appsScriptUrlInput').value.trim();
+      const badge = document.getElementById('sheetConnectionBadge');
+      const detail = document.getElementById('sheetDiagnosticDetail');
+
+      badge.textContent = "กำลังทดสอบเชื่อมต่อ...";
+      badge.className = "px-2 py-0.5 rounded text-[11px] bg-amber-100 text-amber-800 font-bold";
+      detail.textContent = `กำลังเชื่อมต่อและตรวจสอบสิทธิ์...`;
+
+      if (appsScriptVal) {
+        APPS_SCRIPT_URL = appsScriptVal;
+        localStorage.setItem('lnc_apps_script_url', APPS_SCRIPT_URL);
+      }
+
+      if (inputVal) {
+        const cleanId = extractCleanSheetId(inputVal);
+        GOOGLE_SHEET_ID = cleanId;
+        GOOGLE_SHEET_TAB = tabVal;
+        localStorage.setItem('lnc_google_sheet_id', GOOGLE_SHEET_ID);
+        localStorage.setItem('lnc_google_sheet_tab', GOOGLE_SHEET_TAB);
+      }
+
+      const result = await syncFromGoogleSheets(true);
+
+      if (result && result.success) {
+        badge.textContent = `เชื่อมต่อสำเร็จ (${result.count} แถว)`;
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-emerald-100 text-emerald-800 font-bold";
+        detail.textContent = `✅ ดึงข้อมูลสำเร็จ! อ่านวันที่จากคอลัมน์ A และสถานะช่อง X เรียบร้อยแล้ว พร้อมส่งค่ากลับได้`;
+        showToast(`บันทึกและซิงก์สำเร็จ ${result.count} รายการ`, "success");
       } else {
-        container.classList.add('hidden');
-        container.classList.remove('flex');
+        badge.textContent = "เชื่อมต่อไม่ได้";
+        badge.className = "px-2 py-0.5 rounded text-[11px] bg-rose-100 text-rose-800 font-bold";
+        detail.textContent = `❌ ${result?.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล'}\n(คำแนะนำ: หากชีตเป็นส่วนตัว ให้คัดลอก Web App URL จาก Apps Script มาวางในช่องด้านบน)`;
       }
     }
 
