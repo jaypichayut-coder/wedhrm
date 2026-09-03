@@ -114,6 +114,12 @@
             <span id="themeLabel" class="hidden md:inline">โหมดมืด</span>
           </button>
 
+          <!-- Google Sheets Direct Live Sync Button -->
+          <button onclick="syncFromGoogleSheets()" id="btnSyncSheet" title="ดึงข้อมูลสดจาก Google Sheet ลิงก์ที่เชื่อมต่อไว้" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/70 hover:bg-emerald-100 dark:hover:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/80 transition shadow-sm">
+            <i data-lucide="refresh-cw" id="syncSheetIcon" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+            <span class="hidden sm:inline">ซิงก์ Google Sheets</span>
+          </button>
+
           <!-- Cloudflare Worker status indicator -->
           <button onclick="openWorkerModal()" title="ตั้งค่าเชื่อมต่อ Cloudflare Worker API" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition shadow-sm">
             <span id="workerStatusDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
@@ -946,9 +952,12 @@
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
     // =========================================================================
-    const DEFAULT_WORKER_URL = ""; 
+    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
+
+    // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
+    const GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
 
     // --- 1. CORE DATA STORE & INITIALIZATION ---
     const SIX_BRANCHES = [
@@ -1141,6 +1150,9 @@
         if (workerApiUrl) {
           updateWorkerStatusUI(true, "Worker Connected");
           await fetchCandidatesFromWorker();
+        } else if (GOOGLE_SHEET_ID) {
+          // ดึงข้อมูลสดจาก Google Sheet อัตโนมัติทันทีที่เปิดหน้าเว็บ
+          syncFromGoogleSheets(true);
         }
       } catch (e) {
         console.warn("Storage sync notice:", e);
@@ -2043,6 +2055,125 @@
         if (rowText.includes(sub)) return sub;
       }
       return "คณิตศาสตร์";
+    }
+
+    // --- ฟังก์ชันดึงข้อมูลสดโดยตรงจาก Google Sheets (Live Data Sync) ---
+    async function syncFromGoogleSheets(silent = false) {
+      const icon = document.getElementById('syncSheetIcon');
+      if (icon) icon.classList.add('animate-spin');
+      if (!silent) showToast("กำลังเชื่อมต่อดึงข้อมูลสดจาก Google Sheet...", "info");
+
+      try {
+        let fetchedSuccess = false;
+
+        // 1. ลองดึงผ่าน Cloudflare Worker ก่อน (ถ้ามีตั้งค่าไว้ เพื่อเลี่ยง CORS)
+        if (workerApiUrl) {
+          try {
+            const res = await fetch(`${workerApiUrl}?action=syncGoogleSheet&sheetId=${GOOGLE_SHEET_ID}`);
+            if (res.ok) {
+              const resData = await res.json();
+              if (resData.success && Array.isArray(resData.data) && resData.data.length > 0) {
+                candidates = resData.data;
+                fetchedSuccess = true;
+              }
+            }
+          } catch (e) {
+            console.warn("Worker proxy error, switching to direct fetch:", e);
+          }
+        }
+
+        // 2. หากไม่มี Worker หรือ Worker พักอยู่ ให้ดึงตรงผ่าน Google Visualization API (GViz)
+        if (!fetchedSuccess) {
+          const directUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
+          const response = await fetch(directUrl);
+          if (!response.ok) {
+            throw new Error(`Google Sheet ตอบกลับรหัส ${response.status} (กรุณาตั้งค่าสิทธิ์แชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู")`);
+          }
+
+          const csvText = await response.text();
+          const workbook = XLSX.read(csvText, { type: 'string' });
+          const firstSheet = workbook.SheetNames[0];
+          const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { header: 1 });
+
+          if (rawRows.length < 2) {
+            throw new Error("ไม่พบแถวข้อมูลในชีต");
+          }
+
+          const headers = rawRows[0];
+          let statusColIndex = 23; // คอลัมน์ช่อง X เริ่มต้น (Index 23 = คอลัมน์ที่ 24)
+
+          headers.forEach((h, idx) => {
+            if (h && typeof h === 'string' && (h.includes('สถานะ') || h.includes('ผ่าน') || h.includes('ผลสัมภาษณ์') || h.toLowerCase().includes('status'))) {
+              statusColIndex = idx;
+            }
+          });
+
+          const parsedList = [];
+          for (let i = 1; i < rawRows.length; i++) {
+            const row = rawRows[i];
+            if (!row || row.length === 0) continue;
+
+            const name = row[1] || row[2] || `ผู้สมัคร #${i}`;
+            if (!name || String(name).trim() === '') continue;
+
+            const phone = row[3] || row[4] || "";
+            const rowText = row.join(' ');
+            const subject = detectSubject(rowText);
+            const branch = detectBranch(rowText);
+            const statusRaw = row[statusColIndex] || row[23] || "";
+
+            let status = "รอสัมภาษณ์";
+            if (statusRaw) {
+              const sStr = String(statusRaw).trim();
+              if (sStr.includes('ผ่าน') && !sStr.includes('ไม่ผ่าน')) status = "ผ่าน";
+              else if (sStr.includes('ไม่ผ่าน')) status = "ไม่ผ่าน";
+              else if (sStr.includes('นัด')) status = "นัดสัมภาษณ์แล้ว";
+              else if (sStr.includes('แจ้งเข้า')) status = "แจ้งเข้างานแล้ว";
+            }
+
+            parsedList.push({
+              id: 'gs-' + i,
+              name: String(name).trim(),
+              nickname: row[2] ? String(row[2]).trim() : "",
+              phone: String(phone).trim(),
+              contact: row[5] ? String(row[5]).trim() : "",
+              subject: subject,
+              type: rowText.includes('พาร์ท') ? "พาร์ทไทม์" : "ครูประจำ",
+              branch: branch,
+              status: status, // อิงข้อมูลช่อง X
+              callStatus: status === "ผ่าน" ? "โทรแล้ว - นัดวันแล้ว" : "ยังไม่ได้โทร",
+              lastCallDate: "",
+              interviewDate: "",
+              announceDate: "",
+              onboardDate: "",
+              notes: `ดึงจาก Google Sheets อัตโนมัติ (แถว ${i + 1})`
+            });
+          }
+
+          if (parsedList.length > 0) {
+            candidates = parsedList;
+            fetchedSuccess = true;
+          }
+        }
+
+        if (fetchedSuccess) {
+          persistDataLocally();
+          renderCandidatesTable();
+          renderCallCenterBoard();
+          renderBranchCards();
+          renderParttimePool();
+          renderScheduleBoard();
+          updateKPICounters();
+          showToast(`ซิงก์ข้อมูลสดจาก Google Sheet สำเร็จ (${candidates.length} คน)`, "success");
+        }
+      } catch (err) {
+        console.error("Google Sheet Sync Error:", err);
+        if (!silent) {
+          showToast(`ไม่สามารถดึงข้อมูลจากชีตได้: กรุณาตรวจสอบว่าตั้งค่าแชร์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" หรือยัง`, "error");
+        }
+      } finally {
+        if (icon) icon.classList.remove('animate-spin');
+      }
     }
 
     function exportCandidatesToCsv() {
