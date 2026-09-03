@@ -952,9 +952,9 @@
     // ⚙️ [จุดใส่ลิงก์ Cloudflare Worker] 
     // หากต้องการให้เว็บเชื่อมต่อไปยัง Worker อัตโนมัติโดยไม่ต้องกดพิมพ์ในหน้าเว็บทุกครั้ง
     // ให้นำ URL ที่ได้จาก Cloudflare มาวางในเครื่องหมายคำพูดด้านล่างนี้ได้เลยครับ:
-    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/";
+    // ตัวอย่าง: const DEFAULT_WORKER_URL = "https://lnc-recruit-api.yourname.workers.dev";
     // =========================================================================
-    const DEFAULT_WORKER_URL = ""; 
+    const DEFAULT_WORKER_URL = "https://wedhrm.jayppuza12.workers.dev/"; 
 
     // 📊 [ลิงก์ Google Sheets ID ของ LNC Plus สำหรับดึงข้อมูลสด]
     const GOOGLE_SHEET_ID = "18Y3eu1WMwn6u_MDpJkPbsD8IDciNM0z8f_LSDYuqbfs";
@@ -2229,6 +2229,60 @@
       const checkAll = document.getElementById('selectAllTableCheckbox');
       if (checkAll) checkAll.checked = false;
       renderCandidatesTable();
+    }
+
+    // --- ฟังก์ชันจัดการล้างข้อมูล & นำข้อมูล CSV ออก ---
+    function openClearDataModal() {
+      document.getElementById('clearDataModal').classList.remove('hidden');
+    }
+
+    function closeClearDataModal() {
+      document.getElementById('clearDataModal').classList.add('hidden');
+    }
+
+    // 1. ลบเฉพาะรายการที่นำเข้าจาก CSV / Google Sheet (ID ขึ้นต้นด้วย imp- หรือ gs-)
+    function executeClearImportedOnly() {
+      const initialCount = candidates.length;
+      candidates = candidates.filter(c => !c.id.startsWith('imp-') && !c.id.startsWith('gs-'));
+      const removedCount = initialCount - candidates.length;
+
+      persistDataLocally();
+      clearSelectedInTable();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderParttimePool();
+      renderScheduleBoard();
+      updateKPICounters();
+      closeClearDataModal();
+
+      showToast(`ลบข้อมูลที่นำเข้าทั้งหมดแล้ว (${removedCount} รายการ)`, "info");
+      syncToCloudflareWorker();
+    }
+
+    // 2. ล้างข้อมูลทั้งหมดในตาราง (0 คน)
+    function executeClearAll() {
+      const removedCount = candidates.length;
+      candidates = [];
+
+      persistDataLocally();
+      clearSelectedInTable();
+      renderCandidatesTable();
+      renderCallCenterBoard();
+      renderBranchCards();
+      renderParttimePool();
+      renderScheduleBoard();
+      updateKPICounters();
+      closeClearDataModal();
+
+      showToast(`ล้างข้อมูลในระบบทั้งหมดเรียบร้อยแล้ว (${removedCount} รายการ)`, "info");
+      syncToCloudflareWorker();
+    }
+
+    // 3. คืนค่าเป็นข้อมูลตัวอย่างเริ่มต้น
+    function executeResetDefaults() {
+      localStorage.removeItem('lnc_recruitment_candidates');
+      location.reload();
     }
 
     function updateBulkActionBar() {
